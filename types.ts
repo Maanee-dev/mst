@@ -1,0 +1,101 @@
+
+export enum AccommodationType {
+  RESORT = 'RESORT',
+  GUEST_HOUSE = 'GUEST_HOUSE',
+  LIVEABOARD = 'LIVEABOARD'
+}
+
+export enum TransferType {
+  SEAPLANE = 'SEAPLANE',
+  SPEEDBOAT = 'SPEEDBOAT',
+  DOMESTIC_FLIGHT = 'DOMESTIC_FLIGHT'
+}
+
+export enum MealPlan {
+  ALL_INCLUSIVE = 'ALL_INCLUSIVE',
+  FULL_BOARD = 'FULL_BOARD',
+  HALF_BOARD = 'HALF_BOARD',
+  BED_BREAKFAST = 'BED_BREAKFAST'
+}
+
+export interface RoomType {
+  name: string;
+  description: string;
+  highlights: string[];
+  image: string;
+  size?: string;
+  capacity?: string;
+}
+
+export interface DiningVenue {
+  name: string;
+  cuisine: string;
+  description: string;
+  highlights: string[];
+  image: string;
+  vibe: string;
+}
+
+export interface Accommodation {
+  id: string;
+  name: string;
+  slug: string;
+  type: AccommodationType;
+  atoll: string;
+  priceRange: string;
+  rating: number;
+  description: string;
+  shortDescription: string;
+  images: string[];
+  features: string[];
+  transfers: TransferType[];
+  mealPlans: MealPlan[];
+  uvp: string;
+  isFeatured?: boolean;
+  roomTypes?: RoomType[];
+  diningVenues?: DiningVenue[];
+}
+
+export interface Offer {
+  id: string;
+  resortId: string;
+  resortSlug: string;
+  title: string;
+  discount: string;
+  resortName: string;
+  expiryDate: string;
+  image: string;
+  category: 'Early Bird' | 'Last Minute' | 'Honeymoon';
+  // Enhanced UI fields
+  nights: number;
+  roomCategory: string;
+  price: number;
+  priceSubtext: string;
+  rating: number;
+}
+
+export interface Experience {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+  category: 'Water Sports' | 'Relaxation' | 'Adventure' | 'Wellness' | 'Culture' | 'Culinary';
+  resortId?: string;
+  resortName?: string;
+  resortSlug?: string;
+}
+
+export type StoryCategory = 'Dispatch' | 'Guide' | 'Update' | 'Tip';
+
+export interface BlogPost {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  content: string;
+  image: string;
+  date: string;
+  author: string;
+  category: StoryCategory;
+  is_featured?: boolean;
+}
