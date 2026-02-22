@@ -82,7 +82,7 @@ const Experiences: React.FC = () => {
       <section className="relative h-[50vh] md:h-[70vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img 
-            src="https://images.unsplash.com/photo-1544550581-5f7ceaf7f992?auto=format&fit=crop&q=80&w=1920" 
+            src="https://maldives-serenitytravels.com/images/Screenshot 2026-02-23 at 00.34.41.png" 
             className="w-full h-full object-cover" 
             alt="Maldives Adventures"
           />

@@ -114,7 +114,7 @@ const Stays: React.FC = () => {
       <section className="relative h-[60vh] md:h-[80vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img 
-            src="https://images.unsplash.com/photo-1439066615861-d1af74d74000?auto=format&fit=crop&q=80&w=1920" 
+            src="https://maldives-serenitytravels.com/images/Screenshot 2026-02-23 at 00.23.29.png" 
             className="w-full h-full object-cover" 
             alt="Maldives Horizon"
           />
@@ -127,7 +127,6 @@ const Stays: React.FC = () => {
           </h1>
           <div className="h-px w-24 bg-amber-400 mx-auto mt-12 mb-12"></div>
           <p className="text-white text-[10px] md:text-[13px] font-bold uppercase tracking-[0.5em] max-w-2xl mx-auto leading-loose opacity-90">
-             Exploring the silence of the archipelago through curated sanctuaries.
           </p>
         </div>
       </section>

@@ -66,14 +66,14 @@ const Home: React.FC = () => {
     },
     {
       type: 'image',
-      src: 'https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&q=90&w=1920',
+      src: 'https://maldives-serenitytravels.com/images/hero-image2',
       title: 'Luxury',
       titleAlt: 'Beach Villas',
       subtitle: 'PART 2 — PRIVATE STAYS'
     },
     {
       type: 'image',
-      src: 'https://images.unsplash.com/photo-1544550581-5f7ceaf7f992?auto=format&fit=crop&q=90&w=1920',
+      src: 'https://maldives-serenitytravels.com/images/hero-image-11.png',
       title: 'Relax on the',
       titleAlt: 'Water',
       subtitle: 'PART 3 — RELAX IN STYLE'
@@ -193,7 +193,7 @@ const Home: React.FC = () => {
             <div className="lg:w-1/2 relative order-2 lg:order-1 reveal">
               <div className="relative aspect-[4/5] rounded-[3rem] overflow-hidden shadow-2xl z-10 group bg-slate-100 dark:bg-slate-900">
                 <img 
-                  src="https://images.unsplash.com/photo-1548574505-5e239809ee19?auto=format&fit=crop&q=80&w=1200" 
+                  src="https://maldives-serenitytravels.com/images/Screenshot 2026-02-23 at 00.17.04.png" 
                   className="w-full h-full object-cover transition-transform duration-[8s] group-hover:scale-110" 
                   alt="Beautiful Maldives" 
                 />
