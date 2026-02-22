@@ -169,6 +169,7 @@ const ChatBot: React.FC = () => {
     <>
       <button
         onClick={() => setIsOpen(!isOpen)}
+        aria-label={isOpen ? "Close Sara AI Concierge" : "Open Sara AI Concierge"}
         className="fixed bottom-8 right-8 z-[100] bg-slate-900 text-white p-5 rounded-full shadow-2xl hover:scale-110 active:scale-95 transition-all group flex items-center justify-center border border-white/10"
       >
         <div className="relative">
@@ -254,6 +255,7 @@ const ChatBot: React.FC = () => {
             />
             <button
               onClick={handleSend}
+              aria-label="Send message"
               disabled={isTyping || (!hasKey && (!process.env.API_KEY || process.env.API_KEY === 'undefined')) || !!quoteDraft}
               className="absolute right-2 p-3 bg-slate-900 text-white rounded-full hover:bg-sky-500 transition-all disabled:opacity-50"
             >

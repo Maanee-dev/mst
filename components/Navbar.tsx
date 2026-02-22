@@ -72,13 +72,14 @@ const Navbar: React.FC = () => {
           </div>
 
           {/* Center: Brand Identity Logo */}
-          <Link to="/" className="flex flex-col items-center group transition-transform duration-500 hover:scale-[1.02] relative z-10">
+          <Link to="/" aria-label="Maldives Serenity Travels Home" className="flex flex-col items-center group transition-transform duration-500 hover:scale-[1.02] relative z-10">
             <svg 
               version="1.0" 
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 600 600"
               preserveAspectRatio="xMidYMid meet"
               className={`w-24 h-24 md:w-40 md:h-40 lg:w-56 lg:h-56 -my-8 md:-my-12 lg:-my-20 transition-all duration-1000 ${logoFillClass}`}
+              aria-hidden="true"
             >
               <g transform="translate(0.000000,600.000000) scale(0.100000,-0.100000)" stroke="none">
                 <path d="M3116 3398 c-10 -14 -16 -44 -16 -81 0 -63 -18 -108 -67 -166 -27 -32 -33 -34 -100 -37 -159 -6 -255 -146 -123 -179 75 -18 277 140 338 266 38 77 59 183 41 205 -17 21 -56 17 -73 -8z"/>
@@ -114,6 +115,7 @@ const Navbar: React.FC = () => {
           <div className="flex-1 flex justify-end">
             <Link 
               to="/plan" 
+              aria-label="Plan your trip"
               className="group relative flex items-center justify-center p-2 focus:outline-none"
             >
               {/* Desktop: Ghost Text with Arrow */}
