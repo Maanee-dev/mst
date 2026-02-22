@@ -112,6 +112,20 @@ async function startServer() {
     res.json({ connected: !!req.session?.instagramToken });
   });
 
+  app.get('/robots.txt', (req, res) => {
+    const filePath = process.env.NODE_ENV === 'production' 
+      ? path.join(__dirname, 'dist', 'robots.txt')
+      : path.join(__dirname, 'public', 'robots.txt');
+    res.sendFile(filePath);
+  });
+
+  app.get('/sitemap.xml', (req, res) => {
+    const filePath = process.env.NODE_ENV === 'production' 
+      ? path.join(__dirname, 'dist', 'sitemap.xml')
+      : path.join(__dirname, 'public', 'sitemap.xml');
+    res.sendFile(filePath);
+  });
+
   if (process.env.NODE_ENV !== 'production') {
     const vite = await createViteServer({
       server: { middlewareMode: true },
