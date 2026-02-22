@@ -149,7 +149,7 @@ const PlanMyTrip: React.FC = () => {
       <div className="min-h-screen flex items-center justify-center p-6 bg-parchment dark:bg-slate-950 transition-colors duration-700">
         <div className="text-center max-w-2xl reveal active">
            <span className="text-[10px] font-bold uppercase tracking-[1em] text-sky-500 mb-12 block">Dispatch Received</span>
-           <h2 className="text-6xl md:text-8xl font-serif font-bold text-slate-900 dark:text-white mb-12 italic leading-none transition-colors">Perspective <br/> Awaits.</h2>
+           <h2 className="text-6xl md:text-8xl font-serif font-bold text-slate-900 dark:text-white mb-12 leading-none transition-colors">Perspective <br/> Awaits.</h2>
            <div className="h-px w-24 bg-amber-400 mx-auto mb-16"></div>
            <p className="text-slate-500 dark:text-slate-400 uppercase tracking-[0.4em] text-[10px] leading-[2.5] mb-16 font-medium max-w-md mx-auto transition-colors">
              Our specialists are curating your custom Maldivian portfolio. Expect a digital dispatch in your inbox within 24 hours.
@@ -274,7 +274,7 @@ const PlanMyTrip: React.FC = () => {
                       >
                         {row.opt1}
                       </button>
-                      <span className="text-[10px] font-serif italic text-slate-300 dark:text-slate-700">or</span>
+                      <span className="text-[10px] font-serif text-slate-300 dark:text-slate-700">or</span>
                       <button
                         onClick={() => setPreferences(prev => ({ ...prev, [row.key]: row.opt2 }))}
                         className={`py-5 rounded-2xl text-[10px] font-bold uppercase tracking-[0.3em] transition-all duration-500 border ${preferences[row.key as keyof typeof preferences] === row.opt2 ? 'bg-slate-950 dark:bg-white text-white dark:text-slate-950 border-slate-950 dark:border-white shadow-xl' : 'bg-slate-50 dark:bg-slate-800/50 text-slate-400 dark:text-slate-600 border-transparent hover:border-sky-200 dark:hover:border-sky-500'}`}
@@ -297,7 +297,7 @@ const PlanMyTrip: React.FC = () => {
             <div className="space-y-16 animate-in fade-in slide-in-from-bottom-6 duration-700">
               <div className="text-center">
                 <span className="text-[10px] font-bold text-sky-500 uppercase tracking-[1em] mb-6 block">PORTFOLIO</span>
-                <h3 className="text-3xl md:text-5xl font-serif font-bold text-slate-900 dark:text-white transition-colors italic">Preferred Resorts</h3>
+                <h3 className="text-3xl md:text-5xl font-serif font-bold text-slate-900 dark:text-white transition-colors">Preferred Resorts</h3>
                 <p className="text-slate-400 dark:text-slate-500 text-[10px] uppercase tracking-[0.4em] mt-8 transition-colors">Search and pick between 3 resorts to refine our recommendations.</p>
               </div>
 
@@ -350,7 +350,7 @@ const PlanMyTrip: React.FC = () => {
                      )
                    })}
                    {selectedResorts.length === 0 && (
-                     <p className="text-center text-slate-300 dark:text-slate-700 text-[10px] font-bold uppercase tracking-[0.4em] italic py-12 border-2 border-dashed border-slate-100 dark:border-white/5 rounded-[2.5rem] transition-colors">No resorts selected yet</p>
+                     <p className="text-center text-slate-300 dark:text-slate-700 text-[10px] font-bold uppercase tracking-[0.4em] py-12 border-2 border-dashed border-slate-100 dark:border-white/5 rounded-[2.5rem] transition-colors">No resorts selected yet</p>
                    )}
                 </div>
               </div>
@@ -367,7 +367,7 @@ const PlanMyTrip: React.FC = () => {
             <div className="space-y-16 animate-in fade-in slide-in-from-bottom-6 duration-700">
               <div className="text-center">
                 <span className="text-[10px] font-bold text-sky-500 uppercase tracking-[1em] mb-6 block">LOGISTICS</span>
-                <h3 className="text-3xl md:text-5xl font-serif font-bold text-slate-900 dark:text-white tracking-tighter italic transition-colors">Almost there!</h3>
+                <h3 className="text-3xl md:text-5xl font-serif font-bold text-slate-900 dark:text-white tracking-tighter transition-colors">Almost there!</h3>
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-10 max-w-4xl mx-auto">

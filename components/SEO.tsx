@@ -73,7 +73,7 @@ const SEO: React.FC<SEOProps> = ({
 
     // Organization & Custom Schema
     const scriptId = 'schema-jsonld';
-    let script = document.getElementById(scriptId) as HTMLScriptElement | null;
+    const script = document.getElementById(scriptId) as HTMLScriptElement | null;
     
     const orgSchema = isOrganization ? {
       "@context": "https://schema.org",

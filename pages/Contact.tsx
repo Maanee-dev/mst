@@ -38,7 +38,7 @@ const Contact: React.FC = () => {
         </div>
         <div className="relative z-10 text-center px-6 reveal active">
           <span className="text-[10px] font-black text-sky-400 uppercase tracking-[1.2em] mb-12 block">Dialogue</span>
-          <h1 className="text-5xl md:text-8xl lg:text-9xl font-serif font-bold text-white tracking-tighter italic leading-none">
+          <h1 className="text-5xl md:text-8xl lg:text-9xl font-serif font-bold text-white tracking-tighter leading-none">
             Initiate <br /> Contact.
           </h1>
           <div className="h-px w-24 bg-amber-400 mx-auto mt-12 mb-12"></div>
@@ -96,7 +96,7 @@ const Contact: React.FC = () => {
         <div className="lg:col-span-7 reveal delay-300">
           {submitted ? (
             <div className="bg-white dark:bg-slate-900 rounded-[4rem] p-20 text-center shadow-2xl border border-slate-50 dark:border-white/5 transition-colors duration-700">
-              <h2 className="text-4xl font-serif font-bold italic mb-6 text-slate-900 dark:text-white">Inquiry Received.</h2>
+              <h2 className="text-4xl font-serif font-bold mb-6 text-slate-900 dark:text-white">Inquiry Received.</h2>
               <p className="text-slate-500 dark:text-slate-400 text-[10px] font-black uppercase tracking-[0.5em] leading-loose mb-12 transition-colors">Our specialists will review your vision and contact you within 24 hours.</p>
               <button onClick={() => setSubmitted(false)} className="text-[10px] font-black text-sky-500 uppercase tracking-[0.6em] border-b border-sky-100 dark:border-sky-900 pb-2">Send Another</button>
             </div>

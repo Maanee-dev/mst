@@ -121,7 +121,7 @@ const Navbar: React.FC = () => {
                 <span className={`text-[10px] font-black uppercase tracking-[0.4em] ${elementColorClass}`}>
                   Plan Trip
                 </span>
-                <span className={`${elementColorClass} font-serif italic text-lg leading-none transition-transform group-hover:translate-x-1`}>
+                <span className={`${elementColorClass} font-serif text-lg leading-none transition-transform group-hover:translate-x-1`}>
                   &rarr;
                 </span>
               </div>
@@ -155,7 +155,7 @@ const Navbar: React.FC = () => {
                   <Link 
                     to={link.path}
                     style={{ transitionDelay: `${150 + i * 80}ms` }}
-                    className={`block text-3xl sm:text-4xl md:text-5xl lg:text-[5rem] font-serif font-bold text-slate-900 dark:text-white italic hover:text-sky-500 dark:hover:text-sky-400 transition-all duration-700 transform leading-tight ${isOpen ? 'translate-y-0' : 'translate-y-full'}`}
+                    className={`block text-3xl sm:text-4xl md:text-5xl lg:text-[5rem] font-serif font-medium text-slate-900 dark:text-white hover:text-sky-500 dark:hover:text-sky-400 transition-all duration-700 transform leading-tight ${isOpen ? 'translate-y-0' : 'translate-y-full'}`}
                   >
                     {link.name}.
                   </Link>

@@ -119,7 +119,7 @@ const Offers: React.FC = () => {
         </div>
         <div className="relative z-10 text-center px-6 reveal active">
           <span className="text-[10px] font-black text-sky-400 uppercase tracking-[1em] mb-8 block">Exclusive Archives</span>
-          <h1 className="text-6xl md:text-4xl lg:text-7xl xl:text-8xl font-serif font-bold text-white tracking-tighter leading-none italic">
+          <h1 className="text-6xl md:text-4xl lg:text-7xl xl:text-8xl font-serif font-bold text-white tracking-tighter leading-none">
              <br /> Offers.
           </h1>
           <div className="h-px w-24 bg-amber-400 mx-auto mt-12 mb-12"></div>
@@ -272,7 +272,7 @@ const Offers: React.FC = () => {
             </>
           ) : (
             <div className="py-64 text-center">
-               <h3 className="text-3xl font-serif font-bold italic text-slate-900 dark:text-white mb-6 tracking-tighter">No seasonal dispatches match your vision.</h3>
+               <h3 className="text-3xl font-serif font-bold text-slate-900 dark:text-white mb-6 tracking-tighter">No seasonal dispatches match your vision.</h3>
                <button 
                 onClick={() => { setSearchQuery(''); setSelectedNights('All'); setActiveCategory('All'); setCurrentPage(1); }}
                 className="text-sky-500 dark:text-sky-400 font-black uppercase tracking-widest text-[10px] border-b border-sky-100 dark:border-sky-900 pb-2"

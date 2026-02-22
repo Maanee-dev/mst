@@ -122,7 +122,7 @@ const Stays: React.FC = () => {
         </div>
         <div className="relative z-10 text-center px-6 reveal active">
           <span className="text-[10px] md:text-[11px] uppercase tracking-[1em] font-black mb-8 block text-sky-400">The Portfolio</span>
-          <h1 className="text-5xl md:text-4xl lg:text-7xl xl:text-8xl font-serif font-bold text-white tracking-tighter italic leading-none">
+          <h1 className="text-5xl md:text-4xl lg:text-7xl xl:text-8xl font-serif font-bold text-white tracking-tighter leading-none">
             {stayType === AccommodationType.RESORT ? 'Iconic Stays.' : stayType === AccommodationType.GUEST_HOUSE ? 'Island Life.' : 'Atoll Voyagers.'}
           </h1>
           <div className="h-px w-24 bg-amber-400 mx-auto mt-12 mb-12"></div>
@@ -146,7 +146,7 @@ const Stays: React.FC = () => {
                 value={filterQuery}
                 onChange={(e) => { setFilterQuery(e.target.value); setCurrentPage(1); }}
                 placeholder="Soneva Jani, Baa Atoll..."
-                className="w-full bg-transparent pb-6 text-xl sm:text-2xl md:text-4xl lg:text-5xl font-serif italic text-slate-950 dark:text-white outline-none placeholder:text-slate-100 dark:placeholder:text-slate-800"
+                className="w-full bg-transparent pb-6 text-xl sm:text-2xl md:text-4xl lg:text-5xl font-serif text-slate-950 dark:text-white outline-none placeholder:text-slate-100 dark:placeholder:text-slate-800"
               />
             </div>
           </div>
@@ -245,7 +245,7 @@ const Stays: React.FC = () => {
             </>
           ) : (
             <div className="py-32 md:py-48 text-center max-w-lg mx-auto px-4">
-              <h3 className="text-2xl md:text-3xl font-serif font-bold italic mb-6 text-slate-900 dark:text-white">Sanctuary not found.</h3>
+              <h3 className="text-2xl md:text-3xl font-serif font-bold mb-6 text-slate-900 dark:text-white">Sanctuary not found.</h3>
               <p className="text-slate-400 dark:text-slate-600 text-[10px] font-black uppercase tracking-[0.4em] mb-10 leading-loose transition-colors">
                 Your parameters didn't reveal a match in our registry. Adjust your coordinates or search terms.
               </p>
@@ -264,7 +264,7 @@ const Stays: React.FC = () => {
       <section className="py-24 md:py-32 bg-white dark:bg-slate-950 border-t border-slate-50 dark:border-white/5 text-center transition-colors duration-700">
         <div className="max-w-4xl mx-auto px-6 reveal active">
            <span className="text-[10px] font-black text-slate-400 dark:text-slate-600 uppercase tracking-[1.5em] mb-10 md:mb-12 block">Need Bespoke Advice?</span>
-           <h2 className="text-4xl md:text-7xl font-serif font-bold italic mb-10 md:mb-12 text-slate-950 dark:text-white tracking-tighter">Your Maldivian Perspective.</h2>
+           <h2 className="text-4xl md:text-7xl font-serif font-bold mb-10 md:mb-12 text-slate-950 dark:text-white tracking-tighter">Your Maldivian Perspective.</h2>
            <p className="text-slate-500 dark:text-slate-400 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.5em] mb-16 md:mb-20 leading-loose max-w-md mx-auto transition-colors">
               Our travel specialists curate itineraries that <br className="hidden md:block"/> transcend the standard holiday.
            </p>

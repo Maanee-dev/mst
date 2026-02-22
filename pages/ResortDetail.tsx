@@ -104,7 +104,7 @@ const ResortDetail: React.FC = () => {
       return Array.isArray(parsed) ? parsed : [];
     } catch (e) {
       if (typeof item === 'string') {
-        return item.split(',').map(s => s.trim().replace(/^["\[]+|["\]]+$/g, '')).filter(Boolean);
+        return item.split(',').map(s => s.trim().replace(/^["[]+|["\]]+$/g, '')).filter(Boolean);
       }
       return [];
     }
@@ -334,7 +334,7 @@ const ResortDetail: React.FC = () => {
 
   if (!resort) return (
     <div className="min-h-screen bg-parchment dark:bg-slate-950 flex flex-col items-center justify-center px-6 text-center">
-      <h2 className="text-3xl font-serif font-bold italic mb-6 text-slate-900 dark:text-white tracking-tighter">Sanctuary not found.</h2>
+      <h2 className="text-3xl font-serif font-bold mb-6 text-slate-900 dark:text-white tracking-tighter">Sanctuary not found.</h2>
       <Link to="/stays" className="text-sky-600 font-black uppercase tracking-[0.5em] text-[11px] underline underline-offset-8">Return to Portfolio</Link>
     </div>
   );
@@ -382,7 +382,7 @@ const ResortDetail: React.FC = () => {
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/20 to-transparent"></div>
           <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6 md:p-12">
              <span className="text-[11px] font-black text-sky-400 uppercase tracking-[0.8em] mb-4 md:mb-8 block reveal">{resort.atoll}</span>
-             <h1 className="text-3xl md:text-4xl lg:text-7xl xl:text-[8rem] font-serif font-bold text-white tracking-tighter italic leading-[1.1] drop-shadow-2xl reveal active delay-300">{resort.name}</h1>
+             <h1 className="text-3xl md:text-4xl lg:text-7xl xl:text-[8rem] font-serif font-bold text-white tracking-tighter leading-[1.1] drop-shadow-2xl reveal active delay-300">{resort.name}</h1>
              <button 
                onClick={() => document.getElementById('gallery')?.scrollIntoView({ behavior: 'smooth' })}
                className="mt-8 md:mt-12 group flex flex-col items-center gap-4 reveal delay-500"
@@ -402,7 +402,7 @@ const ResortDetail: React.FC = () => {
               <div className="w-10 h-[1px] bg-sky-500"></div>
               <span className="text-[11px] font-black text-sky-600 uppercase tracking-[0.8em] block">The Manifesto</span>
             </div>
-            <p className="text-2xl md:text-2xl lg:text-4xl xl:text-6xl font-serif font-bold italic text-slate-900 dark:text-white leading-[1.2] tracking-tight mb-8 md:mb-12 transition-colors">
+            <p className="text-2xl md:text-2xl lg:text-4xl xl:text-6xl font-serif font-bold text-slate-900 dark:text-white leading-[1.2] tracking-tight mb-8 md:mb-12 transition-colors">
               "{resort.uvp}"
             </p>
             <div className="text-slate-800 dark:text-slate-200 text-base md:text-base lg:text-lg xl:text-xl leading-[1.6] md:leading-[1.8] font-semibold space-y-4 md:space-y-6 max-w-3xl transition-colors">
@@ -446,7 +446,7 @@ const ResortDetail: React.FC = () => {
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-10 mb-16 md:mb-24 reveal">
               <div className="max-w-2xl">
                 <span className="text-[11px] font-black text-sky-500 uppercase tracking-[1em] mb-4 md:mb-8 block">Visual Journey</span>
-                <h3 className="text-4xl md:text-5xl lg:text-8xl font-serif font-bold text-slate-900 dark:text-white tracking-tighter italic leading-none transition-colors">The Gallery.</h3>
+                <h3 className="text-4xl md:text-5xl lg:text-8xl font-serif font-bold text-slate-900 dark:text-white tracking-tighter leading-none transition-colors">The Gallery.</h3>
               </div>
               <div className="flex flex-col items-start md:items-end gap-4">
                 <p className="text-slate-400 dark:text-slate-600 text-[10px] font-black uppercase tracking-[0.4em] max-w-xs leading-loose text-left md:text-right">
@@ -539,7 +539,7 @@ const ResortDetail: React.FC = () => {
           <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
             <div className="text-center mb-16 reveal">
               <span className="text-[11px] font-black text-amber-500 uppercase tracking-[1em] mb-6 block">Limited Engagements</span>
-              <h3 className="text-3xl md:text-6xl font-serif font-bold italic text-slate-900 dark:text-white tracking-tighter leading-tight transition-colors">Bespoke Privileges.</h3>
+              <h3 className="text-3xl md:text-6xl font-serif font-bold text-slate-900 dark:text-white tracking-tighter leading-tight transition-colors">Bespoke Privileges.</h3>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
               {resortOffers.map((offer, idx) => (
@@ -573,7 +573,7 @@ const ResortDetail: React.FC = () => {
              <div className="px-6 lg:px-12 mb-12 md:mb-16 flex flex-col md:flex-row justify-between items-end gap-6 reveal">
                 <div>
                    <span className="text-[11px] font-black text-slate-400 dark:text-slate-600 uppercase tracking-[0.8em] mb-4 block">Accommodation</span>
-                   <h3 className="text-3xl md:text-3xl lg:text-5xl font-serif font-bold italic text-slate-950 dark:text-white tracking-tighter transition-colors">The Residences.</h3>
+                   <h3 className="text-3xl md:text-3xl lg:text-5xl font-serif font-bold text-slate-950 dark:text-white tracking-tighter transition-colors">The Residences.</h3>
                 </div>
                 <p className="hidden md:block text-[10px] font-black text-slate-400 dark:text-slate-600 uppercase tracking-widest transition-colors">Slide to explore Portfolio</p>
              </div>
@@ -611,7 +611,7 @@ const ResortDetail: React.FC = () => {
               <div className="px-6 lg:px-12 mb-12 md:mb-16 flex flex-col md:flex-row justify-between items-end gap-6 reveal">
                 <div>
                   <span className="text-[11px] font-black text-sky-500 uppercase tracking-[1em] mb-4 block">Gastronomy</span>
-                  <h3 className="text-3xl md:text-3xl lg:text-5xl font-serif font-bold italic text-slate-950 dark:text-white tracking-tighter transition-colors">The Atoll Table.</h3>
+                  <h3 className="text-3xl md:text-3xl lg:text-5xl font-serif font-bold text-slate-950 dark:text-white tracking-tighter transition-colors">The Atoll Table.</h3>
                 </div>
                 <p className="hidden md:block text-[10px] font-black text-slate-400 dark:text-slate-600 uppercase tracking-widest transition-colors">Swipe for Culinary Vibe</p>
               </div>
@@ -630,7 +630,7 @@ const ResortDetail: React.FC = () => {
                              <span className="text-[9px] md:text-[10px] font-black text-amber-500 uppercase tracking-widest bg-amber-50 dark:bg-amber-950/30 px-3 py-1 rounded-full">{venue.vibe}</span>
                           </div>
                           <h4 className="text-xl md:text-2xl font-serif font-bold text-slate-900 dark:text-white mb-3 md:mb-4 transition-colors">{venue.name}</h4>
-                          <p className="text-slate-500 dark:text-slate-400 text-[13px] leading-relaxed mb-6 font-medium line-clamp-2 italic transition-colors">{venue.description}</p>
+                          <p className="text-slate-500 dark:text-slate-400 text-[13px] leading-relaxed mb-6 font-medium line-clamp-2 transition-colors">{venue.description}</p>
                           <div className="space-y-2">
                              {venue.highlights.slice(0, 3).map((h, j) => (
                                <div key={j} className="flex items-center gap-3">
@@ -653,7 +653,7 @@ const ResortDetail: React.FC = () => {
           <div className="max-w-[1440px] mx-auto px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-12 gap-16 md:gap-24">
              <div className="lg:col-span-4 reveal">
                 <span className="text-[11px] font-black text-sky-500 uppercase tracking-[1em] mb-8 block">Intelligence</span>
-                <h3 className="text-4xl md:text-4xl lg:text-6xl font-serif font-bold italic text-slate-900 dark:text-white tracking-tighter leading-tight transition-colors">Bespoke <br/> Insights.</h3>
+                <h3 className="text-4xl md:text-4xl lg:text-6xl font-serif font-bold text-slate-900 dark:text-white tracking-tighter leading-tight transition-colors">Bespoke <br/> Insights.</h3>
                 <p className="text-slate-400 dark:text-slate-600 text-[10px] font-black uppercase tracking-[0.4em] mt-12 leading-loose transition-colors">Expertly curated answers regarding {resort.name} and the archipelago.</p>
              </div>
              
@@ -668,7 +668,7 @@ const ResortDetail: React.FC = () => {
                           onClick={() => setOpenFaq(openFaq === faq.id ? null : faq.id)}
                           className="w-full flex justify-between items-center text-left group"
                         >
-                           <h4 className={`text-xl md:text-2xl font-serif font-bold italic transition-all duration-500 ${openFaq === faq.id ? 'text-sky-600 dark:text-sky-400' : 'text-slate-900 dark:text-white group-hover:text-sky-500'}`}>
+                           <h4 className={`text-xl md:text-2xl font-serif font-bold transition-all duration-500 ${openFaq === faq.id ? 'text-sky-600 dark:text-sky-400' : 'text-slate-900 dark:text-white group-hover:text-sky-500'}`}>
                              {faq.question}
                            </h4>
                            <div className={`w-10 h-10 rounded-full border border-slate-100 dark:border-white/10 flex items-center justify-center transition-all duration-700 ${openFaq === faq.id ? 'bg-sky-500 border-sky-500 rotate-45' : 'group-hover:border-sky-500'}`}>
@@ -696,12 +696,12 @@ const ResortDetail: React.FC = () => {
       {/* Inquiry Form Section */}
       <section id="inquiry-form" className="py-20 md:py-32 lg:py-48 bg-slate-950 text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-[0.03] pointer-events-none flex items-center justify-center">
-          <h2 className="text-[40vw] font-serif italic whitespace-nowrap -rotate-12 select-none">Atoll</h2>
+          <h2 className="text-[40vw] font-serif whitespace-nowrap -rotate-12 select-none">Atoll</h2>
         </div>
         <div className="max-w-[1440px] mx-auto px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-2 gap-16 md:gap-24 items-start relative z-10">
            <div className="reveal text-center lg:text-left">
               <span className="text-[11px] font-black text-sky-400 uppercase tracking-[1em] mb-8 md:mb-12 block">Secure Your Stay</span>
-              <h3 className="text-4xl md:text-4xl lg:text-8xl font-serif font-bold italic mb-8 md:mb-12 tracking-tighter leading-tight">Send an Inquiry.</h3>
+              <h3 className="text-4xl md:text-4xl lg:text-8xl font-serif font-bold mb-8 md:mb-12 tracking-tighter leading-tight">Send an Inquiry.</h3>
               {!isSubmitted && (
                 <div className="flex items-center justify-center lg:justify-start gap-4 mb-12">
                   {[1, 2, 3].map(s => (
@@ -725,7 +725,7 @@ const ResortDetail: React.FC = () => {
                   <div className="w-16 h-16 bg-sky-100 dark:bg-sky-900/30 text-sky-600 dark:text-sky-400 rounded-full flex items-center justify-center mx-auto mb-10">
                     <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
                   </div>
-                  <h4 className="text-3xl md:text-4xl font-serif font-bold italic mb-6">Dispatch Sent.</h4>
+                  <h4 className="text-3xl md:text-4xl font-serif font-bold mb-6">Dispatch Sent.</h4>
                   <p className="text-slate-500 dark:text-slate-400 text-[10px] font-black uppercase tracking-[0.4em] leading-[2.5] mb-12">Our travel experts will contact you within 24 hours.</p>
                   <button onClick={() => { setIsSubmitted(false); setFormStep(1); }} className="text-[10px] font-black text-slate-950 dark:text-white uppercase tracking-[0.6em] border-b-[2px] border-slate-950 dark:border-white pb-2 hover:text-sky-600 dark:hover:text-sky-400 transition-colors">Submit Another</button>
                </div>
@@ -854,7 +854,7 @@ const ResortDetail: React.FC = () => {
           <div className="max-w-[1440px] mx-auto">
             <div className="px-6 lg:px-12 mb-16 md:mb-24 reveal">
               <span className="text-[11px] font-black text-slate-400 dark:text-slate-600 uppercase tracking-[0.8em] mb-4 block">Refined Selection</span>
-              <h3 className="text-3xl md:text-6xl font-serif font-bold italic text-slate-900 dark:text-white tracking-tighter transition-colors">Similar Sanctuaries.</h3>
+              <h3 className="text-3xl md:text-6xl font-serif font-bold text-slate-900 dark:text-white tracking-tighter transition-colors">Similar Sanctuaries.</h3>
             </div>
             
             <div className="flex gap-6 md:gap-8 overflow-x-auto no-scrollbar px-6 lg:px-12 pb-12 snap-x snap-mandatory">

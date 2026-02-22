@@ -81,7 +81,7 @@ const Stories: React.FC = () => {
         </div>
         <div className="relative z-10 text-center px-6 reveal active">
           <span className="text-[10px] font-bold text-sky-400 mb-12 block tracking-[1em] uppercase">The Journal</span>
-          <h1 className="text-6xl md:text-5xl lg:text-8xl xl:text-9xl font-serif font-bold text-white tracking-tighter italic leading-none">Perspective</h1>
+          <h1 className="text-6xl md:text-5xl lg:text-8xl xl:text-9xl font-serif font-bold text-white tracking-tighter leading-none">Perspective</h1>
           <div className="h-px w-24 bg-amber-400 mx-auto mt-12 mb-12"></div>
           <p className="text-white text-[11px] font-bold max-w-xl mx-auto uppercase tracking-[0.5em] leading-[2.5] opacity-90">
              Editorial dispatches from the heart of the archipelago.
@@ -139,7 +139,7 @@ const Stories: React.FC = () => {
                     <span className="text-slate-500 dark:text-slate-600 font-bold text-[9px] uppercase tracking-[0.6em] mb-6 block">
                       {new Date(featuredPost.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
                     </span>
-                    <h2 className="text-4xl md:text-7xl font-serif font-bold text-slate-900 dark:text-white mb-8 group-hover:italic transition-all duration-700 leading-[1.1] transition-colors">
+                    <h2 className="text-4xl md:text-7xl font-serif font-bold text-slate-900 dark:text-white mb-8 transition-all duration-700 leading-[1.1] transition-colors">
                       {featuredPost.title}
                     </h2>
                     <p className="text-slate-600 dark:text-slate-400 leading-relaxed font-medium opacity-90 mb-10 text-lg md:text-xl transition-colors">
@@ -171,7 +171,7 @@ const Stories: React.FC = () => {
                     <span className="text-slate-500 dark:text-slate-600 font-bold text-[8px] uppercase tracking-[0.4em] mb-4 block">
                       {new Date(post.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                     </span>
-                    <h2 className="text-2xl font-serif font-bold text-slate-900 dark:text-white mb-4 group-hover:italic transition-all duration-500 leading-tight transition-colors">
+                    <h2 className="text-2xl font-serif font-bold text-slate-900 dark:text-white mb-4 transition-all duration-500 leading-tight transition-colors">
                       {post.title}
                     </h2>
                     <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed font-medium opacity-90 line-clamp-2 transition-colors">
@@ -184,7 +184,7 @@ const Stories: React.FC = () => {
           </>
         ) : (
           <div className="py-40 text-center reveal active">
-             <h3 className="text-3xl font-serif font-bold italic text-slate-900 dark:text-white mb-6 transition-colors">No archives found.</h3>
+             <h3 className="text-3xl font-serif font-bold text-slate-900 dark:text-white mb-6 transition-colors">No archives found.</h3>
              <button onClick={() => {setActiveCategory('All'); setSearchQuery('');}} className="text-sky-500 dark:text-sky-400 font-bold uppercase tracking-widest text-[10px] border-b border-sky-200 dark:border-sky-800 transition-colors">Reset Filters</button>
           </div>
         )}
@@ -192,7 +192,7 @@ const Stories: React.FC = () => {
 
       <section className="py-48 bg-white dark:bg-slate-950 border-t border-slate-50 dark:border-white/5 transition-colors duration-700">
          <div className="max-w-4xl mx-auto px-6 text-center reveal">
-            <h2 className="text-4xl md:text-6xl font-serif font-bold text-slate-950 dark:text-white italic mb-12 transition-colors">The Archives</h2>
+            <h2 className="text-4xl md:text-6xl font-serif font-bold text-slate-950 dark:text-white mb-12 transition-colors">The Archives</h2>
             <p className="text-slate-500 dark:text-slate-400 text-[10px] font-bold uppercase tracking-[0.5em] mb-20 leading-loose transition-colors">
                Access our full collection of Maldivian dispatches <br className="hidden md:block"/> and photographic journals.
             </p>

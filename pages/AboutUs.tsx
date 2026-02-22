@@ -33,7 +33,7 @@ const AboutUs: React.FC = () => {
         </div>
         <div className="relative z-10 text-center px-6 reveal active">
           <span className="text-[10px] font-black text-sky-500 uppercase tracking-[1.2em] mb-12 block">Our Origin</span>
-          <h1 className="text-5xl md:text-8xl lg:text-9xl font-serif font-bold text-white tracking-tighter italic leading-none">
+          <h1 className="text-5xl md:text-8xl lg:text-9xl font-serif font-bold text-white tracking-tighter leading-none">
             Defined by <br /> Perspective.
           </h1>
           <div className="h-px w-24 bg-amber-400 mx-auto mt-12 mb-12"></div>
@@ -57,8 +57,8 @@ const AboutUs: React.FC = () => {
           </div>
           <div className="reveal delay-300">
             <span className="text-sky-500 font-black uppercase tracking-[1em] text-[10px] mb-12 block">The Philosophy</span>
-            <h2 className="text-4xl md:text-6xl font-serif font-bold text-slate-950 dark:text-white italic mb-12 tracking-tight transition-colors">Curating the Silence.</h2>
-            <div className="space-y-8 text-slate-600 dark:text-slate-400 text-lg md:text-xl leading-relaxed font-medium italic opacity-90 transition-colors">
+            <h2 className="text-4xl md:text-6xl font-serif font-bold text-slate-950 dark:text-white mb-12 tracking-tight transition-colors">Curating the Silence.</h2>
+            <div className="space-y-8 text-slate-600 dark:text-slate-400 text-lg md:text-xl leading-relaxed font-medium opacity-90 transition-colors">
               <p>
                 In a world that never stops talking, we found luxury in the spaces between the words. At Serenity Maldives, we believe that the true essence of travel is not found in the destination, but in the perspective you gain while there.
               </p>
@@ -79,7 +79,7 @@ const AboutUs: React.FC = () => {
             { title: 'Silent Luxury', desc: 'Luxury is not loud. It is the perfect seaplane connection, the specific vintage on your deck, and the absence of any worry.' }
           ].map((val, i) => (
             <div key={i} className="reveal" style={{ transitionDelay: `${i * 150}ms` }}>
-              <span className="text-amber-500 font-serif italic text-4xl mb-8 block transition-colors">0{i+1}.</span>
+              <span className="text-amber-500 font-serif text-4xl mb-8 block transition-colors">0{i+1}.</span>
               <h3 className="text-2xl font-serif font-bold text-slate-950 dark:text-white mb-6 transition-colors">{val.title}</h3>
               <p className="text-slate-500 dark:text-slate-500 text-[11px] font-bold uppercase tracking-[0.3em] leading-loose transition-colors">{val.desc}</p>
             </div>
@@ -90,11 +90,11 @@ const AboutUs: React.FC = () => {
       {/* Location Section */}
       <section className="py-24 md:py-48 bg-slate-950 text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-[0.05] flex items-center justify-center pointer-events-none">
-          <h2 className="text-[30vw] font-serif italic -rotate-12 translate-y-1/2">Addu</h2>
+          <h2 className="text-[30vw] font-serif -rotate-12 translate-y-1/2">Addu</h2>
         </div>
         <div className="max-w-4xl mx-auto px-6 text-center relative z-10 reveal">
           <span className="text-sky-400 font-black uppercase tracking-[1em] text-[10px] mb-12 block">Our Anchor</span>
-          <h3 className="text-4xl md:text-7xl font-serif font-bold italic mb-12 tracking-tighter">Faith, Feydhoo.</h3>
+          <h3 className="text-4xl md:text-7xl font-serif font-bold mb-12 tracking-tighter">Faith, Feydhoo.</h3>
           <p className="text-slate-400 text-sm md:text-lg font-medium leading-loose mb-16 opacity-80 uppercase tracking-[0.4em]">
             Located in the southern-most atoll, our headquarters <br className="hidden md:block"/> at S.feydhoo serve as our gateway to the infinite blue.
           </p>
@@ -105,7 +105,7 @@ const AboutUs: React.FC = () => {
       {/* CTA */}
       <section className="py-24 md:py-48 text-center bg-white dark:bg-slate-950 transition-colors duration-700">
         <div className="max-w-4xl mx-auto px-6 reveal">
-          <h2 className="text-4xl md:text-6xl font-serif font-bold text-slate-950 dark:text-white italic mb-12 tracking-tight transition-colors">Begin Your Narrative.</h2>
+          <h2 className="text-4xl md:text-6xl font-serif font-bold text-slate-950 dark:text-white mb-12 tracking-tight transition-colors">Begin Your Narrative.</h2>
           <Link to="/plan" className="inline-block bg-slate-950 dark:bg-white text-white dark:text-slate-950 font-black px-16 py-7 rounded-full hover:bg-sky-500 dark:hover:bg-sky-400 transition-all duration-700 shadow-2xl uppercase tracking-[0.8em] text-[10px]">
             Initiate Planning
           </Link>

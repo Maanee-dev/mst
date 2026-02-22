@@ -90,7 +90,7 @@ const Experiences: React.FC = () => {
         </div>
         <div className="relative z-10 text-center px-6 reveal active">
           <span className="text-[10px] font-bold text-sky-400 mb-8 block tracking-[1em] uppercase">The Perspective</span>
-          <h1 className="text-5xl md:text-4xl lg:text-7xl xl:text-8xl font-serif font-bold text-white tracking-tighter italic leading-none">Curated Living</h1>
+          <h1 className="text-5xl md:text-4xl lg:text-7xl xl:text-8xl font-serif font-bold text-white tracking-tighter leading-none">Curated Living</h1>
           <div className="h-px w-20 bg-amber-400 mx-auto mt-10 mb-10"></div>
           <p className="text-white text-[10px] font-bold max-w-xl mx-auto uppercase tracking-[0.5em] leading-loose opacity-80">
             A registry of movement, silence, and discovery.
@@ -137,10 +137,10 @@ const Experiences: React.FC = () => {
                     </div>
                     <div className="lg:w-2/5">
                        <span className="text-sky-500 font-bold uppercase tracking-[1em] text-[10px] mb-8 block">{spotlightExperience.category}</span>
-                       <h2 className="text-4xl md:text-6xl lg:text-7xl font-serif font-bold text-slate-950 dark:text-white mb-10 leading-[1.1] italic tracking-tight transition-colors">
+                       <h2 className="text-4xl md:text-6xl lg:text-7xl font-serif font-bold text-slate-950 dark:text-white mb-10 leading-[1.1] tracking-tight transition-colors">
                          {spotlightExperience.title}
                        </h2>
-                       <p className="text-slate-500 dark:text-slate-400 text-lg md:text-xl leading-[2] mb-12 font-medium opacity-85 italic transition-colors">
+                       <p className="text-slate-500 dark:text-slate-400 text-lg md:text-xl leading-[2] mb-12 font-medium opacity-85 transition-colors">
                          {spotlightExperience.description}
                        </p>
                        
@@ -189,7 +189,7 @@ const Experiences: React.FC = () => {
                        <div className="flex justify-between items-center mb-4">
                           <span className="text-[8px] font-black text-sky-500 uppercase tracking-widest block mb-4">{exp.category}</span>
                        </div>
-                       <h3 className="text-2xl md:text-3xl font-serif font-bold text-slate-950 dark:text-white mb-6 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors tracking-tight italic leading-tight transition-colors">
+                       <h3 className="text-2xl md:text-3xl font-serif font-bold text-slate-950 dark:text-white mb-6 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors tracking-tight leading-tight transition-colors">
                          {exp.title}
                        </h3>
                        <p className="text-slate-500 dark:text-slate-400 text-[12px] leading-[1.8] mb-10 opacity-80 line-clamp-3 transition-colors">
@@ -214,7 +214,7 @@ const Experiences: React.FC = () => {
           </div>
         ) : (
           <div className="py-40 text-center reveal active">
-             <h3 className="text-3xl font-serif font-bold italic text-slate-900 dark:text-white mb-6 transition-colors">No archives found.</h3>
+             <h3 className="text-3xl font-serif font-bold text-slate-900 dark:text-white mb-6 transition-colors">No archives found.</h3>
              <button onClick={() => setActiveCategory('All')} className="text-sky-500 dark:text-sky-400 font-black uppercase tracking-[0.4em] text-[10px] border-b border-sky-100 dark:border-sky-900 pb-2">Reset Filter</button>
           </div>
         )}
@@ -225,7 +225,7 @@ const Experiences: React.FC = () => {
          <div className="max-w-[1440px] mx-auto px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-12 gap-24 items-center">
             <div className="lg:col-span-5">
                <span className="text-[10px] font-bold text-sky-500 uppercase tracking-[1em] mb-12 block">Private Transit</span>
-               <h3 className="text-5xl md:text-7xl font-serif font-bold text-slate-950 dark:text-white italic mb-12 leading-tight transition-colors">Elevated Arrivals.</h3>
+               <h3 className="text-5xl md:text-7xl font-serif font-bold text-slate-950 dark:text-white mb-12 leading-tight transition-colors">Elevated Arrivals.</h3>
                <p className="text-slate-500 dark:text-slate-400 text-lg leading-[2] mb-16 opacity-90 transition-colors">
                   From chartered seaplanes to luxury yacht transfers and private jet handling at Velana International. We manage the mechanics of your arrival so you can remain in the moment.
                </p>
@@ -244,11 +244,11 @@ const Experiences: React.FC = () => {
       {/* CTA Footer */}
       <section className="py-48 bg-slate-950 text-white relative overflow-hidden text-center">
          <div className="absolute inset-0 opacity-[0.05] flex items-center justify-center pointer-events-none">
-            <h2 className="text-[40vw] font-serif italic whitespace-nowrap">Vision</h2>
+            <h2 className="text-[40vw] font-serif whitespace-nowrap">Vision</h2>
          </div>
          <div className="max-w-4xl mx-auto px-6 relative z-10 reveal">
             <span className="text-[10px] font-bold text-sky-400 uppercase tracking-[1em] mb-12 block">Bespoke Curation</span>
-            <h3 className="text-6xl md:text-9xl font-serif font-bold mb-16 italic tracking-tighter">Your Journey <br /> Starts Here.</h3>
+            <h3 className="text-6xl md:text-9xl font-serif font-bold mb-16 tracking-tighter">Your Journey <br /> Starts Here.</h3>
             <Link to="/plan" className="inline-block bg-white text-slate-950 font-black px-16 py-7 rounded-full hover:bg-sky-500 dark:hover:bg-sky-400 transition-all duration-700 uppercase tracking-[0.5em] text-[10px] shadow-2xl">
                Consult An Expert
             </Link>

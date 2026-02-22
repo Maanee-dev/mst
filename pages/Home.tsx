@@ -169,8 +169,8 @@ const Home: React.FC = () => {
             <div className="mb-16 reveal active">
                <h1 className="sr-only">Maldives Serenity Travels</h1>
                <div className="flex flex-col">
-                <span className="text-4xl sm:text-5xl md:text-4xl lg:text-7xl xl:text-[7rem] font-serif font-bold text-white leading-none tracking-tighter">{heroSlides[heroIndex].title}</span>
-                <span className="text-5xl sm:text-7xl md:text-6xl lg:text-9xl xl:text-[13rem] font-serif font-bold text-white italic leading-[0.8] tracking-tighter opacity-90">{heroSlides[heroIndex].titleAlt}<span className="not-italic text-sky-500">.</span></span>
+                <span className="text-4xl sm:text-5xl md:text-4xl lg:text-7xl xl:text-[7rem] font-serif font-medium text-white leading-none tracking-tighter">{heroSlides[heroIndex].title}</span>
+                <span className="text-5xl sm:text-7xl md:text-6xl lg:text-9xl xl:text-[13rem] font-serif font-medium text-white leading-[0.8] tracking-tighter opacity-90">{heroSlides[heroIndex].titleAlt}<span className="text-sky-500">.</span></span>
                </div>
             </div>
             <form onSubmit={handleSearch} className="w-full max-w-xl reveal active delay-500">
@@ -197,7 +197,7 @@ const Home: React.FC = () => {
                 <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors"></div>
               </div>
               <div className="absolute -bottom-10 -right-4 md:-bottom-16 md:-right-16 bg-parchment dark:bg-slate-900 p-8 md:p-16 rounded-[2.5rem] md:rounded-[4rem] shadow-2xl z-20 max-w-[280px] md:max-w-[380px] border border-slate-50 dark:border-white/5 reveal delay-500">
-                <p className="text-slate-900 dark:text-white font-serif italic text-xl md:text-3xl leading-[1.4]">"Find peace in the beauty of the islands."</p>
+                <p className="text-slate-900 dark:text-white font-serif text-xl md:text-3xl leading-[1.4]">"Find peace in the beauty of the islands."</p>
                 <div className="mt-8 flex items-center gap-4">
                   <div className="w-8 h-px bg-sky-500"></div>
                   <span className="text-[8px] font-bold uppercase tracking-widest text-slate-400">Island Life</span>
@@ -210,13 +210,13 @@ const Home: React.FC = () => {
                 <div className="w-12 h-[1px] bg-sky-500"></div>
                 <span className="text-[10px] font-bold text-sky-500 uppercase tracking-[1.2em]">Our Agency</span>
               </div>
-              <h2 className="text-4xl md:text-7xl lg:text-8xl font-serif font-bold text-slate-950 dark:text-white leading-[0.95] mb-12 tracking-tighter">
+              <h2 className="text-4xl md:text-7xl lg:text-8xl font-serif font-medium text-slate-950 dark:text-white leading-[0.95] mb-12 tracking-tighter">
                 The Best <br /> 
-                <span className="italic text-sky-500 font-normal">Maldives</span> <br /> 
+                <span className="text-sky-500 font-normal">Maldives</span> <br /> 
                 Holidays.
               </h2>
               <div className="max-w-xl">
-                <p className="text-slate-600 dark:text-slate-300 text-lg md:text-2xl leading-[1.7] mb-12 font-medium opacity-90 italic">
+                <p className="text-slate-600 dark:text-slate-300 text-lg md:text-2xl leading-[1.7] mb-12 font-medium opacity-90">
                   We help you plan the perfect escape to one of the most beautiful places on earth.
                 </p>
                 <p className="text-slate-500 dark:text-slate-400 text-base md:text-lg leading-[1.8] mb-12">
@@ -237,8 +237,8 @@ const Home: React.FC = () => {
       {/* VIBE FINDER SECTION */}
       <section className="py-24 md:py-48 bg-parchment dark:bg-slate-900/50">
         <div className="max-w-[1440px] mx-auto px-6 lg:px-20 text-center mb-24 reveal">
-           <span className="text-sky-500 font-black uppercase tracking-[1em] text-[10px] mb-8 block">Dream Trip</span>
-           <h2 className="text-4xl md:text-7xl font-serif font-bold text-slate-950 dark:text-white italic tracking-tighter">Choose Your Vibe.</h2>
+           <span className="text-sky-500 font-bold uppercase tracking-[1em] text-[10px] mb-8 block">Dream Trip</span>
+           <h2 className="text-4xl md:text-7xl font-serif font-medium text-slate-950 dark:text-white tracking-tighter">Choose Your Vibe.</h2>
         </div>
         <div className="max-w-5xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-20 reveal">
           {vibes.map((v) => (
@@ -268,7 +268,7 @@ const Home: React.FC = () => {
           <div className="mb-20 md:mb-32 reveal flex flex-col md:flex-row justify-between items-end gap-10">
             <div className="max-w-xl text-left">
               <span className="text-[10px] font-bold text-slate-500 uppercase tracking-[1.2em] mb-8 block">Our Portfolio</span>
-              <h3 className="text-4xl md:text-8xl font-serif font-bold text-slate-900 dark:text-white tracking-tighter italic leading-none">The Top Resorts.</h3>
+              <h3 className="text-4xl md:text-8xl font-serif font-medium text-slate-900 dark:text-white tracking-tighter leading-none">The Top Resorts.</h3>
               <p className="mt-12 text-slate-400 dark:text-slate-400 text-[10px] uppercase font-bold tracking-[0.4em] leading-loose">
                  We have picked the very best resorts in the Maldives. Every place we offer has great service and total privacy.
               </p>
@@ -284,7 +284,7 @@ const Home: React.FC = () => {
             <div className="flex-shrink-0 w-[85vw] sm:w-[55vw] lg:w-[35vw] snap-start flex items-center justify-center">
               <Link to="/stays" className="group w-full aspect-[4/5] rounded-[3rem] bg-slate-50 dark:bg-slate-900 border-2 border-dashed border-slate-200 dark:border-white/5 flex flex-col items-center justify-center p-12 text-center hover:bg-slate-950 dark:hover:bg-white transition-all duration-1000">
                 <span className="text-[10px] font-bold text-slate-400 group-hover:text-sky-400 uppercase tracking-[1em] mb-8 block">See All</span>
-                <h4 className="text-2xl md:text-4xl font-serif font-bold text-slate-900 dark:text-white dark:group-hover:text-slate-950 group-hover:text-white leading-tight italic">Find your <br /> dream villa.</h4>
+                <h4 className="text-2xl md:text-4xl font-serif font-bold text-slate-900 dark:text-white dark:group-hover:text-slate-950 group-hover:text-white leading-tight">Find your <br /> dream villa.</h4>
               </Link>
             </div>
           </div>
@@ -295,8 +295,8 @@ const Home: React.FC = () => {
       <section className="py-24 md:py-48 bg-parchment dark:bg-slate-900/30">
         <div className="max-w-[1440px] mx-auto px-6 lg:px-20">
           <div className="text-center mb-24 reveal">
-            <span className="text-sky-500 font-black uppercase tracking-[1em] text-[10px] mb-8 block">The Journal</span>
-            <h2 className="text-4xl md:text-7xl font-serif font-bold text-slate-950 dark:text-white italic tracking-tighter">Travel Tips & Stories.</h2>
+            <span className="text-sky-500 font-bold uppercase tracking-[1em] text-[10px] mb-8 block">The Journal</span>
+            <h2 className="text-4xl md:text-7xl font-serif font-medium text-slate-950 dark:text-white tracking-tighter">Travel Tips & Stories.</h2>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-20 mb-24">
@@ -305,7 +305,7 @@ const Home: React.FC = () => {
                 <div className="relative aspect-[3/4] rounded-[2.5rem] overflow-hidden mb-10 shadow-sm transition-all duration-1000 group-hover:shadow-2xl group-hover:-translate-y-2 bg-slate-100 dark:bg-slate-800">
                   <img src={post.image} alt={post.title} className="w-full h-full object-cover transition-transform duration-[4s] group-hover:scale-105" />
                   <div className="absolute top-8 left-8">
-                    <span className="bg-white/95 backdrop-blur-md px-5 py-2 rounded-full text-[9px] font-black text-slate-900 uppercase tracking-[0.4em] shadow-sm">
+                    <span className="bg-white/95 backdrop-blur-md px-5 py-2 rounded-full text-[9px] font-bold text-slate-900 uppercase tracking-[0.4em] shadow-sm">
                       {post.category}
                     </span>
                   </div>
@@ -340,11 +340,11 @@ const Home: React.FC = () => {
       {/* FINAL CTA */}
       <section className="py-24 md:py-48 bg-slate-950 relative overflow-hidden text-center text-white">
         <div className="absolute inset-0 opacity-[0.05] flex items-center justify-center pointer-events-none">
-          <h2 className="text-[35vw] font-serif italic whitespace-nowrap -rotate-12 translate-y-1/2">Serenity</h2>
+          <h2 className="text-[35vw] font-serif whitespace-nowrap -rotate-12 translate-y-1/2">Serenity</h2>
         </div>
         <div className="max-w-4xl mx-auto px-6 relative z-10 reveal">
           <span className="text-[10px] font-bold text-sky-400 uppercase tracking-[1.5em] mb-12 block">Ready for a Holiday?</span>
-          <h3 className="text-5xl md:text-9xl font-serif font-bold mb-16 italic tracking-tighter">Start Your <br /> Journey Now.</h3>
+          <h3 className="text-5xl md:text-9xl font-serif font-medium mb-16 tracking-tighter">Start Your <br /> Journey Now.</h3>
           <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16">
             <Link to="/plan" className="w-full md:w-auto bg-white text-slate-950 font-bold px-16 py-7 rounded-full hover:bg-sky-400 hover:text-white transition-all duration-700 uppercase tracking-[0.5em] text-[11px] shadow-2xl">
               Contact Us

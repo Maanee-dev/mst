@@ -86,8 +86,8 @@ export default function InstagramFeed() {
       <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-16 reveal">
           <div className="max-w-2xl">
-            <span className="text-[11px] font-black text-sky-500 uppercase tracking-[1em] mb-4 block">Social Pulse</span>
-            <h3 className="text-4xl md:text-6xl font-serif font-bold italic text-slate-900 dark:text-white tracking-tighter leading-none transition-colors">
+            <span className="text-[11px] font-bold text-sky-500 uppercase tracking-[1em] mb-4 block">Social Pulse</span>
+            <h3 className="text-4xl md:text-6xl font-serif font-medium text-slate-900 dark:text-white tracking-tighter leading-none transition-colors">
               The Gram.
             </h3>
           </div>
@@ -105,7 +105,7 @@ export default function InstagramFeed() {
                 </button>
                 <button 
                   onClick={handleLogout}
-                  className="flex items-center gap-3 text-[10px] font-black text-slate-400 hover:text-red-500 uppercase tracking-widest transition-colors"
+                  className="flex items-center gap-3 text-[10px] font-bold text-slate-400 hover:text-red-500 uppercase tracking-widest transition-colors"
                 >
                   <LogOut className="w-4 h-4" />
                   Disconnect
@@ -114,7 +114,7 @@ export default function InstagramFeed() {
             ) : (
               <button 
                 onClick={handleConnect}
-                className="flex items-center gap-4 bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] text-white px-8 py-4 rounded-full text-[10px] font-black uppercase tracking-[0.2em] shadow-lg hover:shadow-xl transition-all hover:scale-105"
+                className="flex items-center gap-4 bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] text-white px-8 py-4 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] shadow-lg hover:shadow-xl transition-all hover:scale-105"
               >
                 <Instagram className="w-5 h-5" />
                 Connect Instagram
@@ -128,7 +128,7 @@ export default function InstagramFeed() {
             {error && (
               <div className="p-8 bg-red-50 dark:bg-red-950/20 rounded-[2rem] text-center">
                 <p className="text-red-500 font-bold text-sm uppercase tracking-widest">{error}</p>
-                <button onClick={fetchFeed} className="mt-4 text-[10px] font-black text-slate-900 dark:text-white border-b border-slate-900 dark:border-white pb-1">Try Again</button>
+                <button onClick={fetchFeed} className="mt-4 text-[10px] font-bold text-slate-900 dark:text-white border-b border-slate-900 dark:border-white pb-1">Try Again</button>
               </div>
             )}
 
@@ -158,7 +158,7 @@ export default function InstagramFeed() {
                         {item.caption}
                       </p>
                       <div className="flex items-center justify-between">
-                        <span className="text-white/60 text-[8px] font-black uppercase tracking-widest">
+                        <span className="text-white/60 text-[8px] font-bold uppercase tracking-widest">
                           {new Date(item.timestamp).toLocaleDateString()}
                         </span>
                         <ExternalLink className="w-4 h-4 text-white" />
@@ -171,7 +171,7 @@ export default function InstagramFeed() {
 
             {feed.length === 0 && !loading && !error && (
               <div className="text-center py-20">
-                <p className="text-slate-400 font-serif italic text-xl">No media found in your feed.</p>
+                <p className="text-slate-400 font-serif text-xl">No media found in your feed.</p>
               </div>
             )}
           </>
@@ -179,7 +179,7 @@ export default function InstagramFeed() {
           <div className="relative rounded-[3rem] overflow-hidden bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-white/5 p-12 md:p-24 text-center">
             <div className="max-w-xl mx-auto">
               <Instagram className="w-16 h-16 mx-auto mb-8 text-slate-200 dark:text-slate-800" />
-              <h4 className="text-2xl md:text-3xl font-serif font-bold italic text-slate-900 dark:text-white mb-6">
+              <h4 className="text-2xl md:text-3xl font-serif font-medium text-slate-900 dark:text-white mb-6">
                 Connect your visual story.
               </h4>
               <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mb-10 font-medium">
@@ -187,7 +187,7 @@ export default function InstagramFeed() {
               </p>
               <button 
                 onClick={handleConnect}
-                className="inline-flex items-center gap-4 bg-slate-950 dark:bg-white text-white dark:text-slate-950 px-10 py-5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] hover:scale-105 transition-transform"
+                className="inline-flex items-center gap-4 bg-slate-950 dark:bg-white text-white dark:text-slate-950 px-10 py-5 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] hover:scale-105 transition-transform"
               >
                 Link Account
               </button>
