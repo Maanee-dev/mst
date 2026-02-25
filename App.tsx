@@ -1,11 +1,13 @@
 
 import React from 'react';
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar.tsx';
 import Footer from './components/Footer.tsx';
 import ScrollToTopButton from './components/ScrollToTopButton.tsx';
 import ChatBot from './components/ChatBot.tsx';
 import DarkModeToggle from './components/DarkModeToggle.tsx';
+import LanguageSelector from './components/LanguageSelector.tsx';
+import CookieConsent from './components/CookieConsent.tsx';
 
 // Pages
 import Home from './pages/Home.tsx';
@@ -21,6 +23,7 @@ import BlogPostDetail from './pages/BlogPostDetail.tsx';
 import PlanMyTrip from './pages/PlanMyTrip.tsx';
 import AboutUs from './pages/AboutUs.tsx';
 import Contact from './pages/Contact.tsx';
+import FAQ from './pages/FAQ.tsx';
 import Terms from './pages/Terms.tsx';
 import Privacy from './pages/Privacy.tsx';
 import AdminSync from './pages/AdminSync.tsx';
@@ -52,15 +55,19 @@ const App: React.FC = () => {
         <Route path="/plan" element={<PlanMyTrip />} />
         <Route path="/about" element={<AboutUs />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/faq" element={<FAQ />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/admin/sync" element={<AdminSync />} />
         <Route path="/admin/stories" element={<AdminStories />} />
         <Route path="/admin/faqs" element={<AdminFAQ />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       <ChatBot />
       <ScrollToTopButton />
+      <LanguageSelector />
       <DarkModeToggle />
+      <CookieConsent />
       <Footer />
     </BrowserRouter>
   );

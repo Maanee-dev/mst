@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { GoogleGenAI, FunctionDeclaration, Type } from "@google/genai";
 import { useNavigate } from 'react-router-dom';
 import { supabase, mapResort } from '../lib/supabase';
@@ -20,11 +21,12 @@ interface QuoteDraft {
 }
 
 const ChatBot: React.FC = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [hasKey, setHasKey] = useState<boolean>(!!(process.env.API_KEY && process.env.API_KEY !== 'undefined'));
   const [messages, setMessages] = useState<Message[]>([
-    { role: 'model', text: "I am Sara. Describe your Maldivian dream, and I shall manifest it." }
+    { role: 'model', text: t('chatbot.welcome') }
   ]);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
@@ -178,7 +180,7 @@ const ChatBot: React.FC = () => {
             ) : (
                 <div className="flex items-center gap-3">
                     <span className="max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-500 font-bold text-[10px] uppercase tracking-widest whitespace-nowrap">
-                        Ask Sara
+                        {t('chatbot.askSara')}
                     </span>
                     <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" /></svg>
                 </div>
@@ -192,10 +194,10 @@ const ChatBot: React.FC = () => {
             <div className="w-8 h-8 rounded-full bg-sky-500 flex items-center justify-center text-white font-serif italic font-bold">S</div>
             <div>
               <h3 className="font-serif italic text-sm leading-none">Sara</h3>
-              <p className="text-[7px] uppercase tracking-widest text-sky-400 font-bold">Intelligence Suite</p>
+              <p className="text-[7px] uppercase tracking-widest text-sky-400 font-bold">{t('chatbot.suite')}</p>
             </div>
           </div>
-          <button onClick={() => setMessages([{ role: 'model', text: "Dialogue reset. How may I guide you?" }])} className="text-[7px] font-black uppercase text-slate-500 hover:text-white transition-colors">Reset</button>
+          <button onClick={() => setMessages([{ role: 'model', text: t('chatbot.resetMsg') }])} className="text-[7px] font-black uppercase text-slate-500 hover:text-white transition-colors">{t('chatbot.reset')}</button>
         </div>
 
         <div ref={scrollRef} className="flex-1 p-6 space-y-4 overflow-y-auto max-h-[400px] no-scrollbar bg-[#FCFAF7]/50">
@@ -205,18 +207,18 @@ const ChatBot: React.FC = () => {
                 <svg className="w-8 h-8 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
               </div>
               <div className="space-y-2">
-                <h4 className="text-[11px] font-black uppercase text-slate-900 tracking-widest">Authentication Required</h4>
-                <p className="text-[9px] text-slate-400 uppercase tracking-widest leading-relaxed px-8">To enable Sara's intelligence suite, please select your Gemini API Key.</p>
+                <h4 className="text-[11px] font-black uppercase text-slate-900 tracking-widest">{t('chatbot.authRequired')}</h4>
+                <p className="text-[9px] text-slate-400 uppercase tracking-widest leading-relaxed px-8">{t('chatbot.authDesc')}</p>
               </div>
               <button 
                 onClick={handleSelectKey} 
                 className="bg-sky-500 text-white px-8 py-3 rounded-full text-[9px] font-black uppercase tracking-[0.2em] shadow-lg hover:bg-sky-400 transition-all"
               >
-                Connect Sara
+                {t('chatbot.connectSara')}
               </button>
               <p className="text-[7px] text-slate-300 px-10 leading-relaxed uppercase tracking-widest">
-                A billing-enabled project key is required.<br/>
-                <a href="https://ai.google.dev/gemini-api/docs/billing" target="_blank" rel="noreferrer" className="text-sky-400 underline">Billing Documentation</a>
+                {t('chatbot.billingRequired')}<br/>
+                <a href="https://ai.google.dev/gemini-api/docs/billing" target="_blank" rel="noreferrer" className="text-sky-400 underline">{t('chatbot.billingDoc')}</a>
               </p>
             </div>
           ) : (
@@ -250,7 +252,7 @@ const ChatBot: React.FC = () => {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-              placeholder={hasKey || (process.env.API_KEY && process.env.API_KEY !== 'undefined') ? "Ask about the atolls..." : "Connect Sara to begin"}
+              placeholder={hasKey || (process.env.API_KEY && process.env.API_KEY !== 'undefined') ? t('chatbot.placeholder') : t('chatbot.connectToBegin')}
               className="w-full bg-slate-50 border border-slate-100 rounded-full px-6 py-4 text-[10px] font-bold uppercase tracking-widest focus:outline-none focus:border-sky-500 focus:bg-white transition-all placeholder:text-slate-300 disabled:opacity-50"
             />
             <button
@@ -262,7 +264,7 @@ const ChatBot: React.FC = () => {
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
             </button>
           </div>
-          <p className="text-[6px] text-center text-slate-300 uppercase tracking-widest mt-4">Perspective Intelligence v3.5</p>
+          <p className="text-[6px] text-center text-slate-300 uppercase tracking-widest mt-4">{t('chatbot.version')}</p>
         </div>
       </div>
     </>

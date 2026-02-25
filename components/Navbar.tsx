@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const Navbar: React.FC = () => {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
@@ -28,10 +30,10 @@ const Navbar: React.FC = () => {
   };
 
   const navLinks = [
-    { name: 'Stays', path: '/stays' },
-    { name: 'Offers', path: '/offers' },
-    { name: 'Experiences', path: '/experiences' },
-    { name: 'Stories', path: '/stories' },
+    { name: t('stays'), path: '/stays' },
+    { name: t('offers'), path: '/offers' },
+    { name: t('experiences'), path: '/experiences' },
+    { name: t('stories'), path: '/stories' },
   ];
 
   const isHomePage = location.pathname === '/';
@@ -48,7 +50,7 @@ const Navbar: React.FC = () => {
   return (
     <>
       {/* Header */}
-      <nav className={`fixed w-full z-[300] transition-all duration-1000 ${isNavSolid ? 'glass-nav py-4 border-b border-slate-100/50 dark:border-white/5 shadow-sm' : 'bg-transparent py-8 md:py-12'}`}>
+      <nav className={`fixed w-full z-[300] transition-all duration-1000 ${isNavSolid ? 'glass-nav py-4 border-b border-slate-100/50 dark:border-white/5 shadow-sm' : 'bg-transparent py-8 md:py-10'}`}>
         <div className="max-w-[1440px] mx-auto px-6 md:px-12 flex justify-between items-center relative">
           
           {/* Left: Discover Toggle (Ghost Style - Reactive Color) */}
@@ -66,7 +68,7 @@ const Navbar: React.FC = () => {
                 </div>
               </div>
               <span className={`hidden lg:block text-[9px] font-black uppercase tracking-[0.6em] transition-all duration-700 ${elementColorClass} ${elementShadowClass} ${isOpen ? 'opacity-0 -translate-x-4 pointer-events-none' : 'opacity-100 translate-x-0'}`}>
-                Discover
+                {t('discover')}
               </span>
             </button>
           </div>
@@ -121,7 +123,7 @@ const Navbar: React.FC = () => {
               {/* Desktop: Ghost Text with Arrow */}
               <div className={`hidden md:flex items-center gap-4 transition-all duration-500 hover:scale-105 ${elementShadowClass}`}>
                 <span className={`text-[10px] font-black uppercase tracking-[0.4em] ${elementColorClass}`}>
-                  Plan Trip
+                  {t('planTrip')}
                 </span>
                 <span className={`${elementColorClass} font-serif text-lg leading-none transition-transform group-hover:translate-x-1`}>
                   &rarr;

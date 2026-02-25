@@ -93,7 +93,6 @@ const Experiences: React.FC = () => {
           <h1 className="text-5xl md:text-4xl lg:text-7xl xl:text-8xl font-serif font-bold text-white tracking-tighter leading-none">Curated Living</h1>
           <div className="h-px w-20 bg-amber-400 mx-auto mt-10 mb-10"></div>
           <p className="text-white text-[10px] font-bold max-w-xl mx-auto uppercase tracking-[0.5em] leading-loose opacity-80">
-            A registry of movement, silence, and discovery.
           </p>
         </div>
       </section>

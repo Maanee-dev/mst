@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { supabase, mapResort } from '../lib/supabase';
 import { Accommodation } from '../types';
 import SEO from '../components/SEO';
@@ -8,6 +9,7 @@ import SEO from '../components/SEO';
 const STORAGE_KEY = 'serenity_planning_draft';
 
 const PlanMyTrip: React.FC = () => {
+  const { t } = useTranslation();
   const [step, setStep] = useState(1);
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -148,13 +150,13 @@ const PlanMyTrip: React.FC = () => {
     return (
       <div className="min-h-screen flex items-center justify-center p-6 bg-parchment dark:bg-slate-950 transition-colors duration-700">
         <div className="text-center max-w-2xl reveal active">
-           <span className="text-[10px] font-bold uppercase tracking-[1em] text-sky-500 mb-12 block">Dispatch Received</span>
-           <h2 className="text-6xl md:text-8xl font-serif font-bold text-slate-900 dark:text-white mb-12 leading-none transition-colors">Perspective <br/> Awaits.</h2>
+           <span className="text-[10px] font-bold uppercase tracking-[1em] text-sky-500 mb-12 block">{t('plan.successBadge')}</span>
+           <h2 className="text-6xl md:text-8xl font-serif font-bold text-slate-900 dark:text-white mb-12 leading-none transition-colors">{t('plan.successTitle')}</h2>
            <div className="h-px w-24 bg-amber-400 mx-auto mb-16"></div>
            <p className="text-slate-500 dark:text-slate-400 uppercase tracking-[0.4em] text-[10px] leading-[2.5] mb-16 font-medium max-w-md mx-auto transition-colors">
-             Our specialists are curating your custom Maldivian portfolio. Expect a digital dispatch in your inbox within 24 hours.
+             {t('plan.successDesc')}
            </p>
-           <Link to="/" className="text-[10px] font-bold uppercase tracking-[0.8em] text-slate-950 dark:text-white border-b border-slate-950 dark:border-white pb-3 hover:text-sky-500 hover:border-sky-500 transition-all duration-700">Return Home</Link>
+           <Link to="/" className="text-[10px] font-bold uppercase tracking-[0.8em] text-slate-950 dark:text-white border-b border-slate-950 dark:border-white pb-3 hover:text-sky-500 hover:border-sky-500 transition-all duration-700">{t('plan.returnHome')}</Link>
         </div>
       </div>
     );
@@ -163,8 +165,8 @@ const PlanMyTrip: React.FC = () => {
   return (
     <div className="bg-parchment dark:bg-slate-950 min-h-screen pt-40 pb-32 px-6 transition-colors duration-700">
       <SEO 
-        title="Bespoke Holiday Planning | Custom Maldives Itineraries" 
-        description="Initiate your bespoke planning journey. Our specialists curate custom Maldivian portfolios, handling seaplane transfers, resort selections, and private island itineraries tailored to your vision."
+        title={t('seo.planTitle', 'Bespoke Holiday Planning | Custom Maldives Itineraries')} 
+        description={t('seo.planDesc', 'Initiate your bespoke planning journey. Our specialists curate custom Maldivian portfolios, handling seaplane transfers, resort selections, and private island itineraries tailored to your vision.')}
         keywords={[
           'custom Maldives trip', 'bespoke holiday planning', 'Maldives travel specialist', 
           'tailor made Maldives', 'honeymoon planning Maldives', 'Maldives luxury concierge', 
@@ -177,7 +179,7 @@ const PlanMyTrip: React.FC = () => {
         
         {/* Step Indicator */}
         <div className="text-center mb-16">
-          <span className="text-[11px] font-bold text-slate-400 dark:text-slate-600 uppercase tracking-[0.6em] block mb-4 transition-colors">REQUEST HOLIDAY QUOTES</span>
+          <span className="text-[11px] font-bold text-slate-400 dark:text-slate-600 uppercase tracking-[0.6em] block mb-4 transition-colors">{t('plan.badge')}</span>
           <div className="flex justify-center items-center gap-2">
             {[1, 2, 3, 4, 5].map(i => (
               <React.Fragment key={i}>
@@ -195,16 +197,16 @@ const PlanMyTrip: React.FC = () => {
             <div className="space-y-16 animate-in fade-in slide-in-from-bottom-6 duration-700">
               <div className="text-center">
                 <div className="w-12 h-12 rounded-full bg-slate-950 dark:bg-white text-white dark:text-slate-950 flex items-center justify-center font-bold mx-auto mb-8 text-sm transition-colors">1</div>
-                <h3 className="text-3xl md:text-5xl font-serif font-bold text-slate-900 dark:text-white leading-tight transition-colors">Why are you coming to the Maldives?</h3>
+                <h3 className="text-3xl md:text-5xl font-serif font-bold text-slate-900 dark:text-white leading-tight transition-colors">{t('plan.q1')}</h3>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto">
                 {[
-                  { label: 'Honeymoon', key: 'A' },
-                  { label: 'Wedding Anniversary', key: 'B' },
-                  { label: 'Couples Holiday', key: 'C' },
-                  { label: 'Family Holiday', key: 'D' },
-                  { label: 'Solo Travel', key: 'E' },
-                  { label: 'Group Holiday', key: 'F' }
+                  { label: t('plan.purposes.honeymoon'), key: 'A' },
+                  { label: t('plan.purposes.anniversary'), key: 'B' },
+                  { label: t('plan.purposes.couples'), key: 'C' },
+                  { label: t('plan.purposes.family'), key: 'D' },
+                  { label: t('plan.purposes.solo'), key: 'E' },
+                  { label: t('plan.purposes.group'), key: 'F' }
                 ].map((opt) => (
                   <button
                     key={opt.label}
@@ -223,27 +225,34 @@ const PlanMyTrip: React.FC = () => {
           {step === 2 && (
             <div className="space-y-16 animate-in fade-in slide-in-from-bottom-6 duration-700">
               <div className="text-center">
-                <span className="text-[10px] font-bold text-sky-500 uppercase tracking-[1em] mb-6 block">EXPERIENCES</span>
-                <h3 className="text-3xl md:text-5xl font-serif font-bold text-slate-900 dark:text-white leading-tight transition-colors">What experiences are you most looking forward to?</h3>
-                <p className="text-slate-400 dark:text-slate-500 text-[10px] uppercase tracking-[0.4em] mt-8 max-w-md mx-auto transition-colors">Please choose up to three experiences or skip by clicking "No Preferences".</p>
+                <span className="text-[10px] font-bold text-sky-500 uppercase tracking-[1em] mb-6 block">{t('experiences')}</span>
+                <h3 className="text-3xl md:text-5xl font-serif font-bold text-slate-900 dark:text-white leading-tight transition-colors">{t('plan.q2')}</h3>
+                <p className="text-slate-400 dark:text-slate-500 text-[10px] uppercase tracking-[0.4em] mt-8 max-w-md mx-auto transition-colors">{t('plan.q2Desc')}</p>
               </div>
               <div className="grid grid-cols-2 lg:grid-cols-3 gap-6 max-w-3xl mx-auto">
-                {['Snorkelling', 'Scuba Diving', 'Surfing', 'Spa', 'Food', 'History & Culture'].map((exp) => (
+                {[
+                  { label: t('plan.experiences.snorkelling'), key: 'Snorkelling' },
+                  { label: t('plan.experiences.diving'), key: 'Scuba Diving' },
+                  { label: t('plan.experiences.surfing'), key: 'Surfing' },
+                  { label: t('plan.experiences.spa'), key: 'Spa' },
+                  { label: t('plan.experiences.food'), key: 'Food' },
+                  { label: t('plan.experiences.culture'), key: 'History & Culture' }
+                ].map((exp) => (
                   <button
-                    key={exp}
-                    onClick={() => toggleExperience(exp)}
-                    className={`p-10 rounded-[3rem] border transition-all duration-700 flex flex-col items-center justify-center gap-4 text-center ${selectedExperiences.includes(exp) ? 'border-slate-950 dark:border-white bg-slate-950 dark:bg-white text-white dark:text-slate-950 shadow-2xl scale-[1.05]' : 'border-slate-50 dark:border-white/5 bg-slate-50/50 dark:bg-slate-800/50 hover:border-sky-200 dark:hover:border-sky-500 text-slate-900 dark:text-white'}`}
+                    key={exp.key}
+                    onClick={() => toggleExperience(exp.key)}
+                    className={`p-10 rounded-[3rem] border transition-all duration-700 flex flex-col items-center justify-center gap-4 text-center ${selectedExperiences.includes(exp.key) ? 'border-slate-950 dark:border-white bg-slate-950 dark:bg-white text-white dark:text-slate-950 shadow-2xl scale-[1.05]' : 'border-slate-50 dark:border-white/5 bg-slate-50/50 dark:bg-slate-800/50 hover:border-sky-200 dark:hover:border-sky-500 text-slate-900 dark:text-white'}`}
                   >
-                    <span className="text-[10px] font-bold uppercase tracking-[0.3em]">{exp}</span>
-                    {selectedExperiences.includes(exp) && <div className="w-2 h-2 rounded-full bg-sky-400 shadow-[0_0_10px_rgba(56,189,248,0.5)]" />}
+                    <span className="text-[10px] font-bold uppercase tracking-[0.3em]">{exp.label}</span>
+                    {selectedExperiences.includes(exp.key) && <div className="w-2 h-2 rounded-full bg-sky-400 shadow-[0_0_10px_rgba(56,189,248,0.5)]" />}
                   </button>
                 ))}
               </div>
               <div className="flex flex-col items-center gap-8 pt-8">
                 <button onClick={nextStep} className="bg-slate-950 dark:bg-white text-white dark:text-slate-950 font-bold px-16 py-7 rounded-full text-[11px] uppercase tracking-[0.5em] hover:bg-sky-500 dark:hover:bg-sky-400 transition-all shadow-2xl">
-                  {selectedExperiences.length > 0 ? `Continue (${selectedExperiences.length}/3)` : 'No Preferences'}
+                  {selectedExperiences.length > 0 ? `${t('plan.next')} (${selectedExperiences.length}/3)` : t('plan.noPreferences')}
                 </button>
-                <button onClick={prevStep} className="text-slate-300 dark:text-slate-700 font-bold uppercase tracking-widest text-[9px] hover:text-slate-950 dark:hover:text-white transition-colors">← Back</button>
+                <button onClick={prevStep} className="text-slate-300 dark:text-slate-700 font-bold uppercase tracking-widest text-[9px] hover:text-slate-950 dark:hover:text-white transition-colors">← {t('plan.back')}</button>
               </div>
             </div>
           )}
@@ -253,15 +262,15 @@ const PlanMyTrip: React.FC = () => {
             <div className="space-y-16 animate-in fade-in slide-in-from-bottom-6 duration-700">
               <div className="text-center">
                 <span className="text-[10px] font-bold text-sky-500 uppercase tracking-[1em] mb-6 block">ISLANDS</span>
-                <h3 className="text-3xl md:text-5xl font-serif font-bold text-slate-900 dark:text-white transition-colors">What do you prefer?</h3>
-                <p className="text-slate-400 dark:text-slate-500 text-[10px] uppercase tracking-[0.4em] mt-8 transition-colors">Choose your preferences for the perfect sanctuary.</p>
+                <h3 className="text-3xl md:text-5xl font-serif font-bold text-slate-900 dark:text-white transition-colors">{t('plan.q3')}</h3>
+                <p className="text-slate-400 dark:text-slate-500 text-[10px] uppercase tracking-[0.4em] mt-8 transition-colors">{t('plan.q3Desc')}</p>
               </div>
               <div className="space-y-12 max-w-2xl mx-auto">
                 {[
-                  { key: 'islandSize', opt1: 'Small Island', opt2: 'Large Island', letter: 'A' },
-                  { key: 'priceLevel', opt1: 'Luxury Resort', opt2: 'Affordable Resort', letter: 'B' },
-                  { key: 'villaType', opt1: 'Beach Villa', opt2: 'Water Villa', letter: 'C' },
-                  { key: 'pool', opt1: 'A Villa with a Pool', opt2: 'No Pool', letter: 'D' }
+                  { key: 'islandSize', opt1: t('plan.preferences.smallIsland'), opt2: t('plan.preferences.largeIsland'), letter: 'A' },
+                  { key: 'priceLevel', opt1: t('plan.preferences.luxuryResort'), opt2: t('plan.preferences.affordableResort'), letter: 'B' },
+                  { key: 'villaType', opt1: t('plan.preferences.beachVilla'), opt2: t('plan.preferences.waterVilla'), letter: 'C' },
+                  { key: 'pool', opt1: t('plan.preferences.pool'), opt2: t('plan.preferences.noPool'), letter: 'D' }
                 ].map((row) => (
                   <div key={row.key} className="flex flex-col gap-6">
                     <div className="flex items-center gap-4">
@@ -286,8 +295,8 @@ const PlanMyTrip: React.FC = () => {
                 ))}
               </div>
               <div className="flex flex-col items-center gap-8 pt-8">
-                <button onClick={nextStep} className="bg-slate-950 dark:bg-white text-white dark:text-slate-950 font-bold px-16 py-7 rounded-full text-[11px] uppercase tracking-[0.5em] hover:bg-sky-500 dark:hover:bg-sky-400 transition-all shadow-2xl">Continue</button>
-                <button onClick={prevStep} className="text-slate-300 dark:text-slate-700 font-bold uppercase tracking-widest text-[9px] hover:text-slate-950 dark:hover:text-white transition-colors">← Back</button>
+                <button onClick={nextStep} className="bg-slate-950 dark:bg-white text-white dark:text-slate-950 font-bold px-16 py-7 rounded-full text-[11px] uppercase tracking-[0.5em] hover:bg-sky-500 dark:hover:bg-sky-400 transition-all shadow-2xl">{t('plan.next')}</button>
+                <button onClick={prevStep} className="text-slate-300 dark:text-slate-700 font-bold uppercase tracking-widest text-[9px] hover:text-slate-950 dark:hover:text-white transition-colors">← {t('plan.back')}</button>
               </div>
             </div>
           )}
@@ -296,9 +305,9 @@ const PlanMyTrip: React.FC = () => {
           {step === 4 && (
             <div className="space-y-16 animate-in fade-in slide-in-from-bottom-6 duration-700">
               <div className="text-center">
-                <span className="text-[10px] font-bold text-sky-500 uppercase tracking-[1em] mb-6 block">PORTFOLIO</span>
-                <h3 className="text-3xl md:text-5xl font-serif font-bold text-slate-900 dark:text-white transition-colors">Preferred Resorts</h3>
-                <p className="text-slate-400 dark:text-slate-500 text-[10px] uppercase tracking-[0.4em] mt-8 transition-colors">Search and pick between 3 resorts to refine our recommendations.</p>
+                <span className="text-[10px] font-bold text-sky-500 uppercase tracking-[1em] mb-6 block">{t('footer.nav.portfolio')}</span>
+                <h3 className="text-3xl md:text-5xl font-serif font-bold text-slate-900 dark:text-white transition-colors">{t('plan.q4')}</h3>
+                <p className="text-slate-400 dark:text-slate-500 text-[10px] uppercase tracking-[0.4em] mt-8 transition-colors">{t('plan.q4Desc')}</p>
               </div>
 
               <div className="max-w-xl mx-auto space-y-12">
@@ -307,7 +316,7 @@ const PlanMyTrip: React.FC = () => {
                     type="text"
                     value={resortSearch}
                     onChange={(e) => setResortSearch(e.target.value)}
-                    placeholder="SEARCH PROPERTY NAME..."
+                    placeholder={t('plan.searchPlaceholder')}
                     className="w-full bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-white/10 rounded-[2rem] px-10 py-6 text-[11px] font-bold uppercase tracking-[0.4em] outline-none focus:bg-white dark:focus:bg-slate-800 focus:border-sky-300 transition-all shadow-sm placeholder:text-slate-200 dark:placeholder:text-slate-700 dark:text-white"
                   />
                   {filteredResortList.length > 0 && (
@@ -350,14 +359,14 @@ const PlanMyTrip: React.FC = () => {
                      )
                    })}
                    {selectedResorts.length === 0 && (
-                     <p className="text-center text-slate-300 dark:text-slate-700 text-[10px] font-bold uppercase tracking-[0.4em] py-12 border-2 border-dashed border-slate-100 dark:border-white/5 rounded-[2.5rem] transition-colors">No resorts selected yet</p>
+                     <p className="text-center text-slate-300 dark:text-slate-700 text-[10px] font-bold uppercase tracking-[0.4em] py-12 border-2 border-dashed border-slate-100 dark:border-white/5 rounded-[2.5rem] transition-colors">{t('plan.noResorts')}</p>
                    )}
                 </div>
               </div>
 
               <div className="flex flex-col items-center gap-8 pt-12">
-                <button onClick={nextStep} className="bg-slate-950 dark:bg-white text-white dark:text-slate-950 font-bold px-16 py-7 rounded-full text-[11px] uppercase tracking-[0.5em] hover:bg-sky-500 dark:hover:bg-sky-400 transition-all shadow-2xl">Continue to Final Step</button>
-                <button onClick={prevStep} className="text-slate-300 dark:text-slate-700 font-bold uppercase tracking-widest text-[9px] hover:text-slate-950 dark:hover:text-white transition-colors">← Back</button>
+                <button onClick={nextStep} className="bg-slate-950 dark:bg-white text-white dark:text-slate-950 font-bold px-16 py-7 rounded-full text-[11px] uppercase tracking-[0.5em] hover:bg-sky-500 dark:hover:bg-sky-400 transition-all shadow-2xl">{t('plan.next')}</button>
+                <button onClick={prevStep} className="text-slate-300 dark:text-slate-700 font-bold uppercase tracking-widest text-[9px] hover:text-slate-950 dark:hover:text-white transition-colors">← {t('plan.back')}</button>
               </div>
             </div>
           )}
@@ -367,7 +376,7 @@ const PlanMyTrip: React.FC = () => {
             <div className="space-y-16 animate-in fade-in slide-in-from-bottom-6 duration-700">
               <div className="text-center">
                 <span className="text-[10px] font-bold text-sky-500 uppercase tracking-[1em] mb-6 block">LOGISTICS</span>
-                <h3 className="text-3xl md:text-5xl font-serif font-bold text-slate-900 dark:text-white tracking-tighter transition-colors">Almost there!</h3>
+                <h3 className="text-3xl md:text-5xl font-serif font-bold text-slate-900 dark:text-white tracking-tighter transition-colors">{t('plan.q5')}</h3>
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-10 max-w-4xl mx-auto">
@@ -375,15 +384,15 @@ const PlanMyTrip: React.FC = () => {
                   <div className="space-y-4">
                     <div className="flex items-center gap-4">
                       <span className="w-6 h-6 bg-slate-950 dark:bg-white text-white dark:text-slate-950 text-[9px] font-bold flex items-center justify-center rounded-lg transition-colors">A</span>
-                      <label className="text-[9px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-600">Full Name</label>
+                      <label className="text-[9px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-600">{t('plan.fullName')}</label>
                     </div>
-                    <input type="text" required value={finalDetails.fullName} onChange={e => setFinalDetails(prev => ({...prev, fullName: e.target.value}))} className="w-full bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-white/10 rounded-2xl px-8 py-5 text-[12px] font-bold uppercase tracking-widest focus:bg-white dark:focus:bg-slate-800 outline-none focus:border-sky-300 transition-all dark:text-white" placeholder="IDENTITY" />
+                    <input type="text" required value={finalDetails.fullName} onChange={e => setFinalDetails(prev => ({...prev, fullName: e.target.value}))} className="w-full bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-white/10 rounded-2xl px-8 py-5 text-[12px] font-bold uppercase tracking-widest focus:bg-white dark:focus:bg-slate-800 outline-none focus:border-sky-300 transition-all dark:text-white" placeholder={t('plan.fullNamePlaceholder')} />
                   </div>
                   
                   <div className="space-y-4">
                     <div className="flex items-center gap-4">
                       <span className="w-6 h-6 bg-slate-950 dark:bg-white text-white dark:text-slate-950 text-[9px] font-bold flex items-center justify-center rounded-lg transition-colors">B</span>
-                      <label className="text-[9px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-600">Contact Number</label>
+                      <label className="text-[9px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-600">{t('plan.phone')}</label>
                     </div>
                     <input type="tel" required value={finalDetails.phone} onChange={e => setFinalDetails(prev => ({...prev, phone: e.target.value}))} className="w-full bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-white/10 rounded-2xl px-8 py-5 text-[12px] font-bold uppercase tracking-widest focus:bg-white dark:focus:bg-slate-800 outline-none focus:border-sky-300 transition-all dark:text-white" placeholder="07700 900000" />
                   </div>
@@ -391,23 +400,23 @@ const PlanMyTrip: React.FC = () => {
                   <div className="space-y-4">
                     <div className="flex items-center gap-4">
                       <span className="w-6 h-6 bg-slate-950 dark:bg-white text-white dark:text-slate-950 text-[9px] font-bold flex items-center justify-center rounded-lg transition-colors">C</span>
-                      <label className="text-[9px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-600">Email Address</label>
+                      <label className="text-[9px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-600">{t('plan.email')}</label>
                     </div>
-                    <input type="email" required value={finalDetails.email} onChange={e => setFinalDetails(prev => ({...prev, email: e.target.value}))} className="w-full bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-white/10 rounded-2xl px-8 py-5 text-[12px] font-bold uppercase tracking-widest focus:bg-white dark:focus:bg-slate-800 outline-none focus:border-sky-300 transition-all dark:text-white" placeholder="DIGITAL SIGNATURE" />
+                    <input type="email" required value={finalDetails.email} onChange={e => setFinalDetails(prev => ({...prev, email: e.target.value}))} className="w-full bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-white/10 rounded-2xl px-8 py-5 text-[12px] font-bold uppercase tracking-widest focus:bg-white dark:focus:bg-slate-800 outline-none focus:border-sky-300 transition-all dark:text-white" placeholder={t('plan.emailPlaceholder')} />
                   </div>
 
                   <div className="space-y-4">
                     <div className="flex items-center gap-4">
                       <span className="w-6 h-6 bg-slate-950 dark:bg-white text-white dark:text-slate-950 text-[9px] font-bold flex items-center justify-center rounded-lg transition-colors">D</span>
-                      <label className="text-[9px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-600">Travel Dates</label>
+                      <label className="text-[9px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-600">{t('plan.dates')}</label>
                     </div>
-                    <input type="text" value={finalDetails.dates} onChange={e => setFinalDetails(prev => ({...prev, dates: e.target.value}))} className="w-full bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-white/10 rounded-2xl px-8 py-5 text-[12px] font-bold uppercase tracking-widest focus:bg-white dark:focus:bg-slate-800 outline-none focus:border-sky-300 transition-all dark:text-white" placeholder="E.G. OCTOBER 2024" />
+                    <input type="text" value={finalDetails.dates} onChange={e => setFinalDetails(prev => ({...prev, dates: e.target.value}))} className="w-full bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-white/10 rounded-2xl px-8 py-5 text-[12px] font-bold uppercase tracking-widest focus:bg-white dark:focus:bg-slate-800 outline-none focus:border-sky-300 transition-all dark:text-white" placeholder={t('plan.datesPlaceholder')} />
                   </div>
 
                   <div className="space-y-4">
                     <div className="flex items-center gap-4">
                       <span className="w-6 h-6 bg-slate-950 dark:bg-white text-white dark:text-slate-950 text-[9px] font-bold flex items-center justify-center rounded-lg transition-colors">E</span>
-                      <label className="text-[9px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-600">Number of Guests</label>
+                      <label className="text-[9px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-600">{t('plan.guests')}</label>
                     </div>
                     <input type="number" min="1" value={finalDetails.guests} onChange={e => setFinalDetails(prev => ({...prev, guests: e.target.value}))} className="w-full bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-white/10 rounded-2xl px-8 py-5 text-[12px] font-bold uppercase tracking-widest focus:bg-white dark:focus:bg-slate-800 outline-none focus:border-sky-300 transition-all dark:text-white" />
                   </div>
@@ -415,22 +424,22 @@ const PlanMyTrip: React.FC = () => {
                   <div className="space-y-4">
                     <div className="flex items-center gap-4">
                       <span className="w-6 h-6 bg-slate-950 dark:bg-white text-white dark:text-slate-950 text-[9px] font-bold flex items-center justify-center rounded-lg transition-colors">F</span>
-                      <label className="text-[9px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-600">Meal Plan</label>
+                      <label className="text-[9px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-600">{t('plan.mealPlan')}</label>
                     </div>
                     <select value={finalDetails.mealPlan} onChange={e => setFinalDetails(prev => ({...prev, mealPlan: e.target.value}))} className="w-full bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-white/10 rounded-2xl px-8 py-5 text-[12px] font-bold uppercase tracking-widest focus:bg-white dark:focus:bg-slate-800 outline-none focus:border-sky-300 transition-all appearance-none dark:text-white">
-                      <option className="dark:bg-slate-900">BED & BREAKFAST</option>
-                      <option className="dark:bg-slate-900">HALF BOARD</option>
-                      <option className="dark:bg-slate-900">FULL BOARD</option>
-                      <option className="dark:bg-slate-900">ALL INCLUSIVE</option>
+                      <option className="dark:bg-slate-900" value="BED & BREAKFAST">{t('plan.mealPlans.bb')}</option>
+                      <option className="dark:bg-slate-900" value="HALF BOARD">{t('plan.mealPlans.hb')}</option>
+                      <option className="dark:bg-slate-900" value="FULL BOARD">{t('plan.mealPlans.fb')}</option>
+                      <option className="dark:bg-slate-900" value="ALL INCLUSIVE">{t('plan.mealPlans.ai')}</option>
                     </select>
                   </div>
                 </div>
 
                 <div className="pt-12 flex flex-col items-center gap-8">
                   <button type="submit" disabled={isSubmitting} className="w-full bg-slate-950 dark:bg-white text-white dark:text-slate-950 font-bold py-7 rounded-full text-[11px] uppercase tracking-[0.8em] hover:bg-sky-500 dark:hover:bg-sky-400 transition-all duration-700 shadow-2xl disabled:opacity-50">
-                    {isSubmitting ? 'DISPATCHING...' : 'Submit Inquiry'}
+                    {isSubmitting ? t('plan.submitting') : t('plan.submit')}
                   </button>
-                  <button type="button" onClick={prevStep} className="text-slate-300 dark:text-slate-700 font-bold uppercase tracking-widest text-[9px] hover:text-slate-950 dark:hover:text-white transition-colors">← Back</button>
+                  <button type="button" onClick={prevStep} className="text-slate-300 dark:text-slate-700 font-bold uppercase tracking-widest text-[9px] hover:text-slate-950 dark:hover:text-white transition-colors">← {t('plan.back')}</button>
                 </div>
               </form>
             </div>

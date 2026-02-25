@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState, useMemo } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, Navigate } from 'react-router-dom';
 import { supabase, mapOffer } from '../lib/supabase';
 import { RESORTS, OFFERS, EXPERIENCES } from '../constants';
 import { Accommodation, AccommodationType, TransferType, MealPlan, Offer, Experience } from '../types';
@@ -332,12 +332,7 @@ const ResortDetail: React.FC = () => {
     </div>
   );
 
-  if (!resort) return (
-    <div className="min-h-screen bg-parchment dark:bg-slate-950 flex flex-col items-center justify-center px-6 text-center">
-      <h2 className="text-3xl font-serif font-bold mb-6 text-slate-900 dark:text-white tracking-tighter">Sanctuary not found.</h2>
-      <Link to="/stays" className="text-sky-600 font-black uppercase tracking-[0.5em] text-[11px] underline underline-offset-8">Return to Portfolio</Link>
-    </div>
-  );
+  if (!resort) return <Navigate to="/" replace />;
 
   return (
     <div className="bg-parchment dark:bg-slate-950 min-h-screen selection:bg-sky-100 selection:text-sky-900 pb-20 overflow-x-hidden transition-colors duration-700">
@@ -696,7 +691,7 @@ const ResortDetail: React.FC = () => {
       {/* Inquiry Form Section */}
       <section id="inquiry-form" className="py-20 md:py-32 lg:py-48 bg-slate-950 text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-[0.03] pointer-events-none flex items-center justify-center">
-          <h2 className="text-[40vw] font-serif whitespace-nowrap -rotate-12 select-none">Atoll</h2>
+          <h2 className="text-[40vw] font-serif whitespace-nowrap -rotate-12 select-none"></h2>
         </div>
         <div className="max-w-[1440px] mx-auto px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-2 gap-16 md:gap-24 items-start relative z-10">
            <div className="reveal text-center lg:text-left">

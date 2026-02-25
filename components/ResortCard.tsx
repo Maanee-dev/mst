@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Accommodation } from '../types';
 
 interface ResortCardProps {
@@ -8,6 +9,7 @@ interface ResortCardProps {
 }
 
 const ResortCard: React.FC<ResortCardProps> = ({ resort, hasOffer }) => {
+  const { t } = useTranslation();
   const displayImage = resort.images && resort.images.length > 0 
     ? resort.images[0] 
     : 'https://images.unsplash.com/photo-1544550581-5f7ceaf7f992?auto=format&fit=crop&q=80&w=1200';
@@ -29,7 +31,7 @@ const ResortCard: React.FC<ResortCardProps> = ({ resort, hasOffer }) => {
           </span>
           {hasOffer && (
             <span className="bg-amber-400 dark:bg-amber-500 text-white px-5 py-2 rounded-full text-[9px] font-black uppercase tracking-[0.3em] shadow-lg animate-pulse w-fit">
-              Bespoke Offer
+              {t('bespokeOffer')}
             </span>
           )}
         </div>
@@ -56,7 +58,7 @@ const ResortCard: React.FC<ResortCardProps> = ({ resort, hasOffer }) => {
         </div>
         
         <p className="text-slate-400 dark:text-slate-500 text-[9px] font-black uppercase tracking-[0.4em] mb-6 line-clamp-1">
-          {(resort.features && resort.features.length > 0) ? resort.features.join(' • ') : 'Bespoke Sanctuary • Private Island'}
+          {(resort.features && resort.features.length > 0) ? resort.features.join(' • ') : t('defaultFeatures')}
         </p>
         
         <div className="h-px w-12 bg-slate-200 dark:bg-white/10 group-hover:w-full group-hover:bg-sky-500 transition-all duration-1000"></div>

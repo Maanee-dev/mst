@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, Navigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { BlogPost } from '../types';
 import { BLOG_POSTS } from '../constants';
@@ -49,12 +49,7 @@ const BlogPostDetail: React.FC = () => {
     </div>
   );
 
-  if (!post) return (
-    <div className="p-40 text-center bg-[#FCFAF7] dark:bg-slate-950 min-h-screen">
-      <h1 className="text-4xl font-serif mb-8 dark:text-slate-100">Dispatch missing.</h1>
-      <Link to="/stories" className="text-sky-500 font-bold uppercase tracking-widest text-[10px] border-b border-sky-100 dark:border-sky-900">Return to Archives</Link>
-    </div>
-  );
+  if (!post) return <Navigate to="/" replace />;
 
   return (
     <article className="bg-white dark:bg-slate-950 min-h-screen selection:bg-sky-100 dark:selection:bg-sky-900/30">

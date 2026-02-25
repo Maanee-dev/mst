@@ -84,7 +84,6 @@ const Stories: React.FC = () => {
           <h1 className="text-6xl md:text-5xl lg:text-8xl xl:text-9xl font-serif font-bold text-white tracking-tighter leading-none">Perspective</h1>
           <div className="h-px w-24 bg-amber-400 mx-auto mt-12 mb-12"></div>
           <p className="text-white text-[11px] font-bold max-w-xl mx-auto uppercase tracking-[0.5em] leading-[2.5] opacity-90">
-             Editorial dispatches from the heart of the archipelago.
           </p>
         </div>
       </section>

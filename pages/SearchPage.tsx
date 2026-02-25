@@ -110,7 +110,7 @@ const SearchPage: React.FC = () => {
       <section className="relative h-[40vh] md:h-[50vh] flex items-center justify-center overflow-hidden bg-slate-900">
         <div className="absolute inset-0 z-0">
           <img 
-            src="https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&q=90&w=1920" 
+            src="https://maldives-serenitytravels.com/images/Screenshot 2026-02-23 at 00.34.41.png" 
             className="w-full h-full object-cover opacity-40 scale-105" 
             alt="Maldives Search"
           />

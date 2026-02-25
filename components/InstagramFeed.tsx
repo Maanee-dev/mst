@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Instagram, LogOut, RefreshCw, ExternalLink } from 'lucide-react';
 
 interface InstagramMedia {
@@ -12,6 +13,7 @@ interface InstagramMedia {
 }
 
 export default function InstagramFeed() {
+  const { t } = useTranslation();
   const [isConnected, setIsConnected] = useState<boolean | null>(null);
   const [feed, setFeed] = useState<InstagramMedia[]>([]);
   const [loading, setLoading] = useState(false);
@@ -86,9 +88,9 @@ export default function InstagramFeed() {
       <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-16 reveal">
           <div className="max-w-2xl">
-            <span className="text-[11px] font-bold text-sky-500 uppercase tracking-[1em] mb-4 block">Social Pulse</span>
+            <span className="text-[11px] font-bold text-sky-500 uppercase tracking-[1em] mb-4 block">{t('instagram.badge')}</span>
             <h3 className="text-4xl md:text-6xl font-serif font-medium text-slate-900 dark:text-white tracking-tighter leading-none transition-colors">
-              The Gram.
+              {t('instagram.title')}
             </h3>
           </div>
           
@@ -99,7 +101,7 @@ export default function InstagramFeed() {
                   onClick={fetchFeed}
                   disabled={loading}
                   className="p-3 rounded-full border border-slate-100 dark:border-white/10 text-slate-400 hover:text-sky-500 transition-colors"
-                  title="Refresh Feed"
+                  title={t('instagram.tryAgain')}
                 >
                   <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
                 </button>
@@ -108,7 +110,7 @@ export default function InstagramFeed() {
                   className="flex items-center gap-3 text-[10px] font-bold text-slate-400 hover:text-red-500 uppercase tracking-widest transition-colors"
                 >
                   <LogOut className="w-4 h-4" />
-                  Disconnect
+                  {t('instagram.disconnect')}
                 </button>
               </div>
             ) : (
@@ -117,7 +119,7 @@ export default function InstagramFeed() {
                 className="flex items-center gap-4 bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] text-white px-8 py-4 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] shadow-lg hover:shadow-xl transition-all hover:scale-105"
               >
                 <Instagram className="w-5 h-5" />
-                Connect Instagram
+                {t('instagram.connect')}
               </button>
             )}
           </div>
@@ -128,7 +130,7 @@ export default function InstagramFeed() {
             {error && (
               <div className="p-8 bg-red-50 dark:bg-red-950/20 rounded-[2rem] text-center">
                 <p className="text-red-500 font-bold text-sm uppercase tracking-widest">{error}</p>
-                <button onClick={fetchFeed} className="mt-4 text-[10px] font-bold text-slate-900 dark:text-white border-b border-slate-900 dark:border-white pb-1">Try Again</button>
+                <button onClick={fetchFeed} className="mt-4 text-[10px] font-bold text-slate-900 dark:text-white border-b border-slate-900 dark:border-white pb-1">{t('instagram.tryAgain')}</button>
               </div>
             )}
 
@@ -171,7 +173,7 @@ export default function InstagramFeed() {
 
             {feed.length === 0 && !loading && !error && (
               <div className="text-center py-20">
-                <p className="text-slate-400 font-serif text-xl">No media found in your feed.</p>
+                <p className="text-slate-400 font-serif text-xl">{t('instagram.noMedia')}</p>
               </div>
             )}
           </>
@@ -180,16 +182,16 @@ export default function InstagramFeed() {
             <div className="max-w-xl mx-auto">
               <Instagram className="w-16 h-16 mx-auto mb-8 text-slate-200 dark:text-slate-800" />
               <h4 className="text-2xl md:text-3xl font-serif font-medium text-slate-900 dark:text-white mb-6">
-                Connect your visual story.
+                {t('instagram.connectTitle')}
               </h4>
               <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mb-10 font-medium">
-                Link your Instagram account to showcase your latest Maldivian moments directly on our sanctuary wall.
+                {t('instagram.connectDesc')}
               </p>
               <button 
                 onClick={handleConnect}
                 className="inline-flex items-center gap-4 bg-slate-950 dark:bg-white text-white dark:text-slate-950 px-10 py-5 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] hover:scale-105 transition-transform"
               >
-                Link Account
+                {t('instagram.linkAccount')}
               </button>
             </div>
           </div>

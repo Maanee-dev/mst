@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import Link from 'next/link';
+import { Link } from 'react-router-dom';
 import { RESORTS } from '../constants';
 import ResortCard from '../components/ResortCard';
 
@@ -75,7 +75,7 @@ export default function Home() {
               <h2 className="text-5xl md:text-6xl font-serif font-bold text-slate-900 mb-6 leading-tight">Comfort and Space Combined</h2>
               <p className="text-slate-400 text-sm font-medium tracking-wide">Relish the charm of our spacious rooms and separate houses.</p>
             </div>
-            <Link href="/stays" className="group flex items-center gap-6 pb-2 border-b border-slate-900">
+            <Link to="/stays" className="group flex items-center gap-6 pb-2 border-b border-slate-900">
               <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-slate-900">Select Accommodation</span>
             </Link>
           </div>
