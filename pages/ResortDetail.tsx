@@ -337,9 +337,21 @@ const ResortDetail: React.FC = () => {
   return (
     <div className="bg-parchment dark:bg-slate-950 min-h-screen selection:bg-sky-100 selection:text-sky-900 pb-20 overflow-x-hidden transition-colors duration-700">
       <SEO 
-        title={resort.name} 
-        description={resort.shortDescription} 
+        title={`${resort.name} | Luxury Resort ${resort.atoll} Maldives`} 
+        description={`${resort.name} in ${resort.atoll} Atoll offers ${resort.shortDescription}. Experience the best overwater villas and private island luxury in the Maldives.`} 
         image={resort.images[0]}
+        keywords={[
+          resort.name,
+          `${resort.name} Maldives`,
+          `${resort.name} ${resort.atoll}`,
+          `luxury resort ${resort.atoll}`,
+          'Maldives overwater villas',
+          'Maldives private island',
+          `${resort.name} offers`,
+          `${resort.name} reviews`,
+          'Maldives luxury travel',
+          'bespoke Maldives holidays'
+        ]}
         type="hotel"
         schema={{
           "@context": "https://schema.org",
@@ -731,16 +743,16 @@ const ResortDetail: React.FC = () => {
                       <div className="space-y-4 md:space-y-6">
                         <div className="space-y-2">
                            <label className="text-[9px] font-black text-white/40 uppercase tracking-widest ml-4">Full Name</label>
-                           <input type="text" placeholder="IDENTITY" className="w-full bg-white/5 border border-white/10 rounded-full px-8 py-5 text-[10px] font-bold uppercase tracking-widest focus:outline-none focus:bg-white/10 focus:border-white/30 transition-all text-white placeholder:text-white/20" value={quoteData.customerName} onChange={e => setQuoteData({...quoteData, customerName: e.target.value})} />
+                           <input type="text" placeholder="IDENTITY" className="w-full bg-white/5 border border-white/10 rounded-full px-8 py-5 text-[16px] md:text-[10px] font-bold uppercase tracking-widest focus:outline-none focus:bg-white/10 focus:border-white/30 transition-all text-white placeholder:text-white/20" value={quoteData.customerName} onChange={e => setQuoteData({...quoteData, customerName: e.target.value})} />
                         </div>
                         <div className="space-y-2">
                            <label className="text-[9px] font-black text-white/40 uppercase tracking-widest ml-4">Email Address</label>
-                           <input type="email" placeholder="DIGITAL CONTACT" className="w-full bg-white/5 border border-white/10 rounded-full px-8 py-5 text-[10px] font-bold uppercase tracking-widest focus:outline-none focus:bg-white/10 focus:border-white/30 transition-all text-white placeholder:text-white/20" value={quoteData.customerEmail} onChange={e => setQuoteData({...quoteData, customerEmail: e.target.value})} />
+                           <input type="email" placeholder="DIGITAL CONTACT" className="w-full bg-white/5 border border-white/10 rounded-full px-8 py-5 text-[16px] md:text-[10px] font-bold uppercase tracking-widest focus:outline-none focus:bg-white/10 focus:border-white/30 transition-all text-white placeholder:text-white/20" value={quoteData.customerEmail} onChange={e => setQuoteData({...quoteData, customerEmail: e.target.value})} />
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                           <div className="space-y-2">
                              <label className="text-[9px] font-black text-white/40 uppercase tracking-widest ml-4">Country</label>
-                             <select className="w-full bg-white/10 border border-white/10 rounded-full px-8 py-5 text-[10px] font-bold uppercase tracking-widest focus:outline-none focus:bg-white/15 focus:border-white/30 transition-all text-white appearance-none cursor-pointer" value={quoteData.country} onChange={e => {
+                             <select className="w-full bg-white/10 border border-white/10 rounded-full px-8 py-5 text-[16px] md:text-[10px] font-bold uppercase tracking-widest focus:outline-none focus:bg-white/15 focus:border-white/30 transition-all text-white appearance-none cursor-pointer" value={quoteData.country} onChange={e => {
                                const selected = COUNTRIES.find(c => c.name === e.target.value);
                                setQuoteData({...quoteData, country: e.target.value, countryCode: selected?.code || '+44'});
                              }}>
@@ -751,7 +763,7 @@ const ResortDetail: React.FC = () => {
                              <label className="text-[9px] font-black text-white/40 uppercase tracking-widest ml-4">Phone Number</label>
                              <div className="flex gap-2">
                                 <div className="bg-white/10 border border-white/10 rounded-full px-4 py-5 text-[10px] font-bold text-white/60 min-w-[70px] text-center flex items-center justify-center">{quoteData.countryCode}</div>
-                                <input type="tel" placeholder="NUMBER" className="flex-1 bg-white/5 border border-white/10 rounded-full px-8 py-5 text-[10px] font-bold uppercase tracking-widest focus:outline-none focus:bg-white/10 focus:border-white/30 transition-all text-white placeholder:text-white/20" value={quoteData.customerPhone} onChange={e => setQuoteData({...quoteData, customerPhone: e.target.value})} />
+                                <input type="tel" placeholder="NUMBER" className="flex-1 bg-white/5 border border-white/10 rounded-full px-8 py-5 text-[16px] md:text-[10px] font-bold uppercase tracking-widest focus:outline-none focus:bg-white/10 focus:border-white/30 transition-all text-white placeholder:text-white/20" value={quoteData.customerPhone} onChange={e => setQuoteData({...quoteData, customerPhone: e.target.value})} />
                              </div>
                           </div>
                         </div>
@@ -808,7 +820,7 @@ const ResortDetail: React.FC = () => {
                       <div className="space-y-5">
                         <div className="space-y-2">
                            <label className="text-[9px] font-black text-white/40 uppercase tracking-widest ml-4">Preferred Residence?</label>
-                           <select className="w-full bg-white/10 border border-white/10 rounded-full px-8 py-5 text-[10px] font-bold uppercase tracking-widest focus:outline-none focus:bg-white/15 focus:border-white/30 transition-all text-white appearance-none cursor-pointer" value={quoteData.roomType} onChange={e => setQuoteData({...quoteData, roomType: e.target.value})}>
+                           <select className="w-full bg-white/10 border border-white/10 rounded-full px-8 py-5 text-[16px] md:text-[10px] font-bold uppercase tracking-widest focus:outline-none focus:bg-white/15 focus:border-white/30 transition-all text-white appearance-none cursor-pointer" value={quoteData.roomType} onChange={e => setQuoteData({...quoteData, roomType: e.target.value})}>
                                 <option value="" className="bg-slate-900 text-white">SELECT A ROOM</option>
                                 {resort.roomTypes?.map((r, i) => (
                                   <option key={i} value={r.name} className="bg-slate-900 text-white">{r.name}</option>
@@ -817,7 +829,7 @@ const ResortDetail: React.FC = () => {
                         </div>
                         <div className="space-y-2">
                            <label className="text-[9px] font-black text-white/40 uppercase tracking-widest ml-4">Meal Plan?</label>
-                           <select className="w-full bg-white/10 border border-white/10 rounded-full px-8 py-5 text-[10px] font-bold uppercase tracking-widest focus:outline-none focus:bg-white/15 focus:border-white/30 transition-all text-white appearance-none cursor-pointer" value={quoteData.mealPlan} onChange={e => setQuoteData({...quoteData, mealPlan: e.target.value})}>
+                           <select className="w-full bg-white/10 border border-white/10 rounded-full px-8 py-5 text-[16px] md:text-[10px] font-bold uppercase tracking-widest focus:outline-none focus:bg-white/15 focus:border-white/30 transition-all text-white appearance-none cursor-pointer" value={quoteData.mealPlan} onChange={e => setQuoteData({...quoteData, mealPlan: e.target.value})}>
                                 <option value="" className="bg-slate-900 text-white">SELECT MEAL PLAN</option>
                                 {resort.mealPlans?.map((m, i) => (
                                   <option key={i} value={m} className="bg-slate-900 text-white">{m.replace(/_/g, ' ')}</option>
@@ -826,7 +838,7 @@ const ResortDetail: React.FC = () => {
                         </div>
                         <div className="space-y-2">
                            <label className="text-[9px] font-black text-white/40 uppercase tracking-widest ml-4">Special Requests?</label>
-                           <textarea rows={4} placeholder="TELL US MORE ABOUT YOUR VISION..." className="w-full bg-white/5 border border-white/10 rounded-[2rem] px-8 py-6 text-[10px] font-bold uppercase tracking-widest focus:outline-none focus:bg-white/10 focus:border-white/30 transition-all text-white placeholder:text-white/20 resize-none" value={quoteData.notes} onChange={e => setQuoteData({...quoteData, notes: e.target.value})}></textarea>
+                           <textarea rows={4} placeholder="TELL US MORE ABOUT YOUR VISION..." className="w-full bg-white/5 border border-white/10 rounded-[2rem] px-8 py-6 text-[16px] md:text-[10px] font-bold uppercase tracking-widest focus:outline-none focus:bg-white/10 focus:border-white/30 transition-all text-white placeholder:text-white/20 resize-none" value={quoteData.notes} onChange={e => setQuoteData({...quoteData, notes: e.target.value})}></textarea>
                         </div>
                       </div>
                       <div className="flex flex-col sm:flex-row gap-4">

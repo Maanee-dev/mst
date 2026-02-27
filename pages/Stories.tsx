@@ -1,6 +1,7 @@
 
 import React, { useEffect, useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
+import Fuse from 'fuse.js';
 import { supabase } from '../lib/supabase';
 import { BlogPost, StoryCategory } from '../types';
 import { BLOG_POSTS } from '../constants';
@@ -49,12 +50,21 @@ const Stories: React.FC = () => {
   const categories: (StoryCategory | 'All')[] = ['All', 'Dispatch', 'Guide', 'Update', 'Tip'];
 
   const filteredStories = useMemo(() => {
-    return stories.filter(post => {
-      const matchesCategory = activeCategory === 'All' || post.category === activeCategory;
-      const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                            post.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
-      return matchesCategory && matchesSearch;
-    });
+    let list = stories;
+
+    if (activeCategory !== 'All') {
+      list = list.filter(post => post.category === activeCategory);
+    }
+
+    if (searchQuery.trim()) {
+      const fuse = new Fuse(list, {
+        keys: ['title', 'excerpt', 'category'],
+        threshold: 0.35,
+      });
+      list = fuse.search(searchQuery).map(r => r.item);
+    }
+
+    return list;
   }, [stories, activeCategory, searchQuery]);
 
   const featuredPost = useMemo(() => {
@@ -65,8 +75,14 @@ const Stories: React.FC = () => {
   return (
     <div className="bg-parchment dark:bg-slate-950 min-h-screen transition-colors duration-700">
       <SEO 
-        title="The Serenity Journal | Maldivian Travel Insights" 
+        title="The Serenity Journal | Maldivian Travel Insights & Stories" 
         description="A dynamic editorial archive of Maldivian heritage, luxury insights, and travel intelligence. Read our dispatches on seaplane arrivals, atoll guides, and bespoke luxury updates."
+        keywords={[
+          'Maldives travel blog', 'Maldives travel stories', 'luxury travel insights Maldives',
+          'Maldives heritage', 'atoll guides Maldives', 'Maldives travel tips',
+          'seaplane arrivals Maldives', 'Maldives luxury updates', 'Maldives vacation guide',
+          'Maldives serenity travels journal'
+        ]}
       />
 
       {/* Cinematic Hero Section */}
@@ -109,7 +125,7 @@ const Stories: React.FC = () => {
               placeholder="SEARCH ARCHIVES..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-transparent border-b border-slate-200 dark:border-white/10 py-2 text-[10px] font-bold uppercase tracking-widest outline-none focus:border-slate-950 dark:focus:border-white text-slate-900 dark:text-white placeholder:text-slate-300 dark:placeholder:text-slate-700 transition-all"
+              className="w-full bg-transparent border-b border-slate-200 dark:border-white/10 py-2 text-[16px] md:text-[10px] font-bold uppercase tracking-widest outline-none focus:border-slate-950 dark:focus:border-white text-slate-900 dark:text-white placeholder:text-slate-300 dark:placeholder:text-slate-700 transition-all"
             />
           </div>
         </div>

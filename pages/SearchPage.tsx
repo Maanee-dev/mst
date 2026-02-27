@@ -1,6 +1,7 @@
 
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
+import Fuse from 'fuse.js';
 import { supabase, mapResort, mapOffer } from '../lib/supabase';
 import { RESORTS, OFFERS, EXPERIENCES, BLOG_POSTS } from '../constants';
 import { Accommodation, Offer, Experience, BlogPost } from '../types';
@@ -61,29 +62,40 @@ const SearchPage: React.FC = () => {
   }, []);
 
   const filtered = useMemo(() => {
-    const q = query.toLowerCase();
-    if (!q) return { stays: [], offers: [], experiences: [], stories: [] };
+    if (!query) return { stays: [], offers: [], experiences: [], stories: [] };
+
+    const fuseOptions = {
+      threshold: 0.35, // Balanced threshold for typo tolerance vs precision
+      includeScore: true,
+      shouldSort: true,
+      minMatchCharLength: 2,
+    };
+
+    const staysFuse = new Fuse(resorts, { 
+      ...fuseOptions, 
+      keys: ['name', 'atoll', 'features', 'description'] 
+    });
+    
+    const offersFuse = new Fuse(offers, { 
+      ...fuseOptions, 
+      keys: ['title', 'resortName', 'category'] 
+    });
+    
+    const expFuse = new Fuse(experiences, { 
+      ...fuseOptions, 
+      keys: ['title', 'category', 'description'] 
+    });
+    
+    const storiesFuse = new Fuse(stories, { 
+      ...fuseOptions, 
+      keys: ['title', 'excerpt', 'category'] 
+    });
 
     return {
-      stays: resorts.filter(r => 
-        (r.name?.toLowerCase() || '').includes(q) || 
-        (r.atoll?.toLowerCase() || '').includes(q) || 
-        (Array.isArray(r.features) && r.features.some(f => f?.toLowerCase().includes(q)))
-      ),
-      offers: offers.filter(o => 
-        (o.title?.toLowerCase() || '').includes(q) || 
-        (o.resortName?.toLowerCase() || '').includes(q)
-      ),
-      experiences: experiences.filter(e => 
-        (e.title?.toLowerCase() || '').includes(q) || 
-        (e.category?.toLowerCase() || '').includes(q) || 
-        (e.description?.toLowerCase() || '').includes(q)
-      ),
-      stories: stories.filter(s => 
-        (s.title?.toLowerCase() || '').includes(q) || 
-        (s.excerpt?.toLowerCase() || '').includes(q) || 
-        (s.category?.toLowerCase() || '').includes(q)
-      )
+      stays: staysFuse.search(query).map(r => r.item),
+      offers: offersFuse.search(query).map(r => r.item),
+      experiences: expFuse.search(query).map(r => r.item),
+      stories: storiesFuse.search(query).map(r => r.item)
     };
   }, [query, resorts, offers, experiences, stories]);
 

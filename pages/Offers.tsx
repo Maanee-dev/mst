@@ -1,5 +1,6 @@
 
 import React, { useEffect, useState, useMemo } from 'react';
+import Fuse from 'fuse.js';
 import { supabase, mapOffer } from '../lib/supabase';
 import { OFFERS } from '../constants';
 import { Link } from 'react-router-dom';
@@ -49,12 +50,20 @@ const Offers: React.FC = () => {
   const nightOptions = ['All', 3, 5, 7, 10, 14];
 
   const filteredOffers = useMemo(() => {
-    return offers.filter(offer => {
-      const matchesSearch = offer.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                            offer.resortName.toLowerCase().includes(searchQuery.toLowerCase());
+    let list = offers;
+
+    if (searchQuery.trim()) {
+      const fuse = new Fuse(list, {
+        keys: ['title', 'resortName', 'category', 'roomCategory'],
+        threshold: 0.35,
+      });
+      list = fuse.search(searchQuery).map(r => r.item);
+    }
+
+    return list.filter(offer => {
       const matchesNights = selectedNights === 'All' || offer.nights === selectedNights;
       const matchesCategory = activeCategory === 'All' || offer.category === activeCategory;
-      return matchesSearch && matchesNights && matchesCategory;
+      return matchesNights && matchesCategory;
     });
   }, [offers, searchQuery, selectedNights, activeCategory]);
 
@@ -86,12 +95,13 @@ const Offers: React.FC = () => {
   return (
     <div className="bg-parchment dark:bg-slate-950 min-h-screen selection:bg-sky-100 selection:text-sky-900 pb-32 transition-colors duration-700">
        <SEO 
-         title="Exclusive Maldives Holiday Offers & Packages" 
+         title="Exclusive Maldives Holiday Offers & Packages | Luxury Deals" 
          description="Access our curated archives of the most exclusive holiday deals in the Maldives. From early bird discounts to luxury honeymoon packages, explore bespoke privileges at world-class resorts."
          keywords={[
            'Maldives resort offers', 'Maldives honeymoon packages', 'early bird Maldives deals', 
            'last minute Maldives holiday', 'luxury Maldives discounts', 'Maldives all inclusive offers', 
-           'bespoke travel deals Maldives', 'overwater villa packages'
+           'bespoke travel deals Maldives', 'overwater villa packages', 'Maldives vacation deals',
+           'luxury travel offers', 'Maldives holiday packages 2026', 'best Maldives deals'
          ]}
          image="https://images.unsplash.com/photo-1510011564758-29df30730163?auto=format&fit=crop&q=80&w=1200"
          schema={{
@@ -139,7 +149,7 @@ const Offers: React.FC = () => {
                 placeholder="SEARCH RESORT OR OFFER..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-slate-50 dark:bg-slate-800/50 border-none rounded-full px-8 py-4 text-[10px] font-black uppercase tracking-widest focus:ring-2 focus:ring-sky-500 transition-all placeholder:text-slate-300 dark:text-white"
+                className="w-full bg-slate-50 dark:bg-slate-800/50 border-none rounded-full px-8 py-4 text-[16px] md:text-[10px] font-black uppercase tracking-widest focus:ring-2 focus:ring-sky-500 transition-all placeholder:text-slate-300 dark:text-white"
               />
             </div>
 

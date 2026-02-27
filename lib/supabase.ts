@@ -36,7 +36,10 @@ export const mapResort = (item: any, fallback?: Accommodation): Accommodation =>
     uvp: item.uvp || fallback?.uvp || 'Defined by perspective.',
     isFeatured: !!item.is_featured,
     roomTypes: Array.isArray(item.room_types) ? item.room_types : (fallback?.roomTypes || []),
-    diningVenues: Array.isArray(item.dining_venues) ? item.dining_venues : (fallback?.diningVenues || [])
+    diningVenues: Array.isArray(item.dining_venues) ? item.dining_venues : (fallback?.diningVenues || []),
+    seoTitle: item.seo_title || fallback?.seoTitle,
+    seoDescription: item.seo_description || fallback?.seoDescription,
+    seoKeywords: Array.isArray(item.seo_keywords) ? item.seo_keywords : (fallback?.seoKeywords || [])
   };
 };
 

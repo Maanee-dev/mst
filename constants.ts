@@ -109,7 +109,10 @@ export const RESORTS: Accommodation[] = [
     features: ['Overwater Villas', 'Private Jacuzzi', 'Butler Service', 'House Reef'],
     transfers: [TransferType.SPEEDBOAT],
     mealPlans: [MealPlan.ALL_INCLUSIVE],
-    uvp: 'Defined by intimacy.'
+    uvp: 'Defined by intimacy.',
+    seoTitle: 'Adaaran Prestige Vadoo | Luxury Overwater Villas Maldives',
+    seoDescription: 'Experience ultimate intimacy at Adaaran Prestige Vadoo. Private overwater villas with jacuzzis, butler service, and a vibrant house reef in South Male Atoll.',
+    seoKeywords: ['Adaaran Prestige Vadoo', 'overwater villas Maldives', 'luxury resort South Male Atoll', 'Maldives honeymoon resort']
   },
   {
     id: 'res-soneva-jani',
@@ -138,7 +141,10 @@ export const RESORTS: Accommodation[] = [
     features: ['Water Slides', 'Retractable Roofs', 'Private Lagoon', 'Cinema Paradiso'],
     transfers: [TransferType.SEAPLANE],
     mealPlans: [MealPlan.FULL_BOARD, MealPlan.HALF_BOARD],
-    uvp: 'Inspiring a lifetime of rare experiences.'
+    uvp: 'Inspiring a lifetime of rare experiences.',
+    seoTitle: 'Soneva Jani Maldives | Sustainable Luxury Overwater Villas',
+    seoDescription: 'Discover Soneva Jani, the pinnacle of sustainable luxury in Noonu Atoll. Iconic overwater villas with retractable roofs, private slides, and rare experiences.',
+    seoKeywords: ['Soneva Jani', 'Soneva Jani Maldives', 'luxury overwater villas', 'sustainable luxury Maldives', 'Noonu Atoll resorts']
   },
   {
     id: 'res-gili-lankanfushi',

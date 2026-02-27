@@ -317,7 +317,7 @@ const PlanMyTrip: React.FC = () => {
                     value={resortSearch}
                     onChange={(e) => setResortSearch(e.target.value)}
                     placeholder={t('plan.searchPlaceholder')}
-                    className="w-full bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-white/10 rounded-[2rem] px-10 py-6 text-[11px] font-bold uppercase tracking-[0.4em] outline-none focus:bg-white dark:focus:bg-slate-800 focus:border-sky-300 transition-all shadow-sm placeholder:text-slate-200 dark:placeholder:text-slate-700 dark:text-white"
+                    className="w-full bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-white/10 rounded-[2rem] px-10 py-6 text-[16px] md:text-[11px] font-bold uppercase tracking-[0.4em] outline-none focus:bg-white dark:focus:bg-slate-800 focus:border-sky-300 transition-all shadow-sm placeholder:text-slate-200 dark:placeholder:text-slate-700 dark:text-white"
                   />
                   {filteredResortList.length > 0 && (
                     <div className="absolute top-full left-0 right-0 mt-4 bg-white dark:bg-slate-900 rounded-[2.5rem] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] border border-slate-50 dark:border-white/5 overflow-hidden z-[100] p-4 space-y-2">
@@ -386,7 +386,7 @@ const PlanMyTrip: React.FC = () => {
                       <span className="w-6 h-6 bg-slate-950 dark:bg-white text-white dark:text-slate-950 text-[9px] font-bold flex items-center justify-center rounded-lg transition-colors">A</span>
                       <label className="text-[9px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-600">{t('plan.fullName')}</label>
                     </div>
-                    <input type="text" required value={finalDetails.fullName} onChange={e => setFinalDetails(prev => ({...prev, fullName: e.target.value}))} className="w-full bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-white/10 rounded-2xl px-8 py-5 text-[12px] font-bold uppercase tracking-widest focus:bg-white dark:focus:bg-slate-800 outline-none focus:border-sky-300 transition-all dark:text-white" placeholder={t('plan.fullNamePlaceholder')} />
+                    <input type="text" required value={finalDetails.fullName} onChange={e => setFinalDetails(prev => ({...prev, fullName: e.target.value}))} className="w-full bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-white/10 rounded-2xl px-8 py-5 text-[16px] md:text-[12px] font-bold uppercase tracking-widest focus:bg-white dark:focus:bg-slate-800 outline-none focus:border-sky-300 transition-all dark:text-white" placeholder={t('plan.fullNamePlaceholder')} />
                   </div>
                   
                   <div className="space-y-4">
@@ -394,7 +394,7 @@ const PlanMyTrip: React.FC = () => {
                       <span className="w-6 h-6 bg-slate-950 dark:bg-white text-white dark:text-slate-950 text-[9px] font-bold flex items-center justify-center rounded-lg transition-colors">B</span>
                       <label className="text-[9px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-600">{t('plan.phone')}</label>
                     </div>
-                    <input type="tel" required value={finalDetails.phone} onChange={e => setFinalDetails(prev => ({...prev, phone: e.target.value}))} className="w-full bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-white/10 rounded-2xl px-8 py-5 text-[12px] font-bold uppercase tracking-widest focus:bg-white dark:focus:bg-slate-800 outline-none focus:border-sky-300 transition-all dark:text-white" placeholder="07700 900000" />
+                    <input type="tel" required value={finalDetails.phone} onChange={e => setFinalDetails(prev => ({...prev, phone: e.target.value}))} className="w-full bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-white/10 rounded-2xl px-8 py-5 text-[16px] md:text-[12px] font-bold uppercase tracking-widest focus:bg-white dark:focus:bg-slate-800 outline-none focus:border-sky-300 transition-all dark:text-white" placeholder="07700 900000" />
                   </div>
 
                   <div className="space-y-4">
@@ -402,7 +402,7 @@ const PlanMyTrip: React.FC = () => {
                       <span className="w-6 h-6 bg-slate-950 dark:bg-white text-white dark:text-slate-950 text-[9px] font-bold flex items-center justify-center rounded-lg transition-colors">C</span>
                       <label className="text-[9px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-600">{t('plan.email')}</label>
                     </div>
-                    <input type="email" required value={finalDetails.email} onChange={e => setFinalDetails(prev => ({...prev, email: e.target.value}))} className="w-full bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-white/10 rounded-2xl px-8 py-5 text-[12px] font-bold uppercase tracking-widest focus:bg-white dark:focus:bg-slate-800 outline-none focus:border-sky-300 transition-all dark:text-white" placeholder={t('plan.emailPlaceholder')} />
+                    <input type="email" required value={finalDetails.email} onChange={e => setFinalDetails(prev => ({...prev, email: e.target.value}))} className="w-full bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-white/10 rounded-2xl px-8 py-5 text-[16px] md:text-[12px] font-bold uppercase tracking-widest focus:bg-white dark:focus:bg-slate-800 outline-none focus:border-sky-300 transition-all dark:text-white" placeholder={t('plan.emailPlaceholder')} />
                   </div>
 
                   <div className="space-y-4">
@@ -410,7 +410,7 @@ const PlanMyTrip: React.FC = () => {
                       <span className="w-6 h-6 bg-slate-950 dark:bg-white text-white dark:text-slate-950 text-[9px] font-bold flex items-center justify-center rounded-lg transition-colors">D</span>
                       <label className="text-[9px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-600">{t('plan.dates')}</label>
                     </div>
-                    <input type="text" value={finalDetails.dates} onChange={e => setFinalDetails(prev => ({...prev, dates: e.target.value}))} className="w-full bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-white/10 rounded-2xl px-8 py-5 text-[12px] font-bold uppercase tracking-widest focus:bg-white dark:focus:bg-slate-800 outline-none focus:border-sky-300 transition-all dark:text-white" placeholder={t('plan.datesPlaceholder')} />
+                    <input type="text" value={finalDetails.dates} onChange={e => setFinalDetails(prev => ({...prev, dates: e.target.value}))} className="w-full bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-white/10 rounded-2xl px-8 py-5 text-[16px] md:text-[12px] font-bold uppercase tracking-widest focus:bg-white dark:focus:bg-slate-800 outline-none focus:border-sky-300 transition-all dark:text-white" placeholder={t('plan.datesPlaceholder')} />
                   </div>
 
                   <div className="space-y-4">
@@ -418,7 +418,7 @@ const PlanMyTrip: React.FC = () => {
                       <span className="w-6 h-6 bg-slate-950 dark:bg-white text-white dark:text-slate-950 text-[9px] font-bold flex items-center justify-center rounded-lg transition-colors">E</span>
                       <label className="text-[9px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-600">{t('plan.guests')}</label>
                     </div>
-                    <input type="number" min="1" value={finalDetails.guests} onChange={e => setFinalDetails(prev => ({...prev, guests: e.target.value}))} className="w-full bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-white/10 rounded-2xl px-8 py-5 text-[12px] font-bold uppercase tracking-widest focus:bg-white dark:focus:bg-slate-800 outline-none focus:border-sky-300 transition-all dark:text-white" />
+                    <input type="number" min="1" value={finalDetails.guests} onChange={e => setFinalDetails(prev => ({...prev, guests: e.target.value}))} className="w-full bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-white/10 rounded-2xl px-8 py-5 text-[16px] md:text-[12px] font-bold uppercase tracking-widest focus:bg-white dark:focus:bg-slate-800 outline-none focus:border-sky-300 transition-all dark:text-white" />
                   </div>
 
                   <div className="space-y-4">
@@ -426,7 +426,7 @@ const PlanMyTrip: React.FC = () => {
                       <span className="w-6 h-6 bg-slate-950 dark:bg-white text-white dark:text-slate-950 text-[9px] font-bold flex items-center justify-center rounded-lg transition-colors">F</span>
                       <label className="text-[9px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-600">{t('plan.mealPlan')}</label>
                     </div>
-                    <select value={finalDetails.mealPlan} onChange={e => setFinalDetails(prev => ({...prev, mealPlan: e.target.value}))} className="w-full bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-white/10 rounded-2xl px-8 py-5 text-[12px] font-bold uppercase tracking-widest focus:bg-white dark:focus:bg-slate-800 outline-none focus:border-sky-300 transition-all appearance-none dark:text-white">
+                    <select value={finalDetails.mealPlan} onChange={e => setFinalDetails(prev => ({...prev, mealPlan: e.target.value}))} className="w-full bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-white/10 rounded-2xl px-8 py-5 text-[16px] md:text-[12px] font-bold uppercase tracking-widest focus:bg-white dark:focus:bg-slate-800 outline-none focus:border-sky-300 transition-all appearance-none dark:text-white">
                       <option className="dark:bg-slate-900" value="BED & BREAKFAST">{t('plan.mealPlans.bb')}</option>
                       <option className="dark:bg-slate-900" value="HALF BOARD">{t('plan.mealPlans.hb')}</option>
                       <option className="dark:bg-slate-900" value="FULL BOARD">{t('plan.mealPlans.fb')}</option>

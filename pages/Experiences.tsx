@@ -74,7 +74,12 @@ const Experiences: React.FC = () => {
       <SEO 
         title="Curated Maldives Experiences | Bespoke Adventures & Journeys" 
         description="Browse our collection of curated Maldivian experiences. From deep-sea diving and whale shark safaris to private island wellness retreats, discover the archipelago's unique perspective."
-        keywords={['Maldives adventures', 'luxury excursions Maldives', 'whale shark safari', 'Maldives surfing', 'bespoke travel Maldives']}
+        keywords={[
+          'Maldives adventures', 'luxury excursions Maldives', 'whale shark safari', 
+          'Maldives surfing', 'bespoke travel Maldives', 'Maldives diving holidays',
+          'private island wellness', 'Maldives cultural tours', 'luxury yacht charter Maldives',
+          'Maldives activities', 'best things to do in Maldives'
+        ]}
         image="https://images.unsplash.com/photo-1560275619-4662e36fa65c?auto=format&fit=crop&q=80&w=1200"
       />
 

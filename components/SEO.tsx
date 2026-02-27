@@ -22,7 +22,9 @@ const SEO: React.FC<SEOProps> = ({
   image = 'https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&q=80&w=1200', 
   keywords = [
     'Maldives luxury travel', 'private island resorts Maldives', 'overwater villas Maldives', 
-    'bespoke Maldives travel', 'Maldives Serenity Travels'
+    'bespoke Maldives travel', 'Maldives Serenity Travels', 'Maldives honeymoon packages',
+    'luxury beach villas Maldives', 'all-inclusive Maldives resorts', 'Maldives diving holidays',
+    'Maldives family resorts', 'Southern atolls Maldives', 'Addu City travel'
   ],
   type = 'website',
   schema,

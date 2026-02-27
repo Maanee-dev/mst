@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import Fuse from 'fuse.js';
 import { useTranslation } from 'react-i18next';
 import { supabase, mapResort } from '../lib/supabase';
 import { Accommodation, BlogPost } from '../types';
@@ -136,7 +137,24 @@ const Home: React.FC = () => {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    if (searchQuery.trim()) navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
+    if (!searchQuery.trim()) return;
+
+    // Fuzzy search for direct navigation
+    // We use a low threshold for "high confidence" direct navigation
+    const fuse = new Fuse(RESORTS, {
+      keys: ['name'],
+      threshold: 0.3,
+      includeScore: true
+    });
+
+    const results = fuse.search(searchQuery);
+    
+    // If we have a very strong match (score < 0.15), navigate directly
+    if (results.length > 0 && results[0].score !== undefined && results[0].score < 0.15) {
+      navigate(`/stays/${results[0].item.slug}`);
+    } else {
+      navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
+    }
   };
 
   const vibes = [
@@ -153,8 +171,10 @@ const Home: React.FC = () => {
         description={t('seo.homeDesc')}
         isOrganization={true}
         keywords={[
-          'Maldives travel', 'Maldives holiday', 'best resorts Maldives', 
-          'water villas', 'Maldives honeymoon', 'cheap Maldives'
+          'Maldives luxury travel', 'best resorts Maldives', 'Maldives holiday packages', 
+          'overwater villas Maldives', 'Maldives honeymoon', 'private island resorts',
+          'Maldives travel agency', 'luxury travel Maldives', 'bespoke Maldives escapes',
+          'Addu City travel', 'Southern atolls Maldives', 'Maldives vacation planning'
         ]}
       />
 
@@ -187,7 +207,7 @@ const Home: React.FC = () => {
             </div>
             <form onSubmit={handleSearch} className="w-full max-w-xl reveal active delay-500">
               <div className="relative group">
-                <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder={typedPlaceholder} className="w-full bg-white/5 backdrop-blur-3xl border border-white/20 rounded-full pl-10 pr-24 py-6 text-white text-[11px] font-bold uppercase tracking-[0.4em] outline-none focus:bg-white focus:text-slate-950 dark:focus:text-slate-900 placeholder:text-white/30 shadow-2xl transition-all" />
+                <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder={typedPlaceholder} className="w-full bg-white/5 backdrop-blur-3xl border border-white/20 rounded-full pl-10 pr-24 py-6 text-white text-[12px] md:text-[14px] font-bold uppercase tracking-[0.4em] outline-none focus:bg-white focus:text-slate-950 dark:focus:text-slate-900 placeholder:text-white/30 shadow-2xl transition-all" />
                 <button type="submit" aria-label="Search" className="absolute right-2 top-2 bottom-2 bg-slate-950 text-white w-16 rounded-full flex items-center justify-center hover:bg-sky-500 transition-all shadow-xl"><svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg></button>
               </div>
             </form>

@@ -1,6 +1,7 @@
 
 import React, { useState, useMemo, useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
+import Fuse from 'fuse.js';
 import { supabase, mapResort, mapOffer } from '../lib/supabase';
 import { RESORTS, OFFERS } from '../constants';
 import { AccommodationType, TransferType, Accommodation, Offer } from '../types';
@@ -65,14 +66,21 @@ const Stays: React.FC = () => {
   }, [stayType, resorts]);
 
   const filteredStays = useMemo(() => {
-    return resorts.filter(stay => {
-      const matchesType = stay.type === stayType;
-      const matchesSearch = stay.name.toLowerCase().includes(filterQuery.toLowerCase()) || 
-                            stay.atoll.toLowerCase().includes(filterQuery.toLowerCase());
+    let list = resorts.filter(stay => stay.type === stayType);
+
+    if (filterQuery.trim()) {
+      const fuse = new Fuse(list, {
+        keys: ['name', 'atoll', 'description'],
+        threshold: 0.35,
+      });
+      list = fuse.search(filterQuery).map(r => r.item);
+    }
+
+    return list.filter(stay => {
       const matchesAtoll = selectedAtoll === 'All' || stay.atoll === selectedAtoll;
       const matchesTransfer = selectedTransfer === 'All' || (stay.transfers && stay.transfers.includes(selectedTransfer as TransferType));
       
-      return matchesType && matchesSearch && matchesAtoll && matchesTransfer;
+      return matchesAtoll && matchesTransfer;
     });
   }, [stayType, filterQuery, selectedAtoll, selectedTransfer, resorts]);
 
@@ -104,9 +112,14 @@ const Stays: React.FC = () => {
   return (
     <div className="bg-parchment dark:bg-slate-950 min-h-screen selection:bg-sky-100 selection:text-sky-900 overflow-x-hidden transition-colors duration-700">
       <SEO 
-        title="Luxury Resorts & Overwater Villas Portfolio" 
+        title="Luxury Maldives Resorts & Overwater Villas Portfolio" 
         description="Discover our curated portfolio of the finest luxury resorts and overwater villas in the Maldives. From private island sanctuaries to local island guest houses and liveaboards."
-        keywords={['Maldives luxury resorts', 'overwater villas Maldives', 'best resorts in Maldives', 'Baa Atoll resorts', 'North Male Atoll luxury', 'seaplane transfers Maldives', 'Maldives guest houses', 'Maldives liveaboards']}
+        keywords={[
+          'Maldives luxury resorts', 'overwater villas Maldives', 'best resorts in Maldives', 
+          'Baa Atoll resorts', 'North Male Atoll luxury', 'seaplane transfers Maldives', 
+          'Maldives guest houses', 'Maldives liveaboards', 'Maldives accommodation',
+          'luxury island stays', 'Maldives resort portfolio', 'Southern atolls resorts'
+        ]}
         image="https://images.unsplash.com/photo-1544550581-5f7ceaf7f992?auto=format&fit=crop&q=80&w=1200"
       />
 

@@ -158,8 +158,9 @@ const resources = {
         }
       },
       seo: {
-        homeTitle: "Maldives Serenity Travels | Best Luxury Holidays",
-        homeDesc: "Plan your perfect Maldives trip with us. We offer the best luxury resorts, overwater villas, and family holiday packages."
+        homeTitle: "Maldives Serenity Travels | Luxury Maldives Travel Agency & Bespoke Holidays",
+        homeDesc: "Discover the ultimate Maldivian escape with Maldives Serenity Travels. We specialize in luxury Maldives holidays, overwater villas, private island resorts, and bespoke travel experiences. Book your dream vacation in the Indian Ocean today.",
+        homeKeywords: "Maldives luxury travel, bespoke Maldives holidays, luxury resorts Maldives, overwater villas Maldives, Maldives travel agency, private island Maldives, Maldives honeymoon packages, luxury travel specialist Maldives, Maldives vacation planning, best resorts in Maldives"
       },
       contactPage: {
         badge: "CONNECT",

@@ -54,6 +54,9 @@ export interface Accommodation {
   isFeatured?: boolean;
   roomTypes?: RoomType[];
   diningVenues?: DiningVenue[];
+  seoTitle?: string;
+  seoDescription?: string;
+  seoKeywords?: string[];
 }
 
 export interface Offer {
