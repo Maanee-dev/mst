@@ -4,12 +4,13 @@ import { motion, AnimatePresence } from 'motion/react';
 import { supabase, mapResort } from '../lib/supabase';
 import { Accommodation, RoomType, MealPlan } from '../types';
 import SEO from '../components/SEO';
-import { ChevronLeft, Check, Info, Users, Maximize2, Utensils } from 'lucide-react';
+import { ChevronLeft, Check, Info, Users, Maximize2, Utensils, Edit2, X } from 'lucide-react';
 import InquiryForm from '../components/InquiryForm';
+import { useTranslation } from 'react-i18next';
 
 const RoomSelection: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   
   const [resort, setResort] = useState<Accommodation | null>(null);
@@ -18,9 +19,17 @@ const RoomSelection: React.FC = () => {
   const [selectedMealPlan, setSelectedMealPlan] = useState<MealPlan | null>(null);
   const [showInquiryForm, setShowInquiryForm] = useState(false);
   const [currentStep, setCurrentStep] = useState(1); // 1: Room, 2: Meal Plan
+  const [isEditingDetails, setIsEditingDetails] = useState(false);
+  const [tempDates, setTempDates] = useState('');
+  const [tempGuests, setTempGuests] = useState('');
 
   const dates = searchParams.get('dates') || 'Not specified';
   const guests = searchParams.get('guests') || '2';
+
+  useEffect(() => {
+    setTempDates(dates);
+    setTempGuests(guests);
+  }, [dates, guests]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -98,28 +107,93 @@ const RoomSelection: React.FC = () => {
             <span className="text-[10px] font-black text-sky-500 uppercase tracking-[0.6em] mb-4 block">{resort.atoll}</span>
             <h1 className="text-4xl md:text-6xl font-serif font-bold text-slate-900 dark:text-white tracking-tighter">{resort.name}</h1>
           </div>
-          <div className="bg-white dark:bg-slate-900 rounded-2xl p-4 md:p-6 border border-slate-100 dark:border-white/5 shadow-sm flex gap-8">
-            <button 
-              onClick={() => document.getElementById('gallery')?.scrollIntoView({ behavior: 'smooth' })}
-              className="flex flex-col items-center justify-center gap-1 group"
-            >
-              <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest group-hover:text-sky-500 transition-colors">Gallery</span>
-              <div className="w-4 h-px bg-slate-200 dark:bg-white/10 group-hover:bg-sky-500 transition-all"></div>
-            </button>
-            <div className="w-px h-8 bg-slate-100 dark:bg-white/5"></div>
-            <div>
-              <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1 block">Selected Dates</span>
-              <p className="text-[10px] font-bold text-slate-900 dark:text-white uppercase tracking-widest">{dates}</p>
-            </div>
-            <div className="w-px h-8 bg-slate-100 dark:bg-white/5"></div>
-            <div>
-              <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1 block">Guests</span>
-              <p className="text-[10px] font-bold text-slate-900 dark:text-white uppercase tracking-widest">{guests}</p>
-            </div>
-            <div className="w-px h-8 bg-slate-100 dark:bg-white/5"></div>
-            <div>
-              <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1 block">Transfer</span>
-              <p className="text-[10px] font-bold text-slate-900 dark:text-white uppercase tracking-widest">{(resort.transferMode || '').replace(/_/g, ' ')}</p>
+          
+          <div className="w-full md:w-auto">
+            <div className="bg-white dark:bg-slate-900 rounded-2xl p-4 md:p-6 border border-slate-100 dark:border-white/5 shadow-sm flex items-center gap-6 md:gap-8 overflow-x-auto no-scrollbar whitespace-nowrap">
+              <button 
+                onClick={() => document.getElementById('gallery')?.scrollIntoView({ behavior: 'smooth' })}
+                className="flex flex-col items-center justify-center gap-1 group flex-shrink-0"
+              >
+                <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest group-hover:text-sky-500 transition-colors">Gallery</span>
+                <div className="w-4 h-px bg-slate-200 dark:bg-white/10 group-hover:bg-sky-500 transition-all"></div>
+              </button>
+              
+              <div className="w-px h-8 bg-slate-100 dark:bg-white/5 flex-shrink-0"></div>
+              
+              <div className="flex-shrink-0">
+                <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1 block">Selected Dates</span>
+                {isEditingDetails ? (
+                  <input 
+                    type="text"
+                    value={tempDates}
+                    onChange={(e) => setTempDates(e.target.value)}
+                    className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-white/10 rounded px-2 py-1 text-[10px] font-bold text-slate-900 dark:text-white uppercase tracking-widest outline-none focus:border-sky-500"
+                  />
+                ) : (
+                  <p className="text-[10px] font-bold text-slate-900 dark:text-white uppercase tracking-widest">{dates}</p>
+                )}
+              </div>
+              
+              <div className="w-px h-8 bg-slate-100 dark:bg-white/5 flex-shrink-0"></div>
+              
+              <div className="flex-shrink-0">
+                <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1 block">Guests</span>
+                {isEditingDetails ? (
+                  <input 
+                    type="text"
+                    value={tempGuests}
+                    onChange={(e) => setTempGuests(e.target.value)}
+                    className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-white/10 rounded px-2 py-1 text-[10px] font-bold text-slate-900 dark:text-white uppercase tracking-widest outline-none focus:border-sky-500 w-16"
+                  />
+                ) : (
+                  <p className="text-[10px] font-bold text-slate-900 dark:text-white uppercase tracking-widest">{guests}</p>
+                )}
+              </div>
+              
+              <div className="w-px h-8 bg-slate-100 dark:bg-white/5 flex-shrink-0"></div>
+              
+              <div className="flex-shrink-0">
+                <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1 block">Transfer</span>
+                <p className="text-[10px] font-bold text-slate-900 dark:text-white uppercase tracking-widest">{(resort.transferMode || '').replace(/_/g, ' ')}</p>
+              </div>
+
+              <div className="w-px h-8 bg-slate-100 dark:bg-white/5 flex-shrink-0"></div>
+
+              <div className="flex-shrink-0">
+                {isEditingDetails ? (
+                  <div className="flex items-center gap-2">
+                    <button 
+                      onClick={() => {
+                        const newParams = new URLSearchParams(searchParams);
+                        newParams.set('dates', tempDates);
+                        newParams.set('guests', tempGuests);
+                        setSearchParams(newParams);
+                        setIsEditingDetails(false);
+                      }}
+                      className="p-2 bg-sky-500 text-white rounded-lg hover:bg-sky-600 transition-colors"
+                    >
+                      <Check size={14} />
+                    </button>
+                    <button 
+                      onClick={() => {
+                        setTempDates(dates);
+                        setTempGuests(guests);
+                        setIsEditingDetails(false);
+                      }}
+                      className="p-2 bg-slate-100 dark:bg-slate-800 text-slate-400 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+                    >
+                      <X size={14} />
+                    </button>
+                  </div>
+                ) : (
+                  <button 
+                    onClick={() => setIsEditingDetails(true)}
+                    className="p-2 bg-slate-50 dark:bg-slate-800 text-slate-400 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors group"
+                  >
+                    <Edit2 size={14} className="group-hover:text-sky-500 transition-colors" />
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -239,40 +313,40 @@ const RoomSelection: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className="mb-10">
-                    <h3 className="text-[10px] font-black text-slate-900 dark:text-white uppercase tracking-[0.4em] mb-6 border-b border-slate-100 dark:border-white/5 pb-4">Select Meal Plan</h3>
-                    <div className="space-y-3">
-                      {resort.mealPlans.map(plan => {
-                        const planDesc = {
-                          'Bed_and_Breakfast': 'Start your day with a curated morning feast.',
-                          'Half_Board': 'Includes breakfast and a sophisticated dinner.',
-                          'Full_Board': 'Complete culinary coverage for your stay.',
-                          'All_Inclusive': 'Unlimited indulgence across all venues.'
-                        }[plan] || 'Bespoke dining arrangements.';
+                    <div className="mb-10">
+                      <h3 className="text-[10px] font-black text-slate-900 dark:text-white uppercase tracking-[0.4em] mb-6 border-b border-slate-100 dark:border-white/5 pb-4">Select Meal Plan</h3>
+                      <div className="space-y-3">
+                        {resort.mealPlans.map(plan => {
+                          const planDesc = {
+                            'BED_BREAKFAST': 'Start your day with a curated morning feast.',
+                            'HALF_BOARD': 'Includes breakfast and a sophisticated dinner.',
+                            'FULL_BOARD': 'Complete culinary coverage for your stay.',
+                            'ALL_INCLUSIVE': 'Unlimited indulgence across all venues.'
+                          }[plan] || 'Bespoke dining arrangements.';
 
-                        return (
-                          <button 
-                            key={plan}
-                            onClick={() => setSelectedMealPlan(plan)}
-                            className={`w-full flex flex-col p-5 rounded-2xl border transition-all text-left ${selectedMealPlan === plan ? 'bg-sky-50 border-sky-200 dark:bg-sky-900/20 dark:border-sky-500/30' : 'bg-slate-50 dark:bg-slate-800/50 border-transparent hover:border-slate-200 dark:hover:border-white/10'}`}
-                          >
-                            <div className="flex items-center justify-between mb-2">
-                              <div className="flex items-center gap-3">
-                                <Utensils size={14} className={selectedMealPlan === plan ? 'text-sky-500' : 'text-slate-400'} />
-                                <span className={`text-[10px] font-black uppercase tracking-widest ${selectedMealPlan === plan ? 'text-sky-600 dark:text-sky-400' : 'text-slate-900 dark:text-white'}`}>
-                                  {(plan || '').replace(/_/g, ' ')}
-                                </span>
+                          return (
+                            <button 
+                              key={plan}
+                              onClick={() => setSelectedMealPlan(plan)}
+                              className={`w-full flex flex-col p-5 rounded-2xl border transition-all text-left ${selectedMealPlan === plan ? 'bg-sky-50 border-sky-200 dark:bg-sky-900/20 dark:border-sky-500/30' : 'bg-slate-50 dark:bg-slate-800/50 border-transparent hover:border-slate-200 dark:hover:border-white/10'}`}
+                            >
+                              <div className="flex items-center justify-between mb-2">
+                                <div className="flex items-center gap-3">
+                                  <Utensils size={14} className={selectedMealPlan === plan ? 'text-sky-500' : 'text-slate-400'} />
+                                  <span className={`text-[10px] font-black uppercase tracking-widest ${selectedMealPlan === plan ? 'text-sky-600 dark:text-sky-400' : 'text-slate-900 dark:text-white'}`}>
+                                    {(plan || '').replace(/_/g, ' ')}
+                                  </span>
+                                </div>
+                                {selectedMealPlan === plan && <Check size={14} strokeWidth={3} className="text-sky-500" />}
                               </div>
-                              {selectedMealPlan === plan && <Check size={14} strokeWidth={3} className="text-sky-500" />}
-                            </div>
-                            <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest leading-relaxed">
-                              {planDesc}
-                            </p>
-                          </button>
-                        );
-                      })}
+                              <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest leading-relaxed">
+                                {planDesc}
+                              </p>
+                            </button>
+                          );
+                        })}
+                      </div>
                     </div>
-                  </div>
 
                   <button 
                     disabled={!selectedMealPlan}

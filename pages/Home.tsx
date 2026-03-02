@@ -403,28 +403,55 @@ const Home: React.FC = () => {
             <h2 className="text-4xl md:text-6xl lg:text-7xl font-serif font-medium text-slate-950 dark:text-white tracking-tighter">{t('journal.title')}</h2>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-20 mb-24">
-            {recentStories.map((post) => (
-              <Link key={post.id} to={`/stories/${post.slug}`} className="group reveal">
-                <div className="relative aspect-[3/4] rounded-[2.5rem] overflow-hidden mb-10 shadow-sm transition-all duration-1000 group-hover:shadow-2xl group-hover:-translate-y-2 bg-slate-100 dark:bg-slate-800">
-                  <img src={post.image} alt={post.title} className="w-full h-full object-cover transition-transform duration-[4s] group-hover:scale-105" />
-                  <div className="absolute top-8 left-8">
-                    <span className="bg-white/95 backdrop-blur-md px-5 py-2 rounded-full text-[9px] font-bold text-slate-900 uppercase tracking-[0.4em] shadow-sm">
-                      {post.category}
-                    </span>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 mb-24">
+            {recentStories.map((post, idx) => {
+              const isFirst = idx === 0;
+              const isSecond = idx === 1;
+              const isThird = idx === 2;
+
+              return (
+                <Link 
+                  key={post.id} 
+                  to={`/stories/${post.slug}`} 
+                  className={`group reveal relative flex flex-col ${
+                    isFirst ? 'lg:col-span-8' : 
+                    isSecond ? 'lg:col-span-4' : 
+                    'lg:col-span-12 lg:flex-row lg:items-center lg:gap-16'
+                  }`}
+                >
+                  <div className={`relative rounded-[2.5rem] overflow-hidden mb-8 shadow-sm transition-all duration-1000 group-hover:shadow-2xl group-hover:-translate-y-2 bg-slate-100 dark:bg-slate-800 w-full ${
+                    isFirst ? 'aspect-[16/9]' : 
+                    isSecond ? 'aspect-[3/4]' : 
+                    'aspect-[16/9] lg:aspect-[21/9] lg:w-3/5 lg:mb-0'
+                  }`}>
+                    <img src={post.image} alt={post.title} className="w-full h-full object-cover transition-transform duration-[4s] group-hover:scale-105" />
+                    <div className="absolute top-8 left-8">
+                      <span className="bg-white/95 backdrop-blur-md px-5 py-2 rounded-full text-[9px] font-bold text-slate-900 uppercase tracking-[0.4em] shadow-sm">
+                        {post.category}
+                      </span>
+                    </div>
                   </div>
-                </div>
-                <div className="px-4">
-                  <span className="text-slate-400 dark:text-slate-500 font-bold text-[9px] uppercase tracking-[0.4em] mb-4 block">
-                    {new Date(post.date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
-                  </span>
-                  <h3 className="text-2xl font-serif font-bold text-slate-900 dark:text-white mb-6 group-hover:text-sky-600 transition-colors leading-tight">
-                    {post.title}
-                  </h3>
-                  <div className="h-px w-12 bg-slate-200 dark:bg-white/10 group-hover:w-full group-hover:bg-sky-500 transition-all duration-1000"></div>
-                </div>
-              </Link>
-            ))}
+                  <div className={`px-4 ${isThird ? 'lg:flex-1 lg:px-0' : ''}`}>
+                    <span className="text-slate-400 dark:text-slate-500 font-bold text-[9px] uppercase tracking-[0.4em] mb-4 block">
+                      {new Date(post.date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+                    </span>
+                    <h3 className={`font-serif font-bold text-slate-900 dark:text-white mb-6 group-hover:text-sky-600 transition-colors leading-tight ${
+                      isFirst ? 'text-3xl md:text-4xl' : 
+                      isSecond ? 'text-2xl' : 
+                      'text-3xl md:text-5xl lg:text-6xl'
+                    }`}>
+                      {post.title}
+                    </h3>
+                    {isThird && (
+                      <p className="hidden lg:block text-slate-500 dark:text-slate-400 text-lg mb-8 max-w-xl leading-relaxed">
+                        {post.excerpt || 'Discover the hidden gems and untold stories of the Maldivian archipelago through our curated lens.'}
+                      </p>
+                    )}
+                    <div className="h-px w-12 bg-slate-200 dark:bg-white/10 group-hover:w-full group-hover:bg-sky-500 transition-all duration-1000"></div>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
 
           <div className="text-center reveal">
