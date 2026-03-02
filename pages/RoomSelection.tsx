@@ -6,7 +6,6 @@ import { Accommodation, RoomType, MealPlan } from '../types';
 import SEO from '../components/SEO';
 import { ChevronLeft, Check, Info, Users, Maximize2, Utensils, Edit2, X } from 'lucide-react';
 import InquiryForm from '../components/InquiryForm';
-import { useTranslation } from 'react-i18next';
 
 const RoomSelection: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
