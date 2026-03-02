@@ -221,6 +221,74 @@ const Home: React.FC = () => {
         </div>
       </section>
 
+      {/* Resort Logos Marquee */}
+      <section className="py-12 bg-white dark:bg-slate-950 border-b border-slate-100 dark:border-white/5 overflow-hidden">
+        <div className="max-w-[1440px] mx-auto px-6 mb-8">
+          <span className="text-[8px] font-black text-slate-400 uppercase tracking-[0.8em] block text-center">Our Prestigious Partners</span>
+        </div>
+        <div className="relative flex overflow-x-hidden">
+          <div className="flex animate-marquee whitespace-nowrap items-center gap-16 md:gap-32 px-12">
+            {[
+              { name: "Soneva", logo: "https://upload.wikimedia.org/wikipedia/id/1/1e/Soneva_logo.png" },
+              { name: "Gili Lankanfushi", logo: "https://online.fliphtml5.com/dseh/accountlogo.png" },
+              { name: "Joali", logo: "https://assets.planespotters.net/files/airlines/3/joali-maldives_c9c097_opr.png" },
+              { name: "Waldorf Astoria", logo: "https://www.hilton.com/modules/assets/svgs/logos/WA.svg" },
+              { name: "Four Seasons", logo: "https://www.vhv.rs/dpng/d/494-4949818_1200px-four-seasons-logo-four-seasons-logo-png.png" },
+              { name: "St. Regis", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/St._Regis_Hotels_%26_Resorts_logo.svg/960px-St._Regis_Hotels_%26_Resorts_logo.svg.png?_=20181030042916" },
+              { name: "Six Senses", logo: "https://consent.trustarc.com/get?name=SS_BRAND_standard_logo.png" },
+              { name: "Ritz-Carlton", logo: "https://www.vhv.rs/dpng/d/256-2561498_ritz-carlton-brand-logo-hd-png-download.png" }
+            ].map((resort, i) => (
+              <div key={i} className="flex items-center gap-4 group cursor-default">
+                <img 
+                  src={resort.logo} 
+                  alt={`${resort.name} Logo`} 
+                  className="h-8 md:h-12 w-auto grayscale opacity-30 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700 object-contain max-w-[120px] md:max-w-[180px]"
+                  referrerPolicy="no-referrer"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = 'none';
+                    const span = document.createElement('span');
+                    span.className = "text-xl md:text-3xl font-serif font-bold text-slate-300 dark:text-slate-700 uppercase tracking-[0.2em] group-hover:text-sky-500 transition-colors duration-500";
+                    span.innerText = resort.name;
+                    target.parentElement?.prepend(span);
+                  }}
+                />
+                <div className="w-2 h-2 rounded-full bg-sky-500/20 group-hover:bg-sky-500 transition-colors"></div>
+              </div>
+            ))}
+            {/* Duplicate for seamless loop */}
+            {[
+    { name: "Soneva", logo: "https://upload.wikimedia.org/wikipedia/id/1/1e/Soneva_logo.png" },
+              { name: "Gili Lankanfushi", logo: "https://online.fliphtml5.com/dseh/accountlogo.png" },
+              { name: "Joali", logo: "https://assets.planespotters.net/files/airlines/3/joali-maldives_c9c097_opr.png" },
+              { name: "Waldorf Astoria", logo: "https://www.hilton.com/modules/assets/svgs/logos/WA.svg" },
+              { name: "Four Seasons", logo: "https://www.vhv.rs/dpng/d/494-4949818_1200px-four-seasons-logo-four-seasons-logo-png.png" },
+              { name: "St. Regis", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/St._Regis_Hotels_%26_Resorts_logo.svg/960px-St._Regis_Hotels_%26_Resorts_logo.svg.png?_=20181030042916" },
+              { name: "Six Senses", logo: "https://consent.trustarc.com/get?name=SS_BRAND_standard_logo.png" },
+              { name: "Ritz-Carlton", logo: "https://www.vhv.rs/dpng/d/256-2561498_ritz-carlton-brand-logo-hd-png-download.png" }
+            ].map((resort, i) => (
+              <div key={`dup-${i}`} className="flex items-center gap-4 group cursor-default">
+                <img 
+                  src={resort.logo} 
+                  alt={`${resort.name} Logo`} 
+                  className="h-8 md:h-12 w-auto grayscale opacity-30 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700 object-contain max-w-[120px] md:max-w-[180px]"
+                  referrerPolicy="no-referrer"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = 'none';
+                    const span = document.createElement('span');
+                    span.className = "text-xl md:text-3xl font-serif font-bold text-slate-300 dark:text-slate-700 uppercase tracking-[0.2em] group-hover:text-sky-500 transition-colors duration-500";
+                    span.innerText = resort.name;
+                    target.parentElement?.prepend(span);
+                  }}
+                />
+                <div className="w-2 h-2 rounded-full bg-sky-500/20 group-hover:bg-sky-500 transition-colors"></div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Philosophy Section */}
       <section className="py-24 md:py-32 lg:py-48 bg-white dark:bg-slate-950 relative overflow-hidden">
         <div className="max-w-[1440px] mx-auto px-6 lg:px-20">

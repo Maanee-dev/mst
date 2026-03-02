@@ -50,6 +50,18 @@ const RoomSelection: React.FC = () => {
     fetchResort();
   }, [slug, navigate]);
 
+  useEffect(() => {
+    if (!loading && resort) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) entry.target.classList.add('active');
+        });
+      }, { threshold: 0.1 });
+      document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+      return () => observer.disconnect();
+    }
+  }, [loading, resort, currentStep]);
+
   if (loading) {
     return (
       <div className="min-h-screen bg-parchment dark:bg-slate-950 flex flex-col items-center justify-center">
