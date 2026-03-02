@@ -6,16 +6,17 @@ import { Accommodation } from '../types';
 interface ResortCardProps {
   resort: Accommodation;
   hasOffer?: boolean;
+  customLink?: string;
 }
 
-const ResortCard: React.FC<ResortCardProps> = ({ resort, hasOffer }) => {
+const ResortCard: React.FC<ResortCardProps> = ({ resort, hasOffer, customLink }) => {
   const { t } = useTranslation();
   const displayImage = resort.images && resort.images.length > 0 
     ? resort.images[0] 
     : 'https://images.unsplash.com/photo-1544550581-5f7ceaf7f992?auto=format&fit=crop&q=80&w=1200';
 
   return (
-    <Link to={`/stays/${resort.slug}`} className="group block mb-12">
+    <Link to={customLink || `/stays/${resort.slug}`} className="group block mb-12">
       <div className="relative aspect-[4/5] md:aspect-[3/4] overflow-hidden rounded-[2.5rem] mb-8 transition-all duration-1000 bg-slate-100 dark:bg-slate-900 group-hover:shadow-2xl group-hover:-translate-y-2">
         <img 
           src={displayImage} 

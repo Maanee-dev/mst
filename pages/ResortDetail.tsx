@@ -390,13 +390,21 @@ const ResortDetail: React.FC = () => {
           <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6 md:p-12">
              <span className="text-[11px] font-black text-sky-400 uppercase tracking-[0.8em] mb-4 md:mb-8 block reveal">{resort.atoll}</span>
              <h1 className="text-3xl md:text-4xl lg:text-7xl xl:text-[8rem] font-serif font-bold text-white tracking-tighter leading-[1.1] drop-shadow-2xl reveal active delay-300">{resort.name}</h1>
-             <button 
-               onClick={() => document.getElementById('gallery')?.scrollIntoView({ behavior: 'smooth' })}
-               className="mt-8 md:mt-12 group flex flex-col items-center gap-4 reveal delay-500"
-             >
-               <span className="text-[9px] font-black text-white/60 uppercase tracking-[0.5em] group-hover:text-white transition-colors">View Gallery</span>
-               <div className="w-px h-8 md:h-12 bg-gradient-to-b from-white/60 to-transparent group-hover:from-white transition-all"></div>
-             </button>
+             <div className="flex flex-col md:flex-row items-center gap-6 mt-12 reveal delay-500">
+               <button 
+                 onClick={() => document.getElementById('inquiry-form')?.scrollIntoView({ behavior: 'smooth' })}
+                 className="bg-white text-slate-950 px-10 py-5 rounded-full text-[10px] font-black uppercase tracking-[0.4em] hover:bg-sky-500 hover:text-white transition-all duration-700 shadow-2xl"
+               >
+                 Inquire Now
+               </button>
+               <button 
+                 onClick={() => document.getElementById('gallery')?.scrollIntoView({ behavior: 'smooth' })}
+                 className="group flex items-center gap-4"
+               >
+                 <span className="text-[9px] font-black text-white/60 uppercase tracking-[0.5em] group-hover:text-white transition-colors">View Gallery</span>
+                 <div className="w-12 h-px bg-gradient-to-r from-white/60 to-transparent group-hover:from-white transition-all"></div>
+               </button>
+             </div>
           </div>
         </div>
       </section>
@@ -639,7 +647,7 @@ const ResortDetail: React.FC = () => {
                           <h4 className="text-xl md:text-2xl font-serif font-bold text-slate-900 dark:text-white mb-3 md:mb-4 transition-colors">{venue.name}</h4>
                           <p className="text-slate-500 dark:text-slate-400 text-[13px] leading-relaxed mb-6 font-medium line-clamp-2 transition-colors">{venue.description}</p>
                           <div className="space-y-2">
-                             {venue.highlights.slice(0, 3).map((h, j) => (
+                             {(venue.highlights || []).slice(0, 3).map((h, j) => (
                                <div key={j} className="flex items-center gap-3">
                                  <div className="w-3 md:w-4 h-px bg-slate-200 dark:bg-white/10"></div>
                                  <span className="text-[9px] font-bold text-slate-400 dark:text-slate-600 uppercase tracking-widest transition-colors">{h}</span>

@@ -29,6 +29,9 @@ import Privacy from './pages/Privacy.tsx';
 import AdminSync from './pages/AdminSync.tsx';
 import AdminStories from './pages/AdminStories.tsx';
 import AdminFAQ from './pages/AdminFAQ.tsx';
+import InquireNow from './pages/InquireNow.tsx';
+import RoomSelection from './pages/RoomSelection.tsx';
+import ThankYou from './pages/ThankYou.tsx';
 
 const ScrollToTopOnRoute = () => {
   const { pathname } = useLocation();
@@ -56,6 +59,9 @@ const App: React.FC = () => {
         <Route path="/about" element={<AboutUs />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/faq" element={<FAQ />} />
+        <Route path="/inquire" element={<InquireNow />} />
+        <Route path="/inquire/:slug" element={<RoomSelection />} />
+        <Route path="/thank-you" element={<ThankYou />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/admin/sync" element={<AdminSync />} />

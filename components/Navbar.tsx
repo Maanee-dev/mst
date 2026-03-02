@@ -34,6 +34,7 @@ const Navbar: React.FC = () => {
     { name: t('offers'), path: '/offers' },
     { name: t('experiences'), path: '/experiences' },
     { name: t('stories'), path: '/stories' },
+    { name: 'Inquire Now', path: '/inquire' },
   ];
 
   const isHomePage = location.pathname === '/';
