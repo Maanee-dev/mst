@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { ShoppingBag } from 'lucide-react';
+import { useBag } from '../context/BagContext';
+import Bag from './Bag';
 
 const Navbar: React.FC = () => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
+  const [isBagOpen, setIsBagOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const { totalItems } = useBag();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -16,25 +21,35 @@ const Navbar: React.FC = () => {
 
   useEffect(() => {
     setIsOpen(false);
+    setIsBagOpen(false);
     if (typeof window !== 'undefined') {
       document.body.style.overflow = 'auto';
     }
   }, [location.pathname]);
 
-  const toggleMenu = () => {
-    const nextState = !isOpen;
-    setIsOpen(nextState);
+  useEffect(() => {
     if (typeof window !== 'undefined') {
-      document.body.style.overflow = nextState ? 'hidden' : 'auto';
+      if (isOpen || isBagOpen) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = 'auto';
+      }
     }
-  };
+  }, [isOpen, isBagOpen]);
+
+  const toggleMenu = () => setIsOpen(!isOpen);
+  const toggleBag = () => setIsBagOpen(!isBagOpen);
 
   const navLinks = [
     { name: t('stays'), path: '/stays' },
     { name: t('offers'), path: '/offers' },
     { name: t('experiences'), path: '/experiences' },
     { name: t('stories'), path: '/stories' },
-    { name: 'Inquire Now', path: '/inquire' },
+  ];
+
+  const ctaLinks = [
+    { name: t('planTrip'), path: '/plan' },
+    { name: 'Inquire', path: '/inquire' },
   ];
 
   const isHomePage = location.pathname === '/';
@@ -115,40 +130,41 @@ const Navbar: React.FC = () => {
           </Link>
 
           {/* Right: Plan CTA (Ghost Style - Reactive Color) */}
-          <div className="flex-1 flex justify-end">
+          <div className="flex-1 flex justify-end items-center gap-4 md:gap-8">
+            {/* Shopping Bag Icon */}
+            <button 
+              onClick={toggleBag}
+              className="group relative p-2 focus:outline-none transition-transform hover:scale-110 active:scale-90"
+              aria-label="View selection"
+            >
+              <ShoppingBag className={`w-5 h-5 md:w-6 md:h-6 ${elementColorClass} ${elementShadowClass}`} strokeWidth={1.5} />
+              {totalItems > 0 && (
+                <span className="absolute -top-1 -right-1 w-4 h-4 md:w-5 md:h-5 bg-sky-500 text-white text-[8px] md:text-[10px] font-black rounded-full flex items-center justify-center shadow-lg animate-in zoom-in duration-300">
+                  {totalItems}
+                </span>
+              )}
+            </button>
+
             <Link 
               to="/plan" 
               aria-label="Plan your trip"
-              className="group relative flex items-center justify-center p-2 focus:outline-none"
+              className={`hidden lg:flex group relative items-center justify-center px-6 py-3 rounded-full border transition-all duration-500 hover:scale-105 ${isNavSolid ? 'bg-slate-950 dark:bg-white text-white dark:text-slate-950 border-transparent hover:bg-sky-500 hover:text-white dark:hover:bg-sky-400 dark:hover:text-white' : 'bg-white/10 backdrop-blur-md text-white border-white/20 hover:bg-white/20'}`}
             >
-              {/* Desktop: Ghost Text with Arrow */}
-              <div className={`hidden md:flex items-center gap-4 transition-all duration-500 hover:scale-105 ${elementShadowClass}`}>
-                <span className={`text-[10px] font-black uppercase tracking-[0.4em] ${elementColorClass}`}>
+              <div className="flex items-center gap-3">
+                <span className="text-[9px] font-black uppercase tracking-[0.4em]">
                   {t('planTrip')}
                 </span>
-                <span className={`${elementColorClass} font-serif text-lg leading-none transition-transform group-hover:translate-x-1`}>
+                <span className="font-serif text-lg leading-none transition-transform group-hover:translate-x-1">
                   &rarr;
                 </span>
-              </div>
-
-              {/* Mobile: Minimalist Ghost Calendar Icon */}
-              <div className={`md:hidden flex items-center justify-center transition-all duration-300 active:scale-90 ${elementShadowClass}`}>
-                <svg 
-                  className={`w-6 h-6 ${elementColorClass}`} 
-                  viewBox="0 0 24 24" 
-                  fill="none" 
-                  stroke="currentColor" 
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2" strokeWidth="1.5" />
-                  <path d="M16 2v4M8 2v4M3 10h18" strokeWidth="1.5" strokeLinecap="round" />
-                  <path d="M12 14v4M10 16h4" strokeWidth="1.2" strokeLinecap="round" />
-                </svg>
               </div>
             </Link>
           </div>
         </div>
       </nav>
+
+      {/* Bag Sidebar */}
+      <Bag isOpen={isBagOpen} onClose={() => setIsBagOpen(false)} />
 
       {/* Fullscreen Overlay Menu */}
       <div className={`fixed inset-0 z-[250] bg-white dark:bg-slate-950 transition-all duration-1000 ease-[cubic-bezier(0.19,1,0.22,1)] ${isOpen ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0 pointer-events-none'}`}>
@@ -165,6 +181,19 @@ const Navbar: React.FC = () => {
                     {link.name}.
                   </Link>
                 </div>
+              ))}
+            </div>
+
+            {/* CTA Buttons in Overlay */}
+            <div className={`mt-12 flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-[280px] sm:max-w-md transition-all duration-1000 delay-500 ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+              {ctaLinks.map((cta, i) => (
+                <Link
+                  key={cta.name}
+                  to={cta.path}
+                  className={`w-full sm:w-auto px-8 sm:px-12 py-4 sm:py-5 rounded-full text-[9px] sm:text-[10px] font-black uppercase tracking-[0.4em] transition-all duration-500 shadow-xl text-center ${i === 0 ? 'bg-slate-950 dark:bg-white text-white dark:text-slate-950 hover:bg-sky-500 hover:text-white dark:hover:bg-sky-400 dark:hover:text-white' : 'bg-white dark:bg-slate-900 text-slate-950 dark:text-white border border-slate-100 dark:border-white/5 hover:border-sky-500'}`}
+                >
+                  {cta.name}
+                </Link>
               ))}
             </div>
           </div>

@@ -8,6 +8,7 @@ import ChatBot from './components/ChatBot.tsx';
 import DarkModeToggle from './components/DarkModeToggle.tsx';
 import LanguageSelector from './components/LanguageSelector.tsx';
 import CookieConsent from './components/CookieConsent.tsx';
+import OfferNewsletterPopup from './components/OfferNewsletterPopup.tsx';
 
 // Pages
 import Home from './pages/Home.tsx';
@@ -19,6 +20,7 @@ import Offers from './pages/Offers.tsx';
 import OfferDetail from './pages/OfferDetail.tsx';
 // Fix: Updated import casing to match file name 'Experiences.tsx' to resolve case-sensitivity errors
 import Experiences from './pages/Experiences.tsx';
+import ExperienceDetail from './pages/ExperienceDetail.tsx';
 import Stories from './pages/Stories.tsx';
 import BlogPostDetail from './pages/BlogPostDetail.tsx';
 import PlanMyTrip from './pages/PlanMyTrip.tsx';
@@ -34,6 +36,8 @@ import InquireNow from './pages/InquireNow.tsx';
 import RoomSelection from './pages/RoomSelection.tsx';
 import ThankYou from './pages/ThankYou.tsx';
 
+import { BagProvider } from './context/BagContext.tsx';
+
 const ScrollToTopOnRoute = () => {
   const { pathname } = useLocation();
   React.useEffect(() => {
@@ -44,40 +48,44 @@ const ScrollToTopOnRoute = () => {
 
 const App: React.FC = () => {
   return (
-    <BrowserRouter>
-      <ScrollToTopOnRoute />
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/search" element={<SearchPage />} />
-        <Route path="/stays" element={<Stays />} />
-        <Route path="/stays/:slug" element={<ResortDetail />} />
-        <Route path="/offers" element={<Offers />} />
-        <Route path="/offers/:id" element={<OfferDetail />} />
-        <Route path="/experiences" element={<Experiences />} />
-        <Route path="/stories" element={<Stories />} />
-        <Route path="/stories/:slug" element={<BlogPostDetail />} />
-        <Route path="/plan" element={<PlanMyTrip />} />
-        <Route path="/about" element={<AboutUs />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/faq" element={<FAQ />} />
-        <Route path="/inquire" element={<InquireNow />} />
-        <Route path="/inquire/:slug" element={<RoomSelection />} />
-        <Route path="/thank-you" element={<ThankYou />} />
-        <Route path="/terms" element={<Terms />} />
-        <Route path="/privacy" element={<Privacy />} />
-        <Route path="/admin/sync" element={<AdminSync />} />
-        <Route path="/admin/stories" element={<AdminStories />} />
-        <Route path="/admin/faqs" element={<AdminFAQ />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-      <ChatBot />
-      <ScrollToTopButton />
-      <LanguageSelector />
-      <DarkModeToggle />
-      <CookieConsent />
-      <Footer />
-    </BrowserRouter>
+    <BagProvider>
+      <BrowserRouter>
+        <ScrollToTopOnRoute />
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/search" element={<SearchPage />} />
+          <Route path="/stays" element={<Stays />} />
+          <Route path="/stays/:slug" element={<ResortDetail />} />
+          <Route path="/offers" element={<Offers />} />
+          <Route path="/offers/:id" element={<OfferDetail />} />
+          <Route path="/experiences" element={<Experiences />} />
+          <Route path="/experiences/:slug" element={<ExperienceDetail />} />
+          <Route path="/stories" element={<Stories />} />
+          <Route path="/stories/:slug" element={<BlogPostDetail />} />
+          <Route path="/plan" element={<PlanMyTrip />} />
+          <Route path="/about" element={<AboutUs />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/faq" element={<FAQ />} />
+          <Route path="/inquire" element={<InquireNow />} />
+          <Route path="/inquire/:slug" element={<RoomSelection />} />
+          <Route path="/thank-you" element={<ThankYou />} />
+          <Route path="/terms" element={<Terms />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/admin/sync" element={<AdminSync />} />
+          <Route path="/admin/stories" element={<AdminStories />} />
+          <Route path="/admin/faqs" element={<AdminFAQ />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+        <ChatBot />
+        <ScrollToTopButton />
+        <LanguageSelector />
+        <DarkModeToggle />
+        <CookieConsent />
+        <OfferNewsletterPopup />
+        <Footer />
+      </BrowserRouter>
+    </BagProvider>
   );
 };
 

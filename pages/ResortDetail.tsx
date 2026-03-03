@@ -6,6 +6,10 @@ import { RESORTS, OFFERS, EXPERIENCES } from '../constants';
 import { Accommodation, AccommodationType, TransferType, MealPlan, Offer, Experience } from '../types';
 import ResortCard from '../components/ResortCard';
 import SEO from '../components/SEO';
+import ExperienceInquiryForm from '../components/ExperienceInquiryForm';
+import { AnimatePresence } from 'motion/react';
+import { ArrowRight, Plus, Check } from 'lucide-react';
+import { useBag } from '../context/BagContext';
 
 const INQUIRY_STORAGE_KEY = 'serenity_inquiry_draft';
 
@@ -42,6 +46,7 @@ const ResortDetail: React.FC = () => {
   const [openFaq, setOpenFaq] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedExperience, setSelectedExperience] = useState<Experience | null>(null);
   
   const [formStep, setFormStep] = useState(1);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -60,6 +65,7 @@ const ResortDetail: React.FC = () => {
   });
 
   const [currentMonth, setCurrentMonth] = useState(new Date());
+  const { addItem, isInBag } = useBag();
 
   useEffect(() => {
     const saved = localStorage.getItem(INQUIRY_STORAGE_KEY);
@@ -192,7 +198,7 @@ const ResortDetail: React.FC = () => {
           const { data: expData } = await supabase
             .from('experiences')
             .select('*, resorts(id, name, slug)')
-            .eq('resort_id', resData.id);
+            .or(`resort_id.eq.${resData.id},atoll.eq.${resData.atoll}`);
             
           if (expData && expData.length > 0) {
             setExperiences(expData.map(item => ({
@@ -398,11 +404,30 @@ const ResortDetail: React.FC = () => {
                  Inquire Now
                </button>
                <button 
-                 onClick={() => document.getElementById('gallery')?.scrollIntoView({ behavior: 'smooth' })}
-                 className="group flex items-center gap-4"
+                 onClick={() => {
+                   if (resort && !isInBag(resort.id)) {
+                     addItem({
+                       id: resort.id,
+                       type: 'resort',
+                       name: resort.name,
+                       image: resort.images[0],
+                       slug: resort.slug,
+                       price: resort.priceRange,
+                       details: resort.atoll
+                     });
+                   }
+                 }}
+                 className={`px-10 py-5 rounded-full text-[10px] font-black uppercase tracking-[0.4em] transition-all duration-700 shadow-2xl flex items-center gap-3 ${isInBag(resort.id) ? 'bg-sky-500 text-white' : 'bg-white/10 backdrop-blur-md text-white border border-white/20 hover:bg-white/20'}`}
                >
-                 <span className="text-[9px] font-black text-white/60 uppercase tracking-[0.5em] group-hover:text-white transition-colors">View Gallery</span>
-                 <div className="w-12 h-px bg-gradient-to-r from-white/60 to-transparent group-hover:from-white transition-all"></div>
+                 {isInBag(resort.id) ? (
+                   <>
+                     <Check size={14} /> Added to Bag
+                   </>
+                 ) : (
+                   <>
+                     <Plus size={14} /> Add to Selection
+                   </>
+                 )}
                </button>
              </div>
           </div>
@@ -557,7 +582,7 @@ const ResortDetail: React.FC = () => {
               <h3 className="text-3xl md:text-6xl font-serif font-bold text-slate-900 dark:text-white tracking-tighter leading-tight transition-colors">Bespoke Privileges.</h3>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-              {resortOffers.map((offer, idx) => (
+              {resortOffers.map((offer) => (
                 <div key={offer.id} className="reveal bg-white dark:bg-slate-900 rounded-[2.5rem] md:rounded-[3rem] p-8 md:p-16 shadow-xl border border-amber-50 dark:border-white/5 flex flex-col md:flex-row gap-8 md:gap-10 items-center transition-colors">
                    <div className="w-full md:w-1/3 aspect-square rounded-[1.5rem] md:rounded-[2rem] overflow-hidden bg-slate-100 dark:bg-slate-800">
                       <img src={offer.image} className="w-full h-full object-cover" alt={offer.title} />
@@ -658,6 +683,57 @@ const ResortDetail: React.FC = () => {
                     </div>
                  ))}
               </div>
+          </div>
+        </section>
+      )}
+
+      {/* Island Experiences Section */}
+      {experiences.length > 0 && (
+        <section className="py-24 md:py-48 bg-white dark:bg-slate-950 transition-colors overflow-hidden">
+          <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-10 mb-20 reveal">
+              <div className="max-w-2xl">
+                <span className="text-[11px] font-black text-sky-500 uppercase tracking-[1em] mb-8 block">Island Perspective</span>
+                <h3 className="text-4xl md:text-6xl lg:text-8xl font-serif font-bold text-slate-900 dark:text-white tracking-tighter leading-none">Curated <br/> Experiences.</h3>
+              </div>
+              <Link to="/experiences" className="text-[10px] font-black text-slate-400 uppercase tracking-[0.4em] hover:text-slate-950 dark:hover:text-white transition-colors border-b border-slate-100 dark:border-white/5 pb-2">
+                Explore All Journeys
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20">
+              {experiences.map((exp, idx) => (
+                <div key={exp.id} className="reveal group flex flex-col" style={{ transitionDelay: `${idx * 100}ms` }}>
+                  <div className="relative aspect-[16/10] rounded-[3rem] overflow-hidden mb-10 shadow-sm group-hover:shadow-2xl transition-all duration-1000 bg-slate-100 dark:bg-slate-900">
+                    <img src={exp.image} alt={exp.title} className="w-full h-full object-cover transition-transform duration-[8s] group-hover:scale-105" />
+                    <div className="absolute inset-0 bg-slate-950/10 group-hover:bg-transparent transition-colors"></div>
+                    <div className="absolute top-8 left-8">
+                      <span className="bg-white/95 dark:bg-slate-900/95 backdrop-blur px-6 py-2 rounded-full text-[9px] font-black uppercase tracking-[0.4em] text-slate-900 dark:text-white shadow-lg border border-white/20 dark:border-white/5">
+                        {exp.category}
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <div className="px-4">
+                    <h4 className="text-3xl font-serif font-bold text-slate-900 dark:text-white mb-6 group-hover:text-sky-600 transition-colors">{exp.title}</h4>
+                    <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mb-10 line-clamp-2">{exp.description}</p>
+                    
+                    <div className="flex items-center gap-8">
+                      <button 
+                        onClick={() => setSelectedExperience(exp)}
+                        className="inline-flex items-center gap-4 text-[10px] font-black uppercase tracking-[0.4em] text-slate-900 dark:text-white group/btn"
+                      >
+                        <span className="border-b border-transparent group-hover/btn:border-slate-900 dark:group-hover/btn:border-white pb-1 transition-all">Request Experience</span>
+                        <ArrowRight size={16} className="transform group-hover/btn:translate-x-2 transition-transform" />
+                      </button>
+                      <Link to={`/experiences/${exp.slug}`} className="text-[10px] font-black text-slate-400 uppercase tracking-[0.4em] hover:text-slate-950 dark:hover:text-white transition-colors">
+                        View Details
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
       )}
@@ -890,6 +966,14 @@ const ResortDetail: React.FC = () => {
          <span className="text-[10px] font-black text-slate-300 dark:text-slate-800 uppercase tracking-[0.4em] text-center">Defined by Perspective • 2026 Archive</span>
       </div>
 
+      <AnimatePresence>
+        {selectedExperience && (
+          <ExperienceInquiryForm 
+            experience={selectedExperience} 
+            onClose={() => setSelectedExperience(null)} 
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 };

@@ -82,6 +82,7 @@ export interface Offer {
 
 export interface Experience {
   id: string;
+  slug: string;
   title: string;
   description: string;
   image: string;
@@ -90,6 +91,23 @@ export interface Experience {
   resortId?: string;
   resortName?: string;
   resortSlug?: string;
+  packages?: {
+    name: string;
+    price: string;
+    features: string[];
+  }[];
+}
+
+export type BagItemType = 'resort' | 'experience' | 'offer';
+
+export interface BagItem {
+  id: string;
+  type: BagItemType;
+  name: string;
+  image: string;
+  slug?: string;
+  price?: number | string;
+  details?: string;
 }
 
 export type StoryCategory = 'Dispatch' | 'Guide' | 'Update' | 'Tip';

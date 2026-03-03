@@ -6,6 +6,8 @@ import { OFFERS } from '../constants';
 import { Link } from 'react-router-dom';
 import { Offer } from '../types';
 import SEO from '../components/SEO';
+import { ChevronLeft, ChevronRight, Plus, Check } from 'lucide-react';
+import { useBag } from '../context/BagContext';
 
 /**
  * Offers Page: Displays curated Maldivian luxury deals and seasonal privileges.
@@ -16,6 +18,7 @@ const Offers: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedNights, setSelectedNights] = useState<number | 'All'>('All');
   const [activeCategory, setActiveCategory] = useState<string>('All');
+  const { addItem, isInBag } = useBag();
   
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -193,58 +196,99 @@ const Offers: React.FC = () => {
             </div>
           ) : paginatedOffers.length > 0 ? (
             <>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                {paginatedOffers.map((offer) => (
-                  <div key={offer.id} className="group flex flex-col h-full reveal active">
-                    
-                    {/* Image Container */}
-                    <div className="relative aspect-[3.5/4] rounded-[2.5rem] overflow-hidden mb-8 shadow-sm group-hover:shadow-2xl transition-all duration-1000 bg-slate-100 dark:bg-slate-900">
-                       <img 
-                         src={offer.image} 
-                         alt={offer.title} 
-                         className="w-full h-full object-cover transition-transform duration-[4s] group-hover:scale-105" 
-                       />
+               {/* Offers Grid with Varied Widths */}
+               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-16">
+                 {paginatedOffers.map((offer, idx) => {
+                   // Varied width logic: 
+                   // idx 0 is large (2 cols on lg)
+                   // idx 4 is large (2 cols on lg)
+                   const isLarge = idx === 0 || idx === 4;
+                   
+                   return (
+                     <div 
+                       key={offer.id} 
+                       className={`group flex flex-col h-full reveal active ${isLarge ? 'lg:col-span-2' : ''}`}
+                       style={{ transitionDelay: `${(idx % itemsPerPage) * 100}ms` }}
+                     >
                        
-                       {/* Floating Badge */}
-                       <div className="absolute top-6 left-6">
-                          <div className="bg-amber-400 text-slate-950 px-4 py-1.5 rounded-full flex items-center gap-2 shadow-lg">
-                             <span className="text-[10px] font-black uppercase tracking-widest">{offer.nights} NIGHTS</span>
-                          </div>
-                       </div>
-                    </div>
-
-                    {/* Content Architecture */}
-                    <div className="px-2 flex flex-col h-full">
-                       <StarRating count={offer.rating} />
-                       
-                       <p className="text-slate-400 dark:text-slate-500 text-[9px] font-black uppercase tracking-[0.3em] mb-4 leading-relaxed transition-colors">
-                          {offer.resortName} • {offer.roomCategory}
-                       </p>
-                       
-                       <h3 className="text-2xl font-serif font-bold text-slate-950 dark:text-white mb-6 leading-[1.2] group-hover:text-sky-500 dark:group-hover:text-sky-400 transition-colors">
-                          {offer.title}
-                       </h3>
-                       
-                       <div className="mt-auto pt-6 flex flex-col gap-1">
-                          <div className="flex items-baseline gap-2">
-                             <span className="text-2xl font-black text-slate-950 dark:text-white">US$ {offer.price.toLocaleString()}</span>
-                             <span className="text-slate-400 dark:text-slate-500 text-[10px] font-bold">/ {offer.priceSubtext}</span>
-                          </div>
+                       {/* Image Container */}
+                       <div className={`relative rounded-[2.5rem] md:rounded-[3rem] overflow-hidden mb-8 shadow-sm group-hover:shadow-2xl transition-all duration-1000 bg-slate-100 dark:bg-slate-900 ${isLarge ? 'aspect-[16/9]' : 'aspect-[3.5/4]'}`}>
+                          <img 
+                            src={offer.image} 
+                            alt={offer.title} 
+                            className="w-full h-full object-cover transition-transform duration-[4s] group-hover:scale-105" 
+                          />
                           
-                          <Link 
-                            to={`/offers/${offer.id}`} 
-                            className="mt-6 inline-flex items-center gap-4 text-[9px] font-black uppercase tracking-[0.5em] text-slate-900 dark:text-white group/btn transition-all"
-                          >
-                             <span className="border-b border-transparent group-hover/btn:border-slate-900 dark:group-hover/btn:border-white pb-1 transition-all">Refine Discovery</span>
-                             <svg className="w-4 h-4 transform group-hover/btn:translate-x-2 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                             </svg>
-                          </Link>
+                          {/* Floating Badge */}
+                          <div className="absolute top-6 left-6">
+                             <div className="bg-amber-400 text-slate-950 px-4 py-1.5 rounded-full flex items-center gap-2 shadow-lg">
+                                <span className="text-[10px] font-black uppercase tracking-widest">{offer.nights} NIGHTS</span>
+                             </div>
+                          </div>
+
+                          {/* Category Badge */}
+                          <div className="absolute top-6 right-6">
+                             <div className="bg-white/90 dark:bg-slate-900/90 backdrop-blur px-4 py-1.5 rounded-full text-[8px] font-bold text-slate-900 dark:text-white uppercase tracking-widest shadow-sm transition-colors border dark:border-white/5">
+                                {offer.category}
+                             </div>
+                          </div>
                        </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
+
+                       {/* Content Architecture */}
+                       <div className={`px-2 flex flex-col h-full ${isLarge ? 'max-w-3xl' : ''}`}>
+                          <StarRating count={offer.rating} />
+                          
+                          <p className="text-slate-400 dark:text-slate-500 text-[9px] font-black uppercase tracking-[0.3em] mb-4 leading-relaxed transition-colors">
+                             {offer.resortName} • {offer.roomCategory}
+                          </p>
+                          
+                          <h3 className={`${isLarge ? 'text-3xl md:text-4xl' : 'text-2xl'} font-serif font-bold text-slate-950 dark:text-white mb-6 leading-[1.2] group-hover:text-sky-500 dark:group-hover:text-sky-400 transition-colors`}>
+                             {offer.title}
+                          </h3>
+                          
+                          <div className="mt-auto pt-6 flex flex-col gap-1">
+                             <div className="flex items-baseline gap-2">
+                                <span className="text-2xl font-black text-slate-950 dark:text-white">US$ {offer.price.toLocaleString()}</span>
+                                <span className="text-slate-400 dark:text-slate-500 text-[10px] font-bold">/ {offer.priceSubtext}</span>
+                             </div>
+                             
+                             <div className="flex items-center gap-6 mt-6">
+                               <Link 
+                                 to={`/offers/${offer.id}`} 
+                                 className="inline-flex items-center gap-4 text-[9px] font-black uppercase tracking-[0.5em] text-slate-900 dark:text-white group/btn transition-all"
+                               >
+                                  <span className="border-b border-transparent group-hover/btn:border-slate-900 dark:group-hover/btn:border-white pb-1 transition-all">Refine Discovery</span>
+                                  <svg className="w-4 h-4 transform group-hover/btn:translate-x-2 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                  </svg>
+                               </Link>
+
+                               <button 
+                                 onClick={(e) => {
+                                   e.preventDefault();
+                                   if (!isInBag(offer.id)) {
+                                     addItem({
+                                       id: offer.id,
+                                       type: 'offer',
+                                       name: offer.title,
+                                       image: offer.image,
+                                       slug: offer.resortSlug,
+                                       price: offer.price,
+                                       details: offer.resortName
+                                     });
+                                   }
+                                 }}
+                                 className={`p-3 rounded-full transition-all duration-500 ${isInBag(offer.id) ? 'bg-sky-500 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-400 hover:bg-sky-500 hover:text-white'}`}
+                               >
+                                 {isInBag(offer.id) ? <Check size={14} strokeWidth={3} /> : <Plus size={14} strokeWidth={3} />}
+                               </button>
+                             </div>
+                          </div>
+                       </div>
+                     </div>
+                   );
+                 })}
+               </div>
 
               {/* Pagination Architecture */}
               {totalPages > 1 && (
@@ -254,7 +298,7 @@ const Offers: React.FC = () => {
                     disabled={currentPage === 1}
                     className="w-12 h-12 rounded-full border border-slate-200 dark:border-white/10 flex items-center justify-center hover:bg-slate-950 dark:hover:bg-white hover:text-white dark:hover:text-slate-950 transition-all disabled:opacity-20"
                   >
-                    &larr;
+                    <ChevronLeft size={16} />
                   </button>
                   
                   <div className="flex gap-2">
@@ -274,7 +318,7 @@ const Offers: React.FC = () => {
                     disabled={currentPage === totalPages}
                     className="w-12 h-12 rounded-full border border-slate-200 dark:border-white/10 flex items-center justify-center hover:bg-slate-950 dark:hover:bg-white hover:text-white dark:hover:text-slate-950 transition-all disabled:opacity-20"
                   >
-                    &rarr;
+                    <ChevronRight size={16} />
                   </button>
                 </div>
               )}

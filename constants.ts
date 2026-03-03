@@ -209,13 +209,26 @@ export const RESORTS: Accommodation[] = [
 export const EXPERIENCES: Experience[] = [
   {
     id: 'exp-1',
+    slug: 'whale-shark-safari',
     title: 'Whale Shark Safari',
     description: 'Swim alongside the gentle giants of the ocean in South Ari Atoll. A definitive Maldivian movement that brings you face-to-face with the majesty of the deep blue.',
     image: 'https://images.unsplash.com/photo-1560275619-4662e36fa65c?auto=format&fit=crop&q=80&w=1200',
     category: 'Adventure',
     resortId: '739a8c14-2391-4d32-8456-789012345678',
     resortName: 'Adaaran Prestige Vadoo',
-    resortSlug: 'adaaran-prestige-vadoo'
+    resortSlug: 'adaaran-prestige-vadoo',
+    packages: [
+      {
+        name: 'Standard Safari',
+        price: 'US$ 150',
+        features: ['Snorkeling gear', 'Expert guide', 'Refreshments']
+      },
+      {
+        name: 'Private Expedition',
+        price: 'US$ 850',
+        features: ['Private boat', 'Gourmet lunch', 'Professional photographer']
+      }
+    ]
   }
 ];
 

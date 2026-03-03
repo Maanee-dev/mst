@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Accommodation } from '../types';
+import { Plus, Check } from 'lucide-react';
+import { useBag } from '../context/BagContext';
 
 interface ResortCardProps {
   resort: Accommodation;
@@ -11,12 +13,30 @@ interface ResortCardProps {
 
 const ResortCard: React.FC<ResortCardProps> = ({ resort, hasOffer, customLink }) => {
   const { t } = useTranslation();
+  const { addItem, isInBag } = useBag();
+  const inBag = isInBag(resort.id);
+
   const displayImage = resort.images && resort.images.length > 0 
     ? resort.images[0] 
     : 'https://images.unsplash.com/photo-1544550581-5f7ceaf7f992?auto=format&fit=crop&q=80&w=1200';
 
+  const handleAddToBag = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (inBag) return;
+    addItem({
+      id: resort.id,
+      type: 'resort',
+      name: resort.name,
+      image: displayImage,
+      slug: resort.slug,
+      price: resort.priceRange,
+      details: resort.atoll
+    });
+  };
+
   return (
-    <Link to={customLink || `/stays/${resort.slug}`} className="group block mb-12">
+    <Link to={customLink || `/stays/${resort.slug}`} className="group block mb-12 relative">
       <div className="relative aspect-[4/5] md:aspect-[3/4] overflow-hidden rounded-[2.5rem] mb-8 transition-all duration-1000 bg-slate-100 dark:bg-slate-900 group-hover:shadow-2xl group-hover:-translate-y-2">
         <img 
           src={displayImage} 
@@ -36,6 +56,14 @@ const ResortCard: React.FC<ResortCardProps> = ({ resort, hasOffer, customLink })
             </span>
           )}
         </div>
+
+        {/* Add to Bag Button */}
+        <button 
+          onClick={handleAddToBag}
+          className={`absolute top-8 right-8 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-500 z-10 ${inBag ? 'bg-sky-500 text-white shadow-lg' : 'bg-white/90 dark:bg-slate-900/90 text-slate-900 dark:text-white opacity-0 group-hover:opacity-100 hover:bg-sky-500 hover:text-white'}`}
+        >
+          {inBag ? <Check size={16} strokeWidth={3} /> : <Plus size={16} strokeWidth={3} />}
+        </button>
         
         {/* Visual Overlay on Hover */}
         <div className="absolute inset-0 bg-slate-950/0 group-hover:bg-slate-950/20 transition-all duration-1000"></div>

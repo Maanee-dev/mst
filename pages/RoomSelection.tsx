@@ -4,22 +4,32 @@ import { motion, AnimatePresence } from 'motion/react';
 import { supabase, mapResort } from '../lib/supabase';
 import { Accommodation, RoomType, MealPlan } from '../types';
 import SEO from '../components/SEO';
-import { ChevronLeft, Check, Info, Users, Maximize2, Utensils, Edit2, X } from 'lucide-react';
+import { ChevronLeft, Check, Info, Users, Maximize2, Utensils, Edit2, X, ArrowRight, Plus } from 'lucide-react';
 import InquiryForm from '../components/InquiryForm';
+import ExperienceInquiryForm from '../components/ExperienceInquiryForm';
 import CalendarSelector from '../components/CalendarSelector';
 import GuestSelector from '../components/GuestSelector';
 import { DateRange } from 'react-day-picker';
 import { format } from 'date-fns';
+import { Offer, Experience } from '../types';
+import { mapOffer } from '../lib/supabase';
+import { Link } from 'react-router-dom';
+import { EXPERIENCES } from '../constants';
+import { useBag } from '../context/BagContext';
 
 const RoomSelection: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
+  const { addItem, isInBag } = useBag();
   
   const [resort, setResort] = useState<Accommodation | null>(null);
+  const [resortOffers, setResortOffers] = useState<Offer[]>([]);
+  const [experiences, setExperiences] = useState<Experience[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedRoom, setSelectedRoom] = useState<RoomType | null>(null);
   const [selectedMealPlan, setSelectedMealPlan] = useState<MealPlan | null>(null);
+  const [selectedExperience, setSelectedExperience] = useState<Experience | null>(null);
   const [showInquiryForm, setShowInquiryForm] = useState(false);
   const [currentStep, setCurrentStep] = useState(1); // 1: Room, 2: Meal Plan
   const [isEditingDetails, setIsEditingDetails] = useState(false);
@@ -47,14 +57,43 @@ const RoomSelection: React.FC = () => {
     const fetchResort = async () => {
       setLoading(true);
       try {
-        const { data, error } = await supabase
+        const { data } = await supabase
           .from('resorts')
           .select('*')
           .eq('slug', slug)
           .maybeSingle();
         
         if (data) {
-          setResort(mapResort(data));
+          const mappedResort = mapResort(data);
+          setResort(mappedResort);
+          
+          // Fetch offers for this resort
+          const { data: offersData } = await supabase
+            .from('offers')
+            .select('*, resorts(slug)')
+            .eq('resort_id', data.id);
+            
+          if (offersData) {
+            setResortOffers(offersData.map(o => mapOffer(o)));
+          }
+
+          // Fetch experiences for this resort
+          const { data: expData } = await supabase
+            .from('experiences')
+            .select('*, resorts(id, name, slug)')
+            .or(`resort_id.eq.${data.id},atoll.eq.${data.atoll}`);
+            
+          if (expData && expData.length > 0) {
+            setExperiences(expData.map(item => ({
+              ...item,
+              resortName: item.resorts?.name,
+              resortSlug: item.resorts?.slug,
+              resortId: item.resorts?.id
+            })) as Experience[]);
+          } else {
+            const local = EXPERIENCES.filter(e => e.resortId === data.id);
+            setExperiences(local.length > 0 ? local : EXPERIENCES.slice(0, 4));
+          }
         } else {
           navigate('/inquire');
         }
@@ -382,6 +421,52 @@ const RoomSelection: React.FC = () => {
         </aside>
       </main>
 
+      {/* Special Offers Section */}
+      {resortOffers.length > 0 && (
+        <section className="max-w-[1440px] mx-auto px-6 mt-32 reveal">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-10 mb-16">
+            <div className="max-w-2xl">
+              <span className="text-[11px] font-black text-sky-500 uppercase tracking-[1em] mb-8 block">Exclusive Privileges</span>
+              <h3 className="text-4xl md:text-6xl font-serif font-bold text-slate-900 dark:text-white tracking-tighter leading-none">Resort Offers.</h3>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {resortOffers.map((offer) => (
+              <div key={offer.id} className="group bg-white dark:bg-slate-900 rounded-[2.5rem] overflow-hidden border border-slate-100 dark:border-white/5 shadow-sm hover:shadow-2xl transition-all duration-700 flex flex-col">
+                <div className="aspect-[16/10] overflow-hidden relative">
+                  <img src={offer.image} className="w-full h-full object-cover transition-transform duration-[4s] group-hover:scale-110" alt={offer.title} />
+                  <div className="absolute top-6 left-6">
+                    <div className="bg-amber-400 text-slate-950 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest shadow-lg">
+                      {offer.nights} NIGHTS
+                    </div>
+                  </div>
+                </div>
+                <div className="p-8 flex flex-col flex-1">
+                  <span className="text-[9px] font-black text-sky-500 uppercase tracking-[0.3em] mb-4 block">{offer.category}</span>
+                  <h4 className="text-xl font-serif font-bold text-slate-900 dark:text-white mb-4 group-hover:text-sky-500 transition-colors">{offer.title}</h4>
+                  <p className="text-slate-500 dark:text-slate-400 text-xs leading-relaxed mb-8 line-clamp-2">
+                    {offer.discount}
+                  </p>
+                  <div className="mt-auto pt-6 border-t border-slate-50 dark:border-white/5 flex items-center justify-between">
+                    <div>
+                      <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest block mb-1">Starting from</span>
+                      <span className="text-lg font-black text-slate-900 dark:text-white">US$ {offer.price.toLocaleString()}</span>
+                    </div>
+                    <Link 
+                      to={`/offers/${offer.id}`}
+                      className="w-10 h-10 rounded-full bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-slate-400 group-hover:bg-sky-500 group-hover:text-white transition-all"
+                    >
+                      <ArrowRight size={16} />
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
       {/* Visual Journey Section */}
       {resort.images && resort.images.length > 0 && (
         <section id="gallery" className="py-24 md:py-32 bg-white dark:bg-slate-950 transition-colors overflow-hidden mt-24">
@@ -406,6 +491,75 @@ const RoomSelection: React.FC = () => {
                 </div>
               ))}
             </div>
+          </div>
+        </section>
+      )}
+
+      {/* Island Experiences Section */}
+      {experiences.length > 0 && (
+        <section className="max-w-[1440px] mx-auto px-6 mt-32 reveal">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-10 mb-16">
+            <div className="max-w-2xl">
+              <span className="text-[11px] font-black text-sky-500 uppercase tracking-[1em] mb-8 block">Island Perspective</span>
+              <h3 className="text-4xl md:text-6xl font-serif font-bold text-slate-900 dark:text-white tracking-tighter leading-none">Curated Experiences.</h3>
+            </div>
+            <Link to="/experiences" className="text-[10px] font-black text-slate-400 uppercase tracking-[0.4em] hover:text-slate-950 dark:hover:text-white transition-colors border-b border-slate-100 dark:border-white/5 pb-2">
+              Explore All Journeys
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {experiences.map((exp) => (
+              <div key={exp.id} className="group bg-white dark:bg-slate-900 rounded-[2.5rem] overflow-hidden border border-slate-100 dark:border-white/5 shadow-sm hover:shadow-2xl transition-all duration-700 flex flex-col">
+                <div className="aspect-[16/10] overflow-hidden relative">
+                  <img src={exp.image} className="w-full h-full object-cover transition-transform duration-[4s] group-hover:scale-110" alt={exp.title} />
+                  <div className="absolute top-6 left-6">
+                    <span className="bg-white/90 dark:bg-slate-900/90 backdrop-blur px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest text-slate-900 dark:text-white shadow-sm">
+                      {exp.category}
+                    </span>
+                  </div>
+                </div>
+                <div className="p-8 flex flex-col flex-1">
+                  <h4 className="text-xl font-serif font-bold text-slate-900 dark:text-white mb-4 group-hover:text-sky-500 transition-colors">{exp.title}</h4>
+                  <p className="text-slate-500 dark:text-slate-400 text-xs leading-relaxed mb-8 line-clamp-2">
+                    {exp.description}
+                  </p>
+                  <div className="mt-auto pt-6 border-t border-slate-50 dark:border-white/5 flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                      <button 
+                        onClick={() => setSelectedExperience(exp)}
+                        className="text-[10px] font-black text-slate-950 dark:text-white border-b border-slate-950 dark:border-white pb-1 hover:text-sky-500 hover:border-sky-500 transition-all uppercase tracking-widest"
+                      >
+                        Request
+                      </button>
+                      <button 
+                        onClick={() => {
+                          if (!isInBag(exp.id)) {
+                            addItem({
+                              id: exp.id,
+                              type: 'experience',
+                              name: exp.title,
+                              image: exp.image,
+                              slug: exp.slug,
+                              details: exp.category
+                            });
+                          }
+                        }}
+                        className={`p-2 rounded-full transition-all duration-500 ${isInBag(exp.id) ? 'bg-sky-500 text-white' : 'bg-slate-50 dark:bg-slate-800 text-slate-400 hover:bg-sky-500 hover:text-white'}`}
+                      >
+                        {isInBag(exp.id) ? <Check size={14} strokeWidth={3} /> : <Plus size={14} strokeWidth={3} />}
+                      </button>
+                    </div>
+                    <Link 
+                      to={`/experiences/${exp.slug}`}
+                      className="w-10 h-10 rounded-full bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-slate-400 group-hover:bg-sky-500 group-hover:text-white transition-all"
+                    >
+                      <ArrowRight size={16} />
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </section>
       )}
@@ -438,6 +592,15 @@ const RoomSelection: React.FC = () => {
               />
             </motion.div>
           </motion.div>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {selectedExperience && (
+          <ExperienceInquiryForm 
+            experience={selectedExperience} 
+            onClose={() => setSelectedExperience(null)} 
+          />
         )}
       </AnimatePresence>
     </div>

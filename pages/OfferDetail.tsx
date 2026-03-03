@@ -5,20 +5,22 @@ import { supabase, mapOffer } from '../lib/supabase';
 import { Offer } from '../types';
 import { OFFERS } from '../constants';
 import SEO from '../components/SEO';
-import { ChevronLeft, Calendar, MapPin, Star, Check, ArrowRight, Utensils, Info } from 'lucide-react';
+import { ChevronLeft, Calendar, MapPin, Star, Check, ArrowRight, Utensils, Info, Plus } from 'lucide-react';
 import { motion } from 'motion/react';
+import { useBag } from '../context/BagContext';
 
 const OfferDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [offer, setOffer] = useState<Offer | null>(null);
   const [loading, setLoading] = useState(true);
+  const { addItem, isInBag } = useBag();
 
   useEffect(() => {
     const fetchOffer = async () => {
       setLoading(true);
       try {
-        const { data, error } = await supabase
+        const { data } = await supabase
           .from('offers')
           .select('*, resorts(*)')
           .eq('id', id)
@@ -198,11 +200,39 @@ const OfferDetail: React.FC = () => {
 
                 <Link 
                   to={`/inquire/${offer.resortSlug}?offerId=${offer.id}`}
-                  className="w-full py-6 bg-white text-slate-950 rounded-full text-[10px] font-black uppercase tracking-[0.4em] flex items-center justify-center gap-4 hover:bg-sky-500 hover:text-white transition-all shadow-xl"
+                  className="w-full py-6 bg-white text-slate-950 rounded-full text-[10px] font-black uppercase tracking-[0.4em] flex items-center justify-center gap-4 hover:bg-sky-500 hover:text-white transition-all shadow-xl mb-4"
                 >
                   Inquire Now
                   <ArrowRight size={16} />
                 </Link>
+
+                <button 
+                  onClick={() => {
+                    if (offer && !isInBag(offer.id)) {
+                      addItem({
+                        id: offer.id,
+                        type: 'offer',
+                        name: offer.title,
+                        image: offer.image,
+                        slug: offer.resortSlug,
+                        price: offer.price,
+                        details: offer.resortName
+                      });
+                    }
+                  }}
+                  disabled={offer ? isInBag(offer.id) : true}
+                  className={`w-full py-6 rounded-full text-[10px] font-black uppercase tracking-[0.4em] flex items-center justify-center gap-4 transition-all shadow-xl border ${isInBag(offer?.id || '') ? 'bg-sky-500 border-sky-500 text-white' : 'bg-transparent border-white/20 text-white hover:bg-white/10'}`}
+                >
+                  {isInBag(offer?.id || '') ? (
+                    <>
+                      <Check size={16} strokeWidth={3} /> Added to Bag
+                    </>
+                  ) : (
+                    <>
+                      <Plus size={16} strokeWidth={3} /> Add to Selection
+                    </>
+                  )}
+                </button>
               </div>
 
               <div className="bg-white dark:bg-slate-900 rounded-[2.5rem] p-8 border border-slate-100 dark:border-white/5 shadow-sm">

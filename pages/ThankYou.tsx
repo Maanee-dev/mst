@@ -6,7 +6,9 @@ import SEO from '../components/SEO';
 
 const ThankYou: React.FC = () => {
   const location = useLocation();
-  const resortName = location.state?.resortName || 'your sanctuary';
+  const itemName = location.state?.resortName || 'your sanctuary';
+  const type = location.state?.type || 'resort';
+  const packageName = location.state?.packageName;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -52,7 +54,12 @@ const ThankYou: React.FC = () => {
           className="space-y-6 mb-16"
         >
           <p className="text-slate-500 dark:text-slate-400 text-lg leading-relaxed font-medium">
-            Thank you for your interest in <span className="text-slate-900 dark:text-white font-bold">{resortName}</span>. 
+            Thank you for your interest in <span className="text-slate-900 dark:text-white font-bold">{itemName}</span>. 
+            {packageName && (
+              <span className="block mt-2 text-sm font-black text-sky-500 uppercase tracking-widest">
+                Package: {packageName}
+              </span>
+            )}
             Your request has been dispatched to our travel specialists.
           </p>
           
@@ -71,10 +78,10 @@ const ThankYou: React.FC = () => {
           className="flex flex-col sm:flex-row items-center justify-center gap-6"
         >
           <Link 
-            to="/inquire" 
+            to={type === 'experience' ? '/experiences' : '/stays'} 
             className="group flex items-center gap-3 text-[10px] font-black text-slate-900 dark:text-white uppercase tracking-widest hover:text-sky-500 transition-colors"
           >
-            Explore More Sanctuaries
+            {type === 'experience' ? 'Explore More Journeys' : 'Explore More Sanctuaries'}
             <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
           </Link>
           

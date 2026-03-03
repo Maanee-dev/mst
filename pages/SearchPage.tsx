@@ -7,6 +7,8 @@ import { RESORTS, OFFERS, EXPERIENCES, BLOG_POSTS } from '../constants';
 import { Accommodation, Offer, Experience, BlogPost } from '../types';
 import ResortCard from '../components/ResortCard';
 import SEO from '../components/SEO';
+import { Plus, Check } from 'lucide-react';
+import { useBag } from '../context/BagContext';
 
 const SearchPage: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -17,6 +19,7 @@ const SearchPage: React.FC = () => {
   const [offers, setOffers] = useState<Offer[]>([]);
   const [experiences, setExperiences] = useState<Experience[]>([]);
   const [stories, setStories] = useState<BlogPost[]>([]);
+  const { addItem, isInBag } = useBag();
 
   useEffect(() => {
     const fetchAllData = async () => {
@@ -184,7 +187,28 @@ const SearchPage: React.FC = () => {
                     <StarRating count={offer.rating} />
                     <h3 className="text-xl font-serif font-bold text-slate-950 dark:text-white mb-4 leading-tight group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors line-clamp-2">{offer.title}</h3>
                     <div className="mt-auto pt-6 border-t border-slate-50 dark:border-white/5 flex justify-between items-center transition-colors">
-                      <span className="text-[9px] font-black uppercase tracking-widest text-amber-600 dark:text-amber-400">{offer.discount}</span>
+                      <div className="flex items-center gap-4">
+                        <span className="text-[9px] font-black uppercase tracking-widest text-amber-600 dark:text-amber-400">{offer.discount}</span>
+                        <button 
+                          onClick={(e) => {
+                            e.preventDefault();
+                            if (!isInBag(offer.id)) {
+                              addItem({
+                                id: offer.id,
+                                type: 'offer',
+                                name: offer.title,
+                                image: offer.image,
+                                slug: offer.resortSlug,
+                                price: offer.price,
+                                details: offer.resortName
+                              });
+                            }
+                          }}
+                          className={`p-2 rounded-full transition-all duration-500 ${isInBag(offer.id) ? 'bg-sky-500 text-white' : 'bg-slate-50 dark:bg-slate-800 text-slate-400 hover:bg-sky-500 hover:text-white'}`}
+                        >
+                          {isInBag(offer.id) ? <Check size={12} strokeWidth={3} /> : <Plus size={12} strokeWidth={3} />}
+                        </button>
+                      </div>
                       <span className="text-[9px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-600 transition-colors">Refine discovery →</span>
                     </div>
                   </Link>
@@ -213,7 +237,26 @@ const SearchPage: React.FC = () => {
                       <span className="text-[8px] font-black text-sky-500 uppercase tracking-widest block mb-4">{exp.category}</span>
                       <h3 className="text-2xl font-serif font-bold text-slate-950 dark:text-white mb-6 group-hover:italic transition-all leading-tight transition-colors">{exp.title}</h3>
                       <p className="text-slate-500 dark:text-slate-400 text-[12px] leading-relaxed line-clamp-2 mb-8 transition-colors">{exp.description}</p>
-                      <Link to="/plan" className="text-[9px] font-black text-slate-950 dark:text-white uppercase tracking-[0.4em] border-b border-slate-950 dark:border-white pb-1 transition-colors">Request Journey</Link>
+                      <div className="flex items-center gap-6">
+                        <Link to="/plan" className="text-[9px] font-black text-slate-950 dark:text-white uppercase tracking-[0.4em] border-b border-slate-950 dark:border-white pb-1 transition-colors">Request Journey</Link>
+                        <button 
+                          onClick={() => {
+                            if (!isInBag(exp.id)) {
+                              addItem({
+                                id: exp.id,
+                                type: 'experience',
+                                name: exp.title,
+                                image: exp.image,
+                                slug: exp.slug,
+                                details: exp.category
+                              });
+                            }
+                          }}
+                          className={`p-2 rounded-full transition-all duration-500 ${isInBag(exp.id) ? 'bg-sky-500 text-white' : 'bg-slate-50 dark:bg-slate-800 text-slate-400 hover:bg-sky-500 hover:text-white'}`}
+                        >
+                          {isInBag(exp.id) ? <Check size={12} strokeWidth={3} /> : <Plus size={12} strokeWidth={3} />}
+                        </button>
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -282,10 +325,36 @@ const SearchPage: React.FC = () => {
           <p className="text-slate-400 dark:text-slate-600 text-[10px] font-black uppercase tracking-[0.4em] mb-12 leading-loose max-w-lg mx-auto transition-colors">
             Your inquiry for "{query}" did not reveal any records in our digital sanctuary. Try a more general term or consult our specialists.
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-32">
             <Link to="/" className="bg-slate-950 dark:bg-white text-white dark:text-slate-950 font-black px-12 py-6 rounded-full text-[10px] uppercase tracking-[0.5em] hover:bg-sky-500 dark:hover:bg-sky-400 transition-all shadow-xl">Return Home</Link>
             <Link to="/plan" className="text-[10px] font-black text-slate-900 dark:text-white uppercase tracking-[0.5em] border-b border-slate-950 dark:border-white pb-2 transition-colors">Consult an Expert</Link>
           </div>
+
+          {/* Sanctuary Section for No Results */}
+          <section className="reveal bg-slate-950 dark:bg-white rounded-[3rem] p-12 md:p-24 text-center overflow-hidden relative group max-w-6xl mx-auto">
+            <div className="absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity duration-1000">
+              <img 
+                src="https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&q=80&w=1200" 
+                className="w-full h-full object-cover"
+                alt="Maldives Background"
+              />
+            </div>
+            <div className="relative z-10">
+              <span className="text-[10px] font-black text-sky-400 dark:text-sky-600 uppercase tracking-[1em] mb-8 block">Bespoke Planning</span>
+              <h2 className="text-4xl md:text-7xl font-serif font-bold text-white dark:text-slate-950 mb-12 tracking-tighter leading-tight">
+                Haven't found your <br className="hidden md:block" /> perfect sanctuary?
+              </h2>
+              <p className="text-white/60 dark:text-slate-500 text-[10px] font-bold uppercase tracking-[0.5em] mb-16 max-w-2xl mx-auto leading-loose">
+                Our specialists are ready to curate a personalized Maldivian journey tailored to your exact vision.
+              </p>
+              <Link 
+                to="/inquire" 
+                className="inline-block bg-white dark:bg-slate-950 text-slate-950 dark:text-white font-black px-16 py-7 rounded-full hover:bg-sky-500 dark:hover:bg-sky-400 transition-all duration-700 shadow-2xl uppercase tracking-[0.8em] text-[10px]"
+              >
+                Inquire Now
+              </Link>
+            </div>
+          </section>
         </div>
       )}
 

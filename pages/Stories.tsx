@@ -15,10 +15,11 @@ const Stories: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<StoryCategory | 'All'>('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [currentHeroIndex, setCurrentHeroIndex] = useState(0);
+  const gridRef = React.useRef<HTMLDivElement>(null);
   
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 7; // Odd number works well with varied grid
+  const itemsPerPage = 6; // Fits the varied grid pattern perfectly
 
   useEffect(() => {
     const fetchStories = async () => {
@@ -66,7 +67,17 @@ const Stories: React.FC = () => {
     }, { threshold: 0.1 });
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
     return () => observer.disconnect();
-  }, [stories, activeCategory, searchQuery]);
+  }, [stories, activeCategory, searchQuery, currentPage]);
+
+  const handleCategoryChange = (cat: StoryCategory | 'All') => {
+    setActiveCategory(cat);
+    setCurrentPage(1);
+  };
+
+  const handleSearchChange = (query: string) => {
+    setSearchQuery(query);
+    setCurrentPage(1);
+  };
 
   const categories: (StoryCategory | 'All')[] = ['All', 'Dispatch', 'Guide', 'Update', 'Tip'];
 
@@ -96,7 +107,10 @@ const Stories: React.FC = () => {
 
   const handlePageChange = (p: number) => {
     setCurrentPage(p);
-    window.scrollTo({ top: 600, behavior: 'smooth' });
+    if (gridRef.current) {
+      const offset = gridRef.current.offsetTop - 100;
+      window.scrollTo({ top: offset, behavior: 'smooth' });
+    }
   };
 
   return (
@@ -206,12 +220,12 @@ const Stories: React.FC = () => {
       <div className="max-w-7xl mx-auto px-6 py-24 md:py-32 lg:px-12">
         
         {/* Filter & Search Bar */}
-        <div className="mb-24 flex flex-col md:flex-row justify-between items-center gap-12 border-b border-slate-100 dark:border-white/5 pb-12 reveal transition-colors">
+        <div ref={gridRef} className="mb-24 flex flex-col md:flex-row justify-between items-center gap-12 border-b border-slate-100 dark:border-white/5 pb-12 reveal transition-colors">
           <div className="flex flex-wrap justify-center gap-8">
             {categories.map(cat => (
               <button
                 key={cat}
-                onClick={() => setActiveCategory(cat)}
+                onClick={() => handleCategoryChange(cat)}
                 className={`text-[10px] font-bold uppercase tracking-[0.4em] transition-all pb-2 border-b-2 ${activeCategory === cat ? 'border-sky-500 text-slate-900 dark:text-white' : 'border-transparent text-slate-500 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'}`}
               >
                 {cat}s
@@ -223,7 +237,7 @@ const Stories: React.FC = () => {
               type="text"
               placeholder="SEARCH ARCHIVES..."
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e) => handleSearchChange(e.target.value)}
               className="w-full bg-transparent border-b border-slate-200 dark:border-white/10 py-2 text-[16px] md:text-[10px] font-bold uppercase tracking-widest outline-none focus:border-slate-950 dark:focus:border-white text-slate-900 dark:text-white placeholder:text-slate-300 dark:placeholder:text-slate-700 transition-all"
             />
           </div>
