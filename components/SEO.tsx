@@ -19,7 +19,7 @@ interface SEOProps {
 const SEO: React.FC<SEOProps> = ({ 
   title, 
   description, 
-  image = 'https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&q=80&w=1200', 
+  image = 'https://maldives-serenitytravels.com/images/Screenshot%202026-02-23%20at%2000.17.04.png', 
   keywords = [
     'Maldives luxury travel', 'private island resorts Maldives', 'overwater villas Maldives', 
     'bespoke Maldives travel', 'Maldives Serenity Travels', 'Maldives honeymoon packages',
