@@ -88,7 +88,7 @@ const InquireNow: React.FC = () => {
       <section className="relative h-[40vh] md:h-[50vh] flex items-center justify-center overflow-hidden bg-slate-900">
         <div className="absolute inset-0 z-0">
           <img 
-            src="https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&q=80&w=1920" 
+            src="https://www.sunsiyam.com/media/ydkj55yq/dji_0948-r.jpg?mode=max&width=778&height=518" 
             className="w-full h-full object-cover opacity-50" 
             alt="Maldives Seascape"
           />
@@ -100,7 +100,6 @@ const InquireNow: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             className="text-[10px] font-black text-sky-400 uppercase tracking-[1em] mb-6 block"
           >
-            Bespoke Discovery
           </motion.span>
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}

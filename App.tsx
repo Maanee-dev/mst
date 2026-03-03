@@ -16,6 +16,7 @@ import Stays from './pages/Stays.tsx';
 import ResortDetail from './pages/ResortDetail.tsx';
 // Fix: Updated import casing to match file name 'Offers.tsx' to resolve case-sensitivity errors
 import Offers from './pages/Offers.tsx';
+import OfferDetail from './pages/OfferDetail.tsx';
 // Fix: Updated import casing to match file name 'Experiences.tsx' to resolve case-sensitivity errors
 import Experiences from './pages/Experiences.tsx';
 import Stories from './pages/Stories.tsx';
@@ -52,6 +53,7 @@ const App: React.FC = () => {
         <Route path="/stays" element={<Stays />} />
         <Route path="/stays/:slug" element={<ResortDetail />} />
         <Route path="/offers" element={<Offers />} />
+        <Route path="/offers/:id" element={<OfferDetail />} />
         <Route path="/experiences" element={<Experiences />} />
         <Route path="/stories" element={<Stories />} />
         <Route path="/stories/:slug" element={<BlogPostDetail />} />

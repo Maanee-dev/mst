@@ -1,6 +1,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
+import Fuse from 'fuse.js';
 import { RESORTS } from '../constants';
 import { AccommodationType, TransferType, MealPlan } from '../types';
 import ResortCard from '../components/ResortCard';
@@ -20,18 +21,22 @@ const Resorts: React.FC = () => {
   }, []);
 
   const filteredResorts = useMemo(() => {
-    return RESORTS.filter(resort => {
-      if (resort.type !== AccommodationType.RESORT) return false;
-      
-      const matchesSearch = resort.name.toLowerCase().includes(filterQuery.toLowerCase()) || 
-                            resort.atoll.toLowerCase().includes(filterQuery.toLowerCase());
-      
+    let list = RESORTS.filter(r => r.type === AccommodationType.RESORT);
+
+    if (filterQuery.trim()) {
+      const fuse = new Fuse(list, {
+        keys: ['name', 'atoll', 'shortDescription'],
+        threshold: 0.35,
+      });
+      list = fuse.search(filterQuery).map(r => r.item);
+    }
+
+    return list.filter(resort => {
       const matchesAtoll = selectedAtoll === 'All' || resort.atoll === selectedAtoll;
-      
       const matchesTransfer = selectedTransfer === 'All' || 
                               resort.transfers.some(t => t.toString() === selectedTransfer);
 
-      return matchesSearch && matchesAtoll && matchesTransfer;
+      return matchesAtoll && matchesTransfer;
     });
   }, [filterQuery, selectedAtoll, selectedTransfer]);
 

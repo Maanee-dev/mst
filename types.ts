@@ -63,9 +63,12 @@ export interface Offer {
   id: string;
   resortId: string;
   resortSlug: string;
-  title: string;
-  discount: string;
   resortName: string;
+  title: string;
+  description: string;
+  discount: string;
+  startDate?: string;
+  endDate?: string;
   expiryDate: string;
   image: string;
   category: 'Early Bird' | 'Last Minute' | 'Honeymoon';
@@ -83,6 +86,7 @@ export interface Experience {
   description: string;
   image: string;
   category: 'Water Sports' | 'Relaxation' | 'Adventure' | 'Wellness' | 'Culture' | 'Culinary';
+  atoll?: string;
   resortId?: string;
   resortName?: string;
   resortSlug?: string;

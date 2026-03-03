@@ -232,7 +232,7 @@ const Offers: React.FC = () => {
                           </div>
                           
                           <Link 
-                            to={`/stays/${offer.resortSlug}`} 
+                            to={`/offers/${offer.id}`} 
                             className="mt-6 inline-flex items-center gap-4 text-[9px] font-black uppercase tracking-[0.5em] text-slate-900 dark:text-white group/btn transition-all"
                           >
                              <span className="border-b border-transparent group-hover/btn:border-slate-900 dark:group-hover/btn:border-white pb-1 transition-all">Refine Discovery</span>

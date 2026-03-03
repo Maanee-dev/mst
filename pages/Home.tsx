@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import Fuse from 'fuse.js';
 import { useTranslation } from 'react-i18next';
 import { supabase, mapResort } from '../lib/supabase';
 import { Accommodation, BlogPost } from '../types';
@@ -139,22 +138,7 @@ const Home: React.FC = () => {
     e.preventDefault();
     if (!searchQuery.trim()) return;
 
-    // Fuzzy search for direct navigation
-    // We use a low threshold for "high confidence" direct navigation
-    const fuse = new Fuse(RESORTS, {
-      keys: ['name'],
-      threshold: 0.3,
-      includeScore: true
-    });
-
-    const results = fuse.search(searchQuery);
-    
-    // If we have a very strong match (score < 0.15), navigate directly
-    if (results.length > 0 && results[0].score !== undefined && results[0].score < 0.15) {
-      navigate(`/stays/${results[0].item.slug}`);
-    } else {
-      navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
-    }
+    navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
   };
 
   const vibes = [
@@ -253,7 +237,6 @@ const Home: React.FC = () => {
                     target.parentElement?.prepend(span);
                   }}
                 />
-                <div className="w-2 h-2 rounded-full bg-sky-500/20 group-hover:bg-sky-500 transition-colors"></div>
               </div>
             ))}
             {/* Duplicate for seamless loop */}
@@ -282,7 +265,6 @@ const Home: React.FC = () => {
                     target.parentElement?.prepend(span);
                   }}
                 />
-                <div className="w-2 h-2 rounded-full bg-sky-500/20 group-hover:bg-sky-500 transition-colors"></div>
               </div>
             ))}
           </div>

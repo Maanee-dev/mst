@@ -249,6 +249,32 @@ const SearchPage: React.FC = () => {
             </section>
           )}
 
+          {/* New Inquire Now Section */}
+          <section className="reveal bg-slate-950 dark:bg-white rounded-[3rem] p-12 md:p-24 text-center overflow-hidden relative group">
+            <div className="absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity duration-1000">
+              <img 
+                src="https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&q=80&w=1200" 
+                className="w-full h-full object-cover"
+                alt="Maldives Background"
+              />
+            </div>
+            <div className="relative z-10">
+              <span className="text-[10px] font-black text-sky-400 dark:text-sky-600 uppercase tracking-[1em] mb-8 block">Bespoke Planning</span>
+              <h2 className="text-4xl md:text-7xl font-serif font-bold text-white dark:text-slate-950 mb-12 tracking-tighter leading-tight">
+                Haven't found your <br className="hidden md:block" /> perfect sanctuary?
+              </h2>
+              <p className="text-white/60 dark:text-slate-500 text-[10px] font-bold uppercase tracking-[0.5em] mb-16 max-w-2xl mx-auto leading-loose">
+                Our specialists are ready to curate a personalized Maldivian journey tailored to your exact vision.
+              </p>
+              <Link 
+                to="/inquire" 
+                className="inline-block bg-white dark:bg-slate-950 text-slate-950 dark:text-white font-black px-16 py-7 rounded-full hover:bg-sky-500 dark:hover:bg-sky-400 transition-all duration-700 shadow-2xl uppercase tracking-[0.8em] text-[10px]"
+              >
+                Inquire Now
+              </Link>
+            </div>
+          </section>
+
         </main>
       ) : (
         <div className="py-48 text-center px-6 reveal active">

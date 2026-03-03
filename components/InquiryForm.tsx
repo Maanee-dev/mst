@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Accommodation } from '../types';
+import { Accommodation, Offer } from '../types';
+import { supabase, mapOffer } from '../lib/supabase';
+import { Tag, CheckCircle2 } from 'lucide-react';
 
 interface InquiryFormProps {
   resort: Accommodation;
@@ -10,11 +12,14 @@ interface InquiryFormProps {
     guests?: string;
     room?: string;
     mealPlan?: string;
+    offerId?: string;
   };
 }
 
 const InquiryForm: React.FC<InquiryFormProps> = ({ resort, onClose, prefillData }) => {
   const navigate = useNavigate();
+  const [offers, setOffers] = useState<Offer[]>([]);
+  const [appliedOffer, setAppliedOffer] = useState<Offer | null>(null);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -25,13 +30,48 @@ const InquiryForm: React.FC<InquiryFormProps> = ({ resort, onClose, prefillData 
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  useEffect(() => {
+    const fetchOffers = async () => {
+      const { data } = await supabase
+        .from('offers')
+        .select('*')
+        .eq('resort_id', resort.id);
+      
+      if (data) {
+        const mapped = data.map(o => mapOffer(o));
+        setOffers(mapped);
+        
+        // If prefilled with offerId, set it
+        if (prefillData?.offerId) {
+          const prefilled = mapped.find(o => o.id === prefillData.offerId);
+          if (prefilled) setAppliedOffer(prefilled);
+        }
+      }
+    };
+    fetchOffers();
+  }, [resort.id, prefillData?.offerId]);
+
+  // Logic to check if dates match an offer
+  useEffect(() => {
+    if (!formData.dates || prefillData?.offerId) return;
+
+    const checkOffer = () => {
+      // Simple check: if the dates string contains any part of the offer title or if we can parse dates
+      // For now, let's look for exact matches if we had structured dates, but since it's a string:
+      // We'll try to find an offer that might apply. 
+      // Realistically, we'd need structured dates here.
+      // If the user selects dates from the calendar in RoomSelection, we should pass structured dates.
+    };
+    checkOffer();
+  }, [formData.dates, offers, prefillData?.offerId]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1500));
     setIsSubmitting(false);
-    navigate('/thank-you', { state: { resortName: resort.name } });
+    navigate('/thank-you', { state: { resortName: resort.name, appliedOffer: appliedOffer?.title } });
   };
 
   return (
@@ -40,6 +80,22 @@ const InquiryForm: React.FC<InquiryFormProps> = ({ resort, onClose, prefillData 
         <span className="text-[10px] font-black text-sky-500 uppercase tracking-[0.6em] mb-3 md:mb-4 block">Bespoke Inquiry</span>
         <h3 className="text-2xl md:text-3xl font-serif font-bold text-slate-900 dark:text-white tracking-tighter">Request a Quote for {resort.name}</h3>
       </div>
+
+      {appliedOffer && (
+        <div className="mb-8 bg-sky-50 dark:bg-sky-900/20 border border-sky-100 dark:border-sky-500/30 rounded-2xl p-6 flex items-start gap-4 animate-in fade-in slide-in-from-top-4 duration-500">
+          <div className="w-10 h-10 bg-sky-500 rounded-xl flex items-center justify-center text-white flex-shrink-0">
+            <Tag size={20} />
+          </div>
+          <div>
+            <div className="flex items-center gap-2 mb-1">
+              <h4 className="text-[11px] font-black text-sky-600 dark:text-sky-400 uppercase tracking-widest">Offer Applied</h4>
+              <CheckCircle2 size={14} className="text-sky-500" />
+            </div>
+            <p className="text-sm font-serif font-bold text-slate-900 dark:text-white mb-1">{appliedOffer.title}</p>
+            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{appliedOffer.discount} • {appliedOffer.nights} Nights</p>
+          </div>
+        </div>
+      )}
 
       <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">

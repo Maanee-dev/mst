@@ -49,14 +49,18 @@ export const mapResort = (item: any, fallback?: Accommodation): Accommodation =>
 export const mapOffer = (o: any): Offer => {
   // If the query included a join with resorts, extract the slug
   const resortSlug = o.resorts?.slug || o.resort_slug || 'unknown';
+  const resortName = o.resorts?.name || o.resort_name || 'Unknown Resort';
   
   return {
     id: o.id,
     resortId: o.resort_id,
     resortSlug: resortSlug,
+    resortName: resortName,
     title: o.title,
+    description: o.description || '',
     discount: o.discount,
-    resortName: o.resort_name,
+    startDate: o.start_date,
+    endDate: o.end_date,
     expiryDate: o.expiry_date,
     image: o.image,
     category: o.category,

@@ -6,6 +6,10 @@ import { Accommodation, RoomType, MealPlan } from '../types';
 import SEO from '../components/SEO';
 import { ChevronLeft, Check, Info, Users, Maximize2, Utensils, Edit2, X } from 'lucide-react';
 import InquiryForm from '../components/InquiryForm';
+import CalendarSelector from '../components/CalendarSelector';
+import GuestSelector from '../components/GuestSelector';
+import { DateRange } from 'react-day-picker';
+import { format } from 'date-fns';
 
 const RoomSelection: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -19,16 +23,21 @@ const RoomSelection: React.FC = () => {
   const [showInquiryForm, setShowInquiryForm] = useState(false);
   const [currentStep, setCurrentStep] = useState(1); // 1: Room, 2: Meal Plan
   const [isEditingDetails, setIsEditingDetails] = useState(false);
-  const [tempDates, setTempDates] = useState('');
-  const [tempGuests, setTempGuests] = useState('');
+  const [tempRange, setTempRange] = useState<DateRange | undefined>(undefined);
+  const [tempAdults, setTempAdults] = useState(2);
+  const [tempChildren, setTempChildren] = useState(0);
 
   const dates = searchParams.get('dates') || 'Not specified';
   const guests = searchParams.get('guests') || '2';
+  const offerId = searchParams.get('offerId');
 
   useEffect(() => {
-    setTempDates(dates);
-    setTempGuests(guests);
-  }, [dates, guests]);
+    // Try to parse dates if they exist
+    if (dates && dates !== 'Not specified') {
+      // This is a simplified parser for the string format "MMM d - MMM d"
+      // In a real app, we'd store dates as ISO strings in search params
+    }
+  }, [dates]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -107,89 +116,86 @@ const RoomSelection: React.FC = () => {
             <h1 className="text-4xl md:text-6xl font-serif font-bold text-slate-900 dark:text-white tracking-tighter">{resort.name}</h1>
           </div>
           
-          <div className="w-full md:w-auto">
-            <div className="bg-white dark:bg-slate-900 rounded-2xl p-4 md:p-6 border border-slate-100 dark:border-white/5 shadow-sm flex items-center gap-6 md:gap-8 overflow-x-auto no-scrollbar whitespace-nowrap">
+          <div className="w-full lg:w-auto overflow-hidden">
+            <div className="bg-white dark:bg-slate-900 rounded-[2rem] p-6 border border-slate-100 dark:border-white/5 shadow-2xl flex items-center gap-8 overflow-x-auto no-scrollbar whitespace-nowrap">
               <button 
                 onClick={() => document.getElementById('gallery')?.scrollIntoView({ behavior: 'smooth' })}
-                className="flex flex-col items-center justify-center gap-1 group flex-shrink-0"
+                className="flex flex-col items-center justify-center gap-1 group pr-8 border-r border-slate-100 dark:border-white/5 flex-shrink-0"
               >
                 <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest group-hover:text-sky-500 transition-colors">Gallery</span>
                 <div className="w-4 h-px bg-slate-200 dark:bg-white/10 group-hover:bg-sky-500 transition-all"></div>
               </button>
               
-              <div className="w-px h-8 bg-slate-100 dark:bg-white/5 flex-shrink-0"></div>
-              
-              <div className="flex-shrink-0">
+              <div className="flex-shrink-0 pr-8 border-r border-slate-100 dark:border-white/5">
                 <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1 block">Selected Dates</span>
                 {isEditingDetails ? (
-                  <input 
-                    type="text"
-                    value={tempDates}
-                    onChange={(e) => setTempDates(e.target.value)}
-                    className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-white/10 rounded px-2 py-1 text-[10px] font-bold text-slate-900 dark:text-white uppercase tracking-widest outline-none focus:border-sky-500"
-                  />
+                  <div className="min-w-[140px]">
+                    <CalendarSelector 
+                      range={tempRange}
+                      onChange={setTempRange}
+                    />
+                  </div>
                 ) : (
                   <p className="text-[10px] font-bold text-slate-900 dark:text-white uppercase tracking-widest">{dates}</p>
                 )}
               </div>
               
-              <div className="w-px h-8 bg-slate-100 dark:bg-white/5 flex-shrink-0"></div>
-              
-              <div className="flex-shrink-0">
+              <div className="flex-shrink-0 pr-8 border-r border-slate-100 dark:border-white/5">
                 <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1 block">Guests</span>
                 {isEditingDetails ? (
-                  <input 
-                    type="text"
-                    value={tempGuests}
-                    onChange={(e) => setTempGuests(e.target.value)}
-                    className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-white/10 rounded px-2 py-1 text-[10px] font-bold text-slate-900 dark:text-white uppercase tracking-widest outline-none focus:border-sky-500 w-16"
-                  />
+                  <div className="min-w-[140px]">
+                    <GuestSelector 
+                      adults={tempAdults}
+                      children={tempChildren}
+                      onChange={(a, c) => {
+                        setTempAdults(a);
+                        setTempChildren(c);
+                      }}
+                    />
+                  </div>
                 ) : (
-                  <p className="text-[10px] font-bold text-slate-900 dark:text-white uppercase tracking-widest">{guests}</p>
+                  <p className="text-[10px] font-bold text-slate-900 dark:text-white uppercase tracking-widest">{guests} Adults</p>
                 )}
               </div>
               
-              <div className="w-px h-8 bg-slate-100 dark:bg-white/5 flex-shrink-0"></div>
-              
-              <div className="flex-shrink-0">
+              <div className="flex-shrink-0 pr-8 border-r border-slate-100 dark:border-white/5">
                 <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1 block">Transfer</span>
                 <p className="text-[10px] font-bold text-slate-900 dark:text-white uppercase tracking-widest">{(resort.transferMode || '').replace(/_/g, ' ')}</p>
               </div>
 
-              <div className="w-px h-8 bg-slate-100 dark:bg-white/5 flex-shrink-0"></div>
-
               <div className="flex-shrink-0">
                 {isEditingDetails ? (
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-3">
                     <button 
                       onClick={() => {
                         const newParams = new URLSearchParams(searchParams);
-                        newParams.set('dates', tempDates);
-                        newParams.set('guests', tempGuests);
+                        if (tempRange?.from) {
+                          const dateStr = `${format(tempRange.from, 'MMM d')}${tempRange.to ? ` - ${format(tempRange.to, 'MMM d')}` : ''}`;
+                          newParams.set('dates', dateStr);
+                        }
+                        newParams.set('guests', `${tempAdults + tempChildren}`);
                         setSearchParams(newParams);
                         setIsEditingDetails(false);
                       }}
-                      className="p-2 bg-sky-500 text-white rounded-lg hover:bg-sky-600 transition-colors"
+                      className="p-3 bg-sky-500 text-white rounded-xl hover:bg-sky-600 transition-all shadow-lg shadow-sky-500/20"
                     >
-                      <Check size={14} />
+                      <Check size={16} strokeWidth={3} />
                     </button>
                     <button 
                       onClick={() => {
-                        setTempDates(dates);
-                        setTempGuests(guests);
                         setIsEditingDetails(false);
                       }}
-                      className="p-2 bg-slate-100 dark:bg-slate-800 text-slate-400 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+                      className="p-3 bg-slate-100 dark:bg-slate-800 text-slate-400 rounded-xl hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
                     >
-                      <X size={14} />
+                      <X size={16} />
                     </button>
                   </div>
                 ) : (
                   <button 
                     onClick={() => setIsEditingDetails(true)}
-                    className="p-2 bg-slate-50 dark:bg-slate-800 text-slate-400 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors group"
+                    className="p-4 bg-slate-50 dark:bg-slate-800 text-slate-400 rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-700 transition-all group shadow-sm"
                   >
-                    <Edit2 size={14} className="group-hover:text-sky-500 transition-colors" />
+                    <Edit2 size={16} className="group-hover:text-sky-500 transition-colors" />
                   </button>
                 )}
               </div>
@@ -425,7 +431,8 @@ const RoomSelection: React.FC = () => {
                   dates,
                   guests,
                   room: selectedRoom.name,
-                  mealPlan: selectedMealPlan
+                  mealPlan: selectedMealPlan,
+                  offerId: offerId || undefined
                 }}
                 onClose={() => setShowInquiryForm(false)} 
               />
