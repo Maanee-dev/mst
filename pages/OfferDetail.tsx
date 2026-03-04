@@ -78,40 +78,40 @@ const OfferDetail: React.FC = () => {
           <div className="absolute inset-0 bg-slate-950/40" />
         </div>
         
-        <div className="absolute top-32 left-6 lg:left-20 z-10">
+        <div className="absolute top-24 md:top-32 left-6 lg:left-20 z-10">
           <button 
             onClick={() => navigate(-1)}
-            className="flex items-center gap-3 text-white/80 hover:text-white transition-colors group mb-8"
+            className="flex items-center gap-2 md:gap-3 text-white/80 hover:text-white transition-colors group mb-4 md:mb-8"
           >
-            <ChevronLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
-            <span className="text-[10px] font-black uppercase tracking-[0.4em]">Back</span>
+            <ChevronLeft size={18} className="group-hover:-translate-x-1 transition-transform md:w-[20px] md:h-[20px]" />
+            <span className="text-[8px] md:text-[10px] font-black uppercase tracking-[0.3em] md:tracking-[0.4em]">Back</span>
           </button>
         </div>
 
-        <div className="relative h-full flex flex-col justify-end pb-20 px-6 lg:px-20 z-10">
+        <div className="relative h-full flex flex-col justify-end pb-12 md:pb-20 px-6 lg:px-20 z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <span className="bg-amber-400 text-slate-950 px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-[0.4em] mb-8 inline-block shadow-xl">
+            <span className="bg-amber-400 text-slate-950 px-4 md:px-6 py-1.5 md:py-2 rounded-full text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] md:tracking-[0.4em] mb-4 md:mb-8 inline-block shadow-xl">
               {offer.category}
             </span>
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif font-bold text-white tracking-tighter leading-none mb-8">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl xl:text-8xl font-serif font-bold text-white tracking-tighter leading-tight md:leading-[1.1] lg:leading-none mb-6 md:mb-8">
               {offer.title}
             </h1>
-            <div className="flex flex-wrap items-center gap-8 text-white/90">
-              <div className="flex items-center gap-3">
-                <MapPin size={18} className="text-sky-400" />
-                <span className="text-[11px] font-bold uppercase tracking-widest">{offer.resortName}</span>
+            <div className="flex flex-wrap items-center gap-4 md:gap-6 lg:gap-8 text-white/90">
+              <div className="flex items-center gap-2 md:gap-3">
+                <MapPin size={16} className="text-sky-400 md:w-[18px] md:h-[18px]" />
+                <span className="text-[9px] md:text-[10px] lg:text-[11px] font-bold uppercase tracking-widest">{offer.resortName}</span>
               </div>
-              <div className="flex items-center gap-3">
-                <Calendar size={18} className="text-sky-400" />
-                <span className="text-[11px] font-bold uppercase tracking-widest">{offer.nights} Nights</span>
+              <div className="flex items-center gap-2 md:gap-3">
+                <Calendar size={16} className="text-sky-400 md:w-[18px] md:h-[18px]" />
+                <span className="text-[9px] md:text-[10px] lg:text-[11px] font-bold uppercase tracking-widest">{offer.nights} Nights</span>
               </div>
               <div className="flex items-center gap-1">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={14} className={i < offer.rating ? "text-amber-400 fill-current" : "text-white/20"} />
+                  <Star key={i} size={12} className={i < offer.rating ? "text-amber-400 fill-current" : "text-white/20"} />
                 ))}
               </div>
             </div>

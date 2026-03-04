@@ -143,9 +143,9 @@ const Bag: React.FC<BagProps> = ({ isOpen, onClose }) => {
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex justify-between items-start">
-                            <div>
+                            <div className="pr-2">
                               <span className="text-[8px] font-black text-sky-500 uppercase tracking-widest block mb-1">{item.type}</span>
-                              <h4 className="text-sm font-serif font-bold text-slate-900 dark:text-white truncate">{item.name}</h4>
+                              <h4 className="text-sm font-serif font-bold text-slate-900 dark:text-white leading-tight break-words">{item.name}</h4>
                             </div>
                             <button 
                               onClick={() => removeItem(item.id)}
