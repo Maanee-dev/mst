@@ -204,12 +204,6 @@ const Home: React.FC = () => {
                   <button type="submit" aria-label="Search" className="absolute right-2 top-2 bottom-2 bg-slate-950 text-white w-16 rounded-full flex items-center justify-center hover:bg-sky-500 transition-all shadow-xl"><svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg></button>
                 </div>
               </form>
-              <button 
-                onClick={() => setDiscoveryMode(true)}
-                className="w-full sm:w-auto bg-sky-500 text-white font-black px-10 py-6 rounded-full text-[10px] uppercase tracking-[0.4em] hover:bg-white hover:text-sky-500 transition-all shadow-2xl flex items-center justify-center gap-3"
-              >
-                Discovery <span className="text-lg leading-none">&rarr;</span>
-              </button>
             </div>
           </div>
         </div>
