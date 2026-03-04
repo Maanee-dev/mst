@@ -62,7 +62,7 @@ const OfferNewsletterPopup: React.FC = () => {
             {/* Image Side */}
             <div className="md:w-1/2 relative aspect-video md:aspect-auto">
               <img 
-                src="https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&q=80&w=800" 
+                src="https://so-hotels.com/wp-content/uploads/sites/19/2025/01/so_maldives_room_overview_page_header_1.jpg" 
                 alt="Maldives Paradise" 
                 className="w-full h-full object-cover"
               />
