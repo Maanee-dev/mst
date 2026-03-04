@@ -369,7 +369,7 @@ const ResortSlide: React.FC<{
   const [activeIdx, setActiveIdx] = useState(0);
   const [commentCount, setCommentCount] = useState(0);
   const galleryRef = useRef<HTMLDivElement>(null);
-  const images = (resort.images || []).slice(0, 8);
+  const images = (resort.images || []).slice(0, 5); // Reduced from 8 to 5 for mobile memory
 
   useEffect(() => {
     const fetchCommentCount = async () => {
@@ -407,6 +407,8 @@ const ResortSlide: React.FC<{
               src={img} 
               alt={`${resort.name} ${idx}`} 
               className="w-full h-full object-cover"
+              loading="lazy"
+              decoding="async"
             />
           </div>
         ))}
@@ -414,15 +416,9 @@ const ResortSlide: React.FC<{
       
       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/60 pointer-events-none" />
 
-      {/* Header - Only visible on the first image */}
-      <AnimatePresence>
+        {/* Header - Only visible on the first image and if this slide is active */}
         {activeIdx === 0 && (
-          <motion.div 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="absolute top-6 left-0 right-0 z-[505] flex items-center justify-between px-6 md:px-10 pointer-events-none"
-          >
+          <div className="absolute top-6 left-0 right-0 z-[505] flex items-center justify-between px-6 md:px-10 pointer-events-none">
             {/* Profile Icon */}
             <button 
               onClick={() => setIsUserPanelOpen(true)}
@@ -431,7 +427,7 @@ const ResortSlide: React.FC<{
               <User size={20} strokeWidth={1.5} />
             </button>
 
-            {/* Logo */}
+            {/* Logo - Simplified or just rendered once in parent would be better, but keeping it here for now with less animation */}
             <div className="flex flex-col items-center">
                <svg viewBox="0 0 600 600" className="w-20 h-20 md:w-28 md:h-28 -my-6 md:-my-10 fill-white opacity-90 drop-shadow-2xl">
                  <g transform="translate(0.000000,600.000000) scale(0.100000,-0.100000)">
@@ -466,52 +462,40 @@ const ResortSlide: React.FC<{
 
             {/* Placeholder for balance */}
             <div className="w-10 h-10 md:w-12 md:h-12" />
-          </motion.div>
+          </div>
         )}
-      </AnimatePresence>
 
-      {/* Info Overlay - Only visible on the first image */}
-      <AnimatePresence>
-        {activeIdx === 0 && (
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-            className="absolute inset-0 p-6 md:p-16 flex flex-col justify-end pointer-events-none"
-          >
-            <div className="flex flex-col md:flex-row justify-between items-end gap-8 w-full">
-              <div className="max-w-2xl pr-20 md:pr-40 pointer-events-auto mb-12 md:mb-0">
-                <span className="text-amber-500 text-[9px] md:text-[11px] font-black uppercase tracking-[0.5em] mb-4 md:mb-6 block drop-shadow-md">{resort.atoll}</span>
-                <h2 className="text-4xl md:text-7xl font-serif font-bold text-white mb-6 md:mb-8 leading-[1.1] drop-shadow-lg">{resort.name}</h2>
-                <p className="text-white/90 text-xs md:text-lg line-clamp-3 md:line-clamp-2 mb-8 md:mb-10 font-light leading-relaxed max-w-xl drop-shadow-md">
-                  {resort.description}
-                </p>
-                
-                {/* Pagination Dots */}
-                <div className="flex gap-2 mb-8">
-                  {images.map((_, i) => (
-                    <div 
-                      key={i} 
-                      className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${i === activeIdx ? 'bg-white scale-125' : 'bg-white/30'}`} 
-                    />
-                  ))}
-                </div>
+      {/* Info Overlay - Only visible on the first image and if this slide is active */}
+      {activeIdx === 0 && (
+        <div className="absolute inset-0 p-6 md:p-16 flex flex-col justify-end pointer-events-none">
+          <div className="flex flex-col md:flex-row justify-between items-end gap-8 w-full">
+            <div className="max-w-2xl pr-20 md:pr-40 pointer-events-auto mb-12 md:mb-0">
+              <span className="text-amber-500 text-[9px] md:text-[11px] font-black uppercase tracking-[0.5em] mb-4 md:mb-6 block drop-shadow-md">{resort.atoll}</span>
+              <h2 className="text-4xl md:text-7xl font-serif font-bold text-white mb-6 md:mb-8 leading-[1.1] drop-shadow-lg">{resort.name}</h2>
+              <p className="text-white/90 text-xs md:text-lg line-clamp-3 md:line-clamp-2 mb-8 md:mb-10 font-light leading-relaxed max-w-xl drop-shadow-md">
+                {resort.description}
+              </p>
+              
+              {/* Pagination Dots */}
+              <div className="flex gap-2 mb-8">
+                {images.map((_, i) => (
+                  <div 
+                    key={i} 
+                    className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${i === activeIdx ? 'bg-white scale-125' : 'bg-white/30'}`} 
+                  />
+                ))}
+              </div>
 
-                {/* Down Arrow */}
-                <div className="flex justify-center md:justify-start">
-                   <motion.div 
-                     animate={{ y: [0, 10, 0] }}
-                     transition={{ repeat: Infinity, duration: 2 }}
-                     className="text-white/40"
-                   >
-                     <ChevronDown size={32} strokeWidth={1.5} />
-                   </motion.div>
-                </div>
+              {/* Down Arrow - Simplified animation */}
+              <div className="flex justify-center md:justify-start">
+                 <div className="text-white/40 animate-bounce">
+                   <ChevronDown size={32} strokeWidth={1.5} />
+                 </div>
               </div>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          </div>
+        </div>
+      )}
 
       {/* Actions Sidebar (Right side) - Always visible */}
       <div className="absolute right-4 md:right-8 bottom-12 md:bottom-16 flex flex-col gap-5 items-center z-[506]">
@@ -606,16 +590,16 @@ const DiscoveryFeed: React.FC = () => {
     const fetchResorts = async () => {
       setLoading(true);
       try {
-        const { data, error } = await supabase.from('resorts').select('*').limit(20);
+        const { data, error } = await supabase.from('resorts').select('*').limit(10);
         if (error) throw error;
         if (data && data.length > 0) {
           setResorts(data.map(mapResort));
         } else {
-          setResorts(RESORTS.slice(0, 10));
+          setResorts(RESORTS.slice(0, 5));
         }
       } catch (err) {
         console.error('Error fetching resorts for discovery:', err);
-        setResorts(RESORTS.slice(0, 10));
+        setResorts(RESORTS.slice(0, 5));
       } finally {
         setLoading(false);
       }

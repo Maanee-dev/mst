@@ -45,6 +45,7 @@ const Navbar: React.FC = () => {
     { name: t('offers'), path: '/offers' },
     { name: t('experiences'), path: '/experiences' },
     { name: t('stories'), path: '/stories' },
+    { name: t('discovery'), path: '/discovery' },
   ];
 
   const ctaLinks = [
