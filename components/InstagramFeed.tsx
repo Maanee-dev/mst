@@ -154,7 +154,6 @@ export default function InstagramFeed() {
                       src={item.media_type === 'VIDEO' ? item.thumbnail_url : item.media_url} 
                       alt={item.caption || 'Instagram post'} 
                       className="w-full h-full object-cover transition-transform duration-[5s] group-hover:scale-110"
-                      loading="lazy"
                     />
                     <div className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6 md:p-8">
                       <p className="text-white text-[10px] md:text-[12px] font-medium line-clamp-3 mb-4 leading-relaxed">
