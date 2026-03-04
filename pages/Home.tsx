@@ -189,18 +189,30 @@ const Home: React.FC = () => {
                 <span className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[13rem] font-serif font-medium text-white leading-[0.8] tracking-tighter opacity-90">{heroSlides[heroIndex].titleAlt}<span className="text-sky-500">.</span></span>
                </div>
             </div>
-            <form onSubmit={handleSearch} className="w-full max-w-xl reveal active delay-500 scroll-mt-32">
-              <div className="relative group">
-                <input 
-                  type="text" 
-                  value={searchQuery} 
-                  onChange={(e) => setSearchQuery(e.target.value)} 
-                  placeholder={typedPlaceholder} 
-                  className="w-full bg-white/5 backdrop-blur-3xl border border-white/20 rounded-full pl-10 pr-24 py-6 text-white text-[12px] md:text-[14px] font-bold uppercase tracking-[0.4em] outline-none focus:bg-white focus:text-slate-950 dark:focus:text-slate-900 placeholder:text-white/30 shadow-2xl transition-all" 
-                />
-                <button type="submit" aria-label="Search" className="absolute right-2 top-2 bottom-2 bg-slate-950 text-white w-16 rounded-full flex items-center justify-center hover:bg-sky-500 transition-all shadow-xl"><svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg></button>
-              </div>
-            </form>
+            <div className="flex flex-col sm:flex-row items-center gap-4 md:gap-6 mt-12 reveal active delay-700">
+              <form onSubmit={handleSearch} className="w-full max-w-xl">
+                <div className="relative group">
+                  <input 
+                    type="text" 
+                    value={searchQuery} 
+                    onChange={(e) => setSearchQuery(e.target.value)} 
+                    placeholder={typedPlaceholder} 
+                    className="w-full bg-white/5 backdrop-blur-3xl border border-white/20 rounded-full pl-10 pr-24 py-6 text-white text-[12px] md:text-[14px] font-bold uppercase tracking-[0.4em] outline-none focus:bg-white focus:text-slate-950 dark:focus:text-slate-900 placeholder:text-white/30 shadow-2xl transition-all" 
+                  />
+                  <button type="submit" aria-label="Search" className="absolute right-2 top-2 bottom-2 bg-slate-950 text-white w-16 rounded-full flex items-center justify-center hover:bg-sky-500 transition-all shadow-xl"><svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg></button>
+                </div>
+              </form>
+              <Link 
+                to="/discovery" 
+                className="w-full sm:w-auto bg-sky-500 text-white px-10 py-6 rounded-full text-[10px] font-black uppercase tracking-[0.4em] hover:bg-white hover:text-slate-950 transition-all duration-500 shadow-2xl flex items-center justify-center gap-3 group"
+              >
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
+                </span>
+                Discovery Feed
+              </Link>
+            </div>
           </div>
         </div>
       </section>
@@ -316,6 +328,33 @@ const Home: React.FC = () => {
                 </Link>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Discovery Feed Teaser */}
+      <section className="py-24 md:py-32 lg:py-48 bg-slate-950 relative overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <img 
+            src="https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&q=80&w=1920" 
+            className="w-full h-full object-cover opacity-20" 
+            alt="Discovery Background" 
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-transparent"></div>
+        </div>
+        <div className="max-w-[1440px] mx-auto px-6 lg:px-20 relative z-10">
+          <div className="max-w-3xl reveal">
+            <span className="text-sky-400 font-bold uppercase tracking-[1em] text-[10px] mb-8 block">Next-Gen Exploration</span>
+            <h2 className="text-4xl md:text-6xl lg:text-8xl font-serif font-medium text-white leading-[0.95] mb-12 tracking-tighter">
+              The Discovery <br/> <span className="text-sky-500 italic">For You</span> Feed.
+            </h2>
+            <p className="text-white/60 text-lg md:text-2xl leading-[1.7] mb-12 font-medium">
+              Experience the Maldives like never before. A curated, algorithmically-driven feed of the archipelago's most stunning sanctuaries, tailored to your vibe.
+            </p>
+            <Link to="/discovery" className="inline-flex items-center gap-8 bg-white text-slate-950 px-12 py-6 rounded-full text-[11px] font-black uppercase tracking-[0.5em] hover:bg-sky-500 hover:text-white transition-all duration-700 shadow-2xl group">
+              Start Discovering
+              <span className="font-serif text-2xl group-hover:translate-x-2 transition-transform">→</span>
+            </Link>
           </div>
         </div>
       </section>
