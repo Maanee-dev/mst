@@ -41,7 +41,7 @@ const Bag: React.FC<BagProps> = ({ isOpen, onClose }) => {
 
   const handleStartExploring = () => {
     onClose();
-    navigate('/discovery');
+    setDiscoveryMode(true);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {

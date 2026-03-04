@@ -37,7 +37,6 @@ import RoomSelection from './pages/RoomSelection.tsx';
 import ThankYou from './pages/ThankYou.tsx';
 
 import { BagProvider, useBag } from './context/BagContext.tsx';
-import DiscoveryForYou from './pages/DiscoveryForYou.tsx';
 import DiscoveryFeed from './components/DiscoveryFeed.tsx';
 
 const ScrollToTopOnRoute = () => {
@@ -50,14 +49,11 @@ const ScrollToTopOnRoute = () => {
 
 const AppContent: React.FC = () => {
   const { isDiscoveryMode } = useBag();
-  const location = useLocation();
-  const isDiscoveryRoute = location.pathname === '/discovery';
-  const hideStandardUI = isDiscoveryMode || isDiscoveryRoute;
 
   return (
-    <>
+    <BrowserRouter>
       <ScrollToTopOnRoute />
-      {!hideStandardUI && <Navbar />}
+      {!isDiscoveryMode && <Navbar />}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/search" element={<SearchPage />} />
@@ -81,10 +77,9 @@ const AppContent: React.FC = () => {
         <Route path="/admin/sync" element={<AdminSync />} />
         <Route path="/admin/stories" element={<AdminStories />} />
         <Route path="/admin/faqs" element={<AdminFAQ />} />
-        <Route path="/discovery" element={<DiscoveryForYou />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-      {!hideStandardUI && (
+      {!isDiscoveryMode && (
         <>
           <ChatBot />
           <LanguageSelector />
@@ -94,18 +89,16 @@ const AppContent: React.FC = () => {
       <ScrollToTopButton />
       <CookieConsent />
       <OfferNewsletterPopup />
-      {!hideStandardUI && <Footer />}
+      {!isDiscoveryMode && <Footer />}
       <DiscoveryFeed />
-    </>
+    </BrowserRouter>
   );
 };
 
 const App: React.FC = () => {
   return (
     <BagProvider>
-      <BrowserRouter>
-        <AppContent />
-      </BrowserRouter>
+      <AppContent />
     </BagProvider>
   );
 };
