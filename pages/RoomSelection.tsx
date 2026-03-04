@@ -92,7 +92,7 @@ const RoomSelection: React.FC = () => {
             })) as Experience[]);
           } else {
             const local = EXPERIENCES.filter(e => e.resortId === data.id);
-            setExperiences(local.length > 0 ? local : EXPERIENCES.slice(0, 4));
+            setExperiences(local);
           }
         } else {
           navigate('/inquire');

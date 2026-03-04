@@ -209,7 +209,7 @@ const ResortDetail: React.FC = () => {
             })) as Experience[]);
           } else {
             const local = EXPERIENCES.filter(e => e.resortId === resData.id);
-            setExperiences(local.length > 0 ? local : EXPERIENCES.slice(0, 4));
+            setExperiences(local);
           }
 
           // Fetch FAQs
@@ -225,7 +225,7 @@ const ResortDetail: React.FC = () => {
           setResort(localBackup);
           setResortOffers(OFFERS.filter(o => o.resortId === localBackup.id));
           const localExps = EXPERIENCES.filter(e => e.resortId === localBackup.id);
-          setExperiences(localExps.length > 0 ? localExps : EXPERIENCES.slice(0, 4));
+          setExperiences(localExps);
         }
       } catch (error) {
         console.error('Data acquisition error:', error);
