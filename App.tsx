@@ -77,6 +77,7 @@ const AppContent: React.FC = () => {
         <Route path="/admin/sync" element={<AdminSync />} />
         <Route path="/admin/stories" element={<AdminStories />} />
         <Route path="/admin/faqs" element={<AdminFAQ />} />
+        <Route path="/discovery" element={<DiscoveryFeed />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       {!isDiscoveryMode && (
@@ -90,7 +91,6 @@ const AppContent: React.FC = () => {
       <CookieConsent />
       <OfferNewsletterPopup />
       {!isDiscoveryMode && <Footer />}
-      <DiscoveryFeed />
     </BrowserRouter>
   );
 };
