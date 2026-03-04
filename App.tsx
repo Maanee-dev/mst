@@ -35,7 +35,6 @@ import AdminFAQ from './pages/AdminFAQ.tsx';
 import InquireNow from './pages/InquireNow.tsx';
 import RoomSelection from './pages/RoomSelection.tsx';
 import ThankYou from './pages/ThankYou.tsx';
-import DiscoveryForYou from './pages/DiscoveryForYou.tsx';
 
 import { BagProvider } from './context/BagContext.tsx';
 
@@ -52,57 +51,41 @@ const App: React.FC = () => {
     <BagProvider>
       <BrowserRouter>
         <ScrollToTopOnRoute />
-        <AppContent />
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/search" element={<SearchPage />} />
+          <Route path="/stays" element={<Stays />} />
+          <Route path="/stays/:slug" element={<ResortDetail />} />
+          <Route path="/offers" element={<Offers />} />
+          <Route path="/offers/:id" element={<OfferDetail />} />
+          <Route path="/experiences" element={<Experiences />} />
+          <Route path="/experiences/:slug" element={<ExperienceDetail />} />
+          <Route path="/stories" element={<Stories />} />
+          <Route path="/stories/:slug" element={<BlogPostDetail />} />
+          <Route path="/plan" element={<PlanMyTrip />} />
+          <Route path="/about" element={<AboutUs />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/faq" element={<FAQ />} />
+          <Route path="/inquire" element={<InquireNow />} />
+          <Route path="/inquire/:slug" element={<RoomSelection />} />
+          <Route path="/thank-you" element={<ThankYou />} />
+          <Route path="/terms" element={<Terms />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/admin/sync" element={<AdminSync />} />
+          <Route path="/admin/stories" element={<AdminStories />} />
+          <Route path="/admin/faqs" element={<AdminFAQ />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+        <ChatBot />
+        <ScrollToTopButton />
+        <LanguageSelector />
+        <DarkModeToggle />
+        <CookieConsent />
+        <OfferNewsletterPopup />
+        <Footer />
       </BrowserRouter>
     </BagProvider>
-  );
-};
-
-const AppContent: React.FC = () => {
-  const { pathname } = useLocation();
-  const isDiscoveryPage = pathname === '/discovery';
-
-  return (
-    <>
-      {!isDiscoveryPage && <Navbar />}
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/search" element={<SearchPage />} />
-        <Route path="/stays/:slug" element={<ResortDetail />} />
-        <Route path="/stays" element={<Stays />} />
-        <Route path="/offers/:id" element={<OfferDetail />} />
-        <Route path="/offers" element={<Offers />} />
-        <Route path="/experiences/:slug" element={<ExperienceDetail />} />
-        <Route path="/experiences" element={<Experiences />} />
-        <Route path="/stories/:slug" element={<BlogPostDetail />} />
-        <Route path="/stories" element={<Stories />} />
-        <Route path="/plan" element={<PlanMyTrip />} />
-        <Route path="/about" element={<AboutUs />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/faq" element={<FAQ />} />
-        <Route path="/inquire/:slug" element={<RoomSelection />} />
-        <Route path="/inquire" element={<InquireNow />} />
-        <Route path="/discovery" element={<DiscoveryForYou />} />
-        <Route path="/thank-you" element={<ThankYou />} />
-        <Route path="/terms" element={<Terms />} />
-        <Route path="/privacy" element={<Privacy />} />
-        <Route path="/admin/sync" element={<AdminSync />} />
-        <Route path="/admin/stories" element={<AdminStories />} />
-        <Route path="/admin/faqs" element={<AdminFAQ />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-      {!isDiscoveryPage && (
-        <>
-          <ChatBot />
-          <ScrollToTopButton />
-          <LanguageSelector />
-          <DarkModeToggle />
-          <CookieConsent />
-          <OfferNewsletterPopup />
-          <Footer />
-        </>
-      )}
-    </>
   );
 };
 

@@ -126,10 +126,7 @@ const Bag: React.FC<BagProps> = ({ isOpen, onClose }) => {
                     </p>
                   </div>
                   <button 
-                    onClick={() => {
-                      onClose();
-                      navigate('/discovery');
-                    }}
+                    onClick={onClose}
                     className="text-[10px] font-black text-sky-500 uppercase tracking-widest border-b border-sky-500 pb-1"
                   >
                     Start Exploring
@@ -139,18 +136,6 @@ const Bag: React.FC<BagProps> = ({ isOpen, onClose }) => {
                 <div className="space-y-8">
                   {/* Item List */}
                   <div className="space-y-4">
-                    <div className="flex justify-between items-center mb-4">
-                      <h3 className="text-[10px] font-black text-slate-900 dark:text-white uppercase tracking-[0.4em]">Your Selection</h3>
-                      <button 
-                        onClick={() => {
-                          onClose();
-                          navigate('/discovery');
-                        }}
-                        className="text-[9px] font-black text-sky-500 uppercase tracking-widest hover:text-sky-600 transition-colors"
-                      >
-                        Discover More
-                      </button>
-                    </div>
                     {items.map(item => (
                       <div key={item.id} className="flex gap-4 group">
                         <div className="w-20 h-20 rounded-2xl overflow-hidden flex-shrink-0 bg-slate-100 dark:bg-slate-800">

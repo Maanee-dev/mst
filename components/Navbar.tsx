@@ -41,7 +41,6 @@ const Navbar: React.FC = () => {
   const toggleBag = () => setIsBagOpen(!isBagOpen);
 
   const navLinks = [
-    { name: 'Discovery', path: '/discovery' },
     { name: t('stays'), path: '/stays' },
     { name: t('offers'), path: '/offers' },
     { name: t('experiences'), path: '/experiences' },
