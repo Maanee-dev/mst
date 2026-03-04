@@ -25,7 +25,8 @@ const Bag: React.FC<BagProps> = ({ isOpen, onClose }) => {
     setStartDate, 
     setEndDate, 
     setAdults, 
-    setChildrenCount 
+    setChildrenCount,
+    setDiscoveryMode
   } = useBag();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -37,6 +38,11 @@ const Bag: React.FC<BagProps> = ({ isOpen, onClose }) => {
     phone: '',
     notes: ''
   });
+
+  const handleStartExploring = () => {
+    onClose();
+    setDiscoveryMode(true);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -126,7 +132,7 @@ const Bag: React.FC<BagProps> = ({ isOpen, onClose }) => {
                     </p>
                   </div>
                   <button 
-                    onClick={onClose}
+                    onClick={handleStartExploring}
                     className="text-[10px] font-black text-sky-500 uppercase tracking-widest border-b border-sky-500 pb-1"
                   >
                     Start Exploring

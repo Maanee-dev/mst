@@ -36,7 +36,8 @@ import InquireNow from './pages/InquireNow.tsx';
 import RoomSelection from './pages/RoomSelection.tsx';
 import ThankYou from './pages/ThankYou.tsx';
 
-import { BagProvider } from './context/BagContext.tsx';
+import { BagProvider, useBag } from './context/BagContext.tsx';
+import DiscoveryFeed from './components/DiscoveryFeed.tsx';
 
 const ScrollToTopOnRoute = () => {
   const { pathname } = useLocation();
@@ -46,45 +47,58 @@ const ScrollToTopOnRoute = () => {
   return null;
 };
 
+const AppContent: React.FC = () => {
+  const { isDiscoveryMode } = useBag();
+
+  return (
+    <BrowserRouter>
+      <ScrollToTopOnRoute />
+      {!isDiscoveryMode && <Navbar />}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/search" element={<SearchPage />} />
+        <Route path="/stays" element={<Stays />} />
+        <Route path="/stays/:slug" element={<ResortDetail />} />
+        <Route path="/offers" element={<Offers />} />
+        <Route path="/offers/:id" element={<OfferDetail />} />
+        <Route path="/experiences" element={<Experiences />} />
+        <Route path="/experiences/:slug" element={<ExperienceDetail />} />
+        <Route path="/stories" element={<Stories />} />
+        <Route path="/stories/:slug" element={<BlogPostDetail />} />
+        <Route path="/plan" element={<PlanMyTrip />} />
+        <Route path="/about" element={<AboutUs />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/faq" element={<FAQ />} />
+        <Route path="/inquire" element={<InquireNow />} />
+        <Route path="/inquire/:slug" element={<RoomSelection />} />
+        <Route path="/thank-you" element={<ThankYou />} />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/privacy" element={<Privacy />} />
+        <Route path="/admin/sync" element={<AdminSync />} />
+        <Route path="/admin/stories" element={<AdminStories />} />
+        <Route path="/admin/faqs" element={<AdminFAQ />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+      {!isDiscoveryMode && (
+        <>
+          <ChatBot />
+          <LanguageSelector />
+          <DarkModeToggle />
+        </>
+      )}
+      <ScrollToTopButton />
+      <CookieConsent />
+      <OfferNewsletterPopup />
+      {!isDiscoveryMode && <Footer />}
+      <DiscoveryFeed />
+    </BrowserRouter>
+  );
+};
+
 const App: React.FC = () => {
   return (
     <BagProvider>
-      <BrowserRouter>
-        <ScrollToTopOnRoute />
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/search" element={<SearchPage />} />
-          <Route path="/stays" element={<Stays />} />
-          <Route path="/stays/:slug" element={<ResortDetail />} />
-          <Route path="/offers" element={<Offers />} />
-          <Route path="/offers/:id" element={<OfferDetail />} />
-          <Route path="/experiences" element={<Experiences />} />
-          <Route path="/experiences/:slug" element={<ExperienceDetail />} />
-          <Route path="/stories" element={<Stories />} />
-          <Route path="/stories/:slug" element={<BlogPostDetail />} />
-          <Route path="/plan" element={<PlanMyTrip />} />
-          <Route path="/about" element={<AboutUs />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/faq" element={<FAQ />} />
-          <Route path="/inquire" element={<InquireNow />} />
-          <Route path="/inquire/:slug" element={<RoomSelection />} />
-          <Route path="/thank-you" element={<ThankYou />} />
-          <Route path="/terms" element={<Terms />} />
-          <Route path="/privacy" element={<Privacy />} />
-          <Route path="/admin/sync" element={<AdminSync />} />
-          <Route path="/admin/stories" element={<AdminStories />} />
-          <Route path="/admin/faqs" element={<AdminFAQ />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-        <ChatBot />
-        <ScrollToTopButton />
-        <LanguageSelector />
-        <DarkModeToggle />
-        <CookieConsent />
-        <OfferNewsletterPopup />
-        <Footer />
-      </BrowserRouter>
+      <AppContent />
     </BagProvider>
   );
 };

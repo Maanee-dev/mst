@@ -98,13 +98,14 @@ export interface Experience {
   }[];
 }
 
-export type BagItemType = 'resort' | 'experience' | 'offer';
+export type BagItemType = 'resort' | 'experience' | 'offer' | 'guest_house' | 'liveaboard';
 
 export interface BagItem {
   id: string;
   type: BagItemType;
   name: string;
   image: string;
+  atoll?: string;
   slug?: string;
   price?: number | string;
   details?: string;
@@ -123,4 +124,18 @@ export interface BlogPost {
   author: string;
   category: StoryCategory;
   is_featured?: boolean;
+}
+
+export interface ResortComment {
+  id: string;
+  resort_id: string;
+  user_id: string;
+  user_name: string;
+  user_avatar?: string;
+  content: string;
+  parent_id?: string;
+  created_at: string;
+  likes_count?: number;
+  is_liked?: boolean;
+  replies?: ResortComment[];
 }

@@ -11,9 +11,9 @@ export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
  * HELPER: Robust mapping from Supabase Row to Accommodation Interface
  */
 export const mapResort = (item: any, fallback?: Accommodation): Accommodation => {
-  const dbImages = Array.isArray(item.images) ? item.images : [];
+  const dbImages = Array.isArray(item.images) ? item.images.filter(Boolean) : [];
   const localImages = fallback?.images || [];
-  const finalImages = dbImages.length > localImages.length ? dbImages : (localImages.length > 0 ? localImages : dbImages);
+  const finalImages = (dbImages.length > 0 ? dbImages : (localImages.length > 0 ? localImages : ['https://images.unsplash.com/photo-1544550581-5f7ceaf7f992?auto=format&fit=crop&q=80&w=1200'])).slice(0, 8);
 
   const dbFeatures = Array.isArray(item.features) ? item.features : [];
   const localFeatures = fallback?.features || [];
