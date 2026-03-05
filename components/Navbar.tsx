@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ShoppingBag, User } from 'lucide-react';
+import { ShoppingBag } from 'lucide-react';
 import { useBag } from '../context/BagContext';
 import Bag from './Bag';
 
@@ -11,7 +11,7 @@ const Navbar: React.FC = () => {
   const [isBagOpen, setIsBagOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
-  const { totalItems, setIsUserPanelOpen } = useBag();
+  const { totalItems } = useBag();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -134,15 +134,6 @@ const Navbar: React.FC = () => {
 
           {/* Right: Plan CTA (Ghost Style - Reactive Color) */}
           <div className="flex-1 flex justify-end items-center gap-4 md:gap-8">
-            {/* User Icon */}
-            <button 
-              onClick={() => setIsUserPanelOpen(true)}
-              className="group relative p-2 focus:outline-none transition-transform hover:scale-110 active:scale-90"
-              aria-label="User account"
-            >
-              <User className={`w-5 h-5 md:w-6 md:h-6 ${elementColorClass} ${elementShadowClass}`} strokeWidth={1.5} />
-            </button>
-
             {/* Shopping Bag Icon */}
             <button 
               onClick={toggleBag}

@@ -8,6 +8,7 @@ import { Accommodation, ResortComment } from '../types';
 import SEO from '../components/SEO';
 import { Link } from 'react-router-dom';
 import { useBag } from '../context/BagContext';
+import UserPanel from '../components/UserPanel';
 import { User } from 'lucide-react';
 
 const DiscoveryForYou: React.FC = () => {
@@ -592,6 +593,8 @@ const DiscoveryForYou: React.FC = () => {
           </span>
         </div>
       </div>
+
+      <UserPanel />
     </div>
   );
 };

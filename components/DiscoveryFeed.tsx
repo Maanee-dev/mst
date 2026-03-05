@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { useNavigate } from 'react-router-dom';
 import { 
   Heart, 
   MessageCircle, 
@@ -17,6 +16,7 @@ import { useBag } from '../context/BagContext';
 import { supabase, mapResort } from '../lib/supabase';
 import { Accommodation } from '../types';
 import { RESORTS } from '../constants';
+import UserPanel from './UserPanel';
 
 const CommentSection: React.FC<{ isOpen: boolean; onClose: () => void; resortId: string }> = ({ isOpen, onClose, resortId }) => {
   const [comments, setComments] = useState<ResortComment[]>([]);
@@ -589,8 +589,8 @@ const ResortSlide: React.FC<{
 };
 
 const DiscoveryFeed: React.FC = () => {
-  const navigate = useNavigate();
   const { 
+    isDiscoveryMode, 
     setDiscoveryMode, 
     addItem, 
     isInBag, 
@@ -601,11 +601,6 @@ const DiscoveryFeed: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [activeCommentResortId, setActiveCommentResortId] = useState<string | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    setDiscoveryMode(true);
-    return () => setDiscoveryMode(false);
-  }, [setDiscoveryMode]);
 
   useEffect(() => {
     const fetchResorts = async () => {
@@ -626,8 +621,12 @@ const DiscoveryFeed: React.FC = () => {
       }
     };
 
-    fetchResorts();
-  }, []);
+    if (isDiscoveryMode) {
+      fetchResorts();
+    }
+  }, [isDiscoveryMode]);
+
+  if (!isDiscoveryMode) return null;
 
   const handleShare = (resort: Accommodation) => {
     const shareUrl = window.location.origin + `/stays/${resort.slug}`;
@@ -656,7 +655,7 @@ const DiscoveryFeed: React.FC = () => {
         {/* Close Button */}
         <div className="absolute top-6 right-6 md:right-10 z-[505]">
           <button 
-            onClick={() => navigate(-1)}
+            onClick={() => setDiscoveryMode(false)}
             className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center bg-black/20 hover:bg-black/40 backdrop-blur-xl rounded-full text-white transition-all group border border-white/10"
             aria-label="Close discovery"
           >
@@ -695,6 +694,9 @@ const DiscoveryFeed: React.FC = () => {
           resortId={activeCommentResortId || ''}
           onClose={() => setActiveCommentResortId(null)} 
         />
+
+        {/* User Panel */}
+        <UserPanel />
       </motion.div>
     </AnimatePresence>
   );

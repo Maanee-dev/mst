@@ -33,13 +33,12 @@ import AdminSync from './pages/AdminSync.tsx';
 import AdminStories from './pages/AdminStories.tsx';
 import AdminFAQ from './pages/AdminFAQ.tsx';
 import InquireNow from './pages/InquireNow.tsx';
-import Auth from './pages/Auth.tsx';
 import RoomSelection from './pages/RoomSelection.tsx';
 import ThankYou from './pages/ThankYou.tsx';
 
 import { BagProvider, useBag } from './context/BagContext.tsx';
+import DiscoveryForYou from './pages/DiscoveryForYou.tsx';
 import DiscoveryFeed from './components/DiscoveryFeed.tsx';
-import UserPanel from './components/UserPanel.tsx';
 
 const ScrollToTopOnRoute = () => {
   const { pathname } = useLocation();
@@ -51,11 +50,14 @@ const ScrollToTopOnRoute = () => {
 
 const AppContent: React.FC = () => {
   const { isDiscoveryMode } = useBag();
+  const location = useLocation();
+  const isDiscoveryRoute = location.pathname === '/discovery';
+  const hideStandardUI = isDiscoveryMode || isDiscoveryRoute;
 
   return (
-    <BrowserRouter>
+    <>
       <ScrollToTopOnRoute />
-      {!isDiscoveryMode && <Navbar />}
+      {!hideStandardUI && <Navbar />}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/search" element={<SearchPage />} />
@@ -73,17 +75,16 @@ const AppContent: React.FC = () => {
         <Route path="/faq" element={<FAQ />} />
         <Route path="/inquire" element={<InquireNow />} />
         <Route path="/inquire/:slug" element={<RoomSelection />} />
-        <Route path="/auth" element={<Auth />} />
         <Route path="/thank-you" element={<ThankYou />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/admin/sync" element={<AdminSync />} />
         <Route path="/admin/stories" element={<AdminStories />} />
         <Route path="/admin/faqs" element={<AdminFAQ />} />
-        <Route path="/discovery" element={<DiscoveryFeed />} />
+        <Route path="/discovery" element={<DiscoveryForYou />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-      {!isDiscoveryMode && (
+      {!hideStandardUI && (
         <>
           <ChatBot />
           <LanguageSelector />
@@ -93,16 +94,18 @@ const AppContent: React.FC = () => {
       <ScrollToTopButton />
       <CookieConsent />
       <OfferNewsletterPopup />
-      <UserPanel />
-      {!isDiscoveryMode && <Footer />}
-    </BrowserRouter>
+      {!hideStandardUI && <Footer />}
+      <DiscoveryFeed />
+    </>
   );
 };
 
 const App: React.FC = () => {
   return (
     <BagProvider>
-      <AppContent />
+      <BrowserRouter>
+        <AppContent />
+      </BrowserRouter>
     </BagProvider>
   );
 };
