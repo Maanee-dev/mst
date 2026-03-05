@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
+  --font-serif: "Cormorant Garamond", serif;
+
+  --color-parchment: #f9f7f2;
+  --color-charcoal: #1d1c1a;
+  --color-claude: #d97757;
+
+  --color-sky-50: #fdf4f2;
+  --color-sky-100: #fbe9e5;
+  --color-sky-200: #f7d3cb;
+  --color-sky-300: #f3bda1;
+  --color-sky-400: #ef9a77;
+  --color-sky-500: #d97757;
+  --color-sky-600: #c26a4e;
+  --color-sky-700: #a15841;
+  --color-sky-800: #814634;
+  --color-sky-900: #613527;
+  --color-sky-950: #40231a;
+
+  --color-slate-50: #f9f7f2;
+  --color-slate-100: #e6e1d6;
+  --color-slate-200: #d1ccc0;
+  --color-slate-300: #b3ada0;
+  --color-slate-400: #948e7f;
+  --color-slate-500: #756f60;
+  --color-slate-600: #5c574b;
+  --color-slate-700: #423f36;
+  --color-slate-800: #292722;
+  --color-slate-900: #1d1c1a;
+  --color-slate-950: #141311;
+
+  --color-amber-50: #fdfbf7;
+  --color-amber-100: #f7f2e6;
+  --color-amber-200: #ede4cc;
+  --color-amber-300: #e1d2a9;
+  --color-amber-400: #d3bc83;
+  --color-amber-500: #c9bfa9;
+  --color-amber-600: #b3a68d;
+  --color-amber-700: #91846e;
+  --color-amber-800: #706554;
+  --color-amber-900: #4f473b;
+  --color-amber-950: #2e2a22;
+
+  --color-rose-50: #fdf8f7;
+  --color-rose-500: #d9a7a7;
+
+  --color-emerald-50: #f7fdf9;
+  --color-emerald-500: #a7d9c0;
+}

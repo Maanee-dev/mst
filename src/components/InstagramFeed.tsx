@@ -50,7 +50,7 @@ export default function InstagramFeed() {
       if (data.connected) {
         fetchFeed();
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error('Status check failed', err);
       setIsConnected(false);
     }
@@ -75,7 +75,7 @@ export default function InstagramFeed() {
       const res = await fetch('/api/auth/instagram/url');
       const { url } = await res.json();
       window.open(url, 'instagram_oauth', 'width=600,height=700');
-    } catch (err) {
+    } catch {
       alert('Failed to start Instagram connection');
     }
   };
@@ -85,7 +85,7 @@ export default function InstagramFeed() {
       await fetch('/api/auth/instagram/logout', { method: 'POST' });
       setIsConnected(false);
       setFeed([]);
-    } catch (err) {
+    } catch (err: any) {
       console.error('Logout failed', err);
     }
   };

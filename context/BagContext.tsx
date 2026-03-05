@@ -4,7 +4,6 @@ import { BagItem } from '../types';
 interface BagContextType {
   items: BagItem[];
   likedResorts: BagItem[];
-  isDiscoveryMode: boolean;
   startDate: Date | undefined;
   endDate: Date | undefined;
   adults: number;
@@ -13,7 +12,6 @@ interface BagContextType {
   removeItem: (id: string) => void;
   toggleLike: (item: BagItem) => void;
   isLiked: (id: string) => boolean;
-  setDiscoveryMode: (active: boolean) => void;
   clearBag: () => void;
   isInBag: (id: string) => boolean;
   setStartDate: (date: Date | undefined) => void;
@@ -23,6 +21,10 @@ interface BagContextType {
   totalItems: number;
   isUserPanelOpen: boolean;
   setIsUserPanelOpen: (open: boolean) => void;
+  selectedOffer: any | null;
+  setSelectedOffer: (offer: any | null) => void;
+  isMember: boolean;
+  setIsMember: (isMember: boolean) => void;
 }
 
 const BagContext = createContext<BagContextType | undefined>(undefined);
@@ -30,12 +32,13 @@ const BagContext = createContext<BagContextType | undefined>(undefined);
 export const BagProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [items, setItems] = useState<BagItem[]>([]);
   const [likedResorts, setLikedResorts] = useState<BagItem[]>([]);
-  const [isDiscoveryMode, setIsDiscoveryMode] = useState(false);
   const [startDate, setStartDate] = useState<Date | undefined>(undefined);
   const [endDate, setEndDate] = useState<Date | undefined>(undefined);
   const [adults, setAdults] = useState(2);
   const [childrenCount, setChildrenCount] = useState(0);
   const [isUserPanelOpen, setIsUserPanelOpen] = useState(false);
+  const [selectedOffer, setSelectedOffer] = useState<any | null>(null);
+  const [isMember, setIsMember] = useState(false);
 
   // Load from localStorage on mount
   useEffect(() => {
@@ -96,7 +99,26 @@ export const BagProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const addItem = (item: BagItem) => {
     setItems(prev => {
       if (prev.find(i => i.id === item.id)) return prev;
-      return [...prev, item];
+      
+      let newItems = [...prev, item];
+
+      // If it's an offer, we also add the resort associated with it
+      if (item.type === 'offer' && item.resortId && item.resortName && item.resortSlug) {
+        const resortItem: BagItem = {
+          id: item.resortId,
+          type: 'resort',
+          name: item.resortName,
+          image: item.image, // Use offer image as fallback or we could fetch resort image
+          slug: item.resortSlug,
+          atoll: item.atoll
+        };
+        
+        if (!prev.find(i => i.id === resortItem.id)) {
+          newItems = [...newItems, resortItem];
+        }
+      }
+      
+      return newItems;
     });
   };
 
@@ -117,15 +139,6 @@ export const BagProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     return likedResorts.some(item => item.id === id);
   };
 
-  const setDiscoveryMode = (active: boolean) => {
-    setIsDiscoveryMode(active);
-    if (active) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
-    }
-  };
-
   const clearBag = () => {
     setItems([]);
     setStartDate(undefined);
@@ -144,7 +157,6 @@ export const BagProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     <BagContext.Provider value={{ 
       items, 
       likedResorts,
-      isDiscoveryMode,
       startDate, 
       endDate, 
       adults, 
@@ -153,7 +165,6 @@ export const BagProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       removeItem, 
       toggleLike,
       isLiked,
-      setDiscoveryMode,
       clearBag, 
       isInBag, 
       setStartDate, 
@@ -162,7 +173,11 @@ export const BagProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       setChildrenCount, 
       totalItems,
       isUserPanelOpen,
-      setIsUserPanelOpen
+      setIsUserPanelOpen,
+      selectedOffer,
+      setSelectedOffer,
+      isMember,
+      setIsMember
     }}>
       {children}
     </BagContext.Provider>

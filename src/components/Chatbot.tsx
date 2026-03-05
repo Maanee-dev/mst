@@ -10,7 +10,7 @@ interface Message {
   action?: { label: string; path: string; isExternal?: boolean };
 }
 
-const ChatBot: React.FC = () => {
+const Chatbot: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     { role: 'model', text: "Welcome to Serenity Maldives. I am Sara, your digital concierge. How may I assist your discovery today?" }
@@ -160,4 +160,4 @@ const ChatBot: React.FC = () => {
   );
 };
 
-export default ChatBot;
+export default Chatbot;

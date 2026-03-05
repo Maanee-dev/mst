@@ -16,7 +16,7 @@ import { useBag } from '../context/BagContext';
 import { supabase, mapResort } from '../lib/supabase';
 import { Accommodation } from '../types';
 import { RESORTS } from '../constants';
-import UserPanel from './UserPanel';
+import { useNavigate } from 'react-router-dom';
 
 const CommentSection: React.FC<{ isOpen: boolean; onClose: () => void; resortId: string }> = ({ isOpen, onClose, resortId }) => {
   const [comments, setComments] = useState<ResortComment[]>([]);
@@ -425,9 +425,12 @@ const ResortSlide: React.FC<{
             {/* Profile Icon */}
             <button 
               onClick={() => setIsUserPanelOpen(true)}
-              className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 backdrop-blur-xl border border-white/10 flex items-center justify-center text-white pointer-events-auto hover:bg-white/20 transition-all"
+              className="w-10 h-10 md:w-14 md:h-14 rounded-full bg-white/10 backdrop-blur-xl border border-white/10 flex items-center justify-center text-white pointer-events-auto hover:bg-white/20 transition-all group relative"
             >
-              <User size={20} strokeWidth={1.5} />
+              <User size={20} strokeWidth={1.5} className="group-hover:scale-110 transition-transform" />
+              <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-sky-500 rounded-full border-2 border-black flex items-center justify-center">
+                <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
+              </div>
             </button>
 
             {/* Logo */}
@@ -588,9 +591,8 @@ const ResortSlide: React.FC<{
 };
 
 const DiscoveryFeed: React.FC = () => {
+  const navigate = useNavigate();
   const { 
-    isDiscoveryMode, 
-    setDiscoveryMode, 
     addItem, 
     isInBag, 
     toggleLike, 
@@ -620,12 +622,8 @@ const DiscoveryFeed: React.FC = () => {
       }
     };
 
-    if (isDiscoveryMode) {
-      fetchResorts();
-    }
-  }, [isDiscoveryMode]);
-
-  if (!isDiscoveryMode) return null;
+    fetchResorts();
+  }, []);
 
   const handleShare = (resort: Accommodation) => {
     const shareUrl = window.location.origin + `/stays/${resort.slug}`;
@@ -654,7 +652,7 @@ const DiscoveryFeed: React.FC = () => {
         {/* Close Button */}
         <div className="absolute top-6 right-6 md:right-10 z-[505]">
           <button 
-            onClick={() => setDiscoveryMode(false)}
+            onClick={() => navigate('/')}
             className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center bg-black/20 hover:bg-black/40 backdrop-blur-xl rounded-full text-white transition-all group border border-white/10"
             aria-label="Close discovery"
           >
@@ -693,9 +691,6 @@ const DiscoveryFeed: React.FC = () => {
           resortId={activeCommentResortId || ''}
           onClose={() => setActiveCommentResortId(null)} 
         />
-
-        {/* User Panel */}
-        <UserPanel />
       </motion.div>
     </AnimatePresence>
   );

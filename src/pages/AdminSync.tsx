@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { supabase } from '../lib/supabase';
-import { BLOG_POSTS, OFFERS, RESORTS } from '../constants';
+import { BLOG_POSTS, OFFERS } from '../constants';
 
 const AdminSync: React.FC = () => {
   const [status, setStatus] = useState<string>('Ready for deployment');

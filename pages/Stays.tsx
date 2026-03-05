@@ -36,7 +36,7 @@ const Stays: React.FC = () => {
 
         let finalResorts: Accommodation[] = [];
         if (resortsData && resortsData.length > 0) {
-          finalResorts = resortsData.map(mapResort);
+          finalResorts = resortsData.map(item => mapResort(item));
         }
 
         const dbSlugs = new Set(finalResorts.map(r => r.slug));

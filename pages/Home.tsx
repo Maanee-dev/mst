@@ -32,7 +32,7 @@ const Home: React.FC = () => {
         
         if (resortError) throw resortError;
         if (resortsData && resortsData.length > 0) {
-          setFeaturedResorts(resortsData.map(mapResort));
+          setFeaturedResorts(resortsData.map(item => mapResort(item)));
         } else {
           setFeaturedResorts(RESORTS.slice(0, 6));
         }
@@ -189,18 +189,20 @@ const Home: React.FC = () => {
                 <span className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[13rem] font-serif font-medium text-white leading-[0.8] tracking-tighter opacity-90">{heroSlides[heroIndex].titleAlt}<span className="text-sky-500">.</span></span>
                </div>
             </div>
-            <form onSubmit={handleSearch} className="w-full max-w-xl reveal active delay-500 scroll-mt-32">
-              <div className="relative group">
-                <input 
-                  type="text" 
-                  value={searchQuery} 
-                  onChange={(e) => setSearchQuery(e.target.value)} 
-                  placeholder={typedPlaceholder} 
-                  className="w-full bg-white/5 backdrop-blur-3xl border border-white/20 rounded-full pl-10 pr-24 py-6 text-white text-[12px] md:text-[14px] font-bold uppercase tracking-[0.4em] outline-none focus:bg-white focus:text-slate-950 dark:focus:text-slate-900 placeholder:text-white/30 shadow-2xl transition-all" 
-                />
-                <button type="submit" aria-label="Search" className="absolute right-2 top-2 bottom-2 bg-slate-950 text-white w-16 rounded-full flex items-center justify-center hover:bg-sky-500 transition-all shadow-xl"><svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg></button>
-              </div>
-            </form>
+            <div className="flex flex-col sm:flex-row items-center gap-4 w-full max-w-2xl reveal active delay-500 scroll-mt-32">
+              <form onSubmit={handleSearch} className="flex-1 w-full">
+                <div className="relative group">
+                  <input 
+                    type="text" 
+                    value={searchQuery} 
+                    onChange={(e) => setSearchQuery(e.target.value)} 
+                    placeholder={typedPlaceholder} 
+                    className="w-full bg-white/5 backdrop-blur-3xl border border-white/20 rounded-full pl-10 pr-24 py-6 text-white text-[12px] md:text-[14px] font-bold uppercase tracking-[0.4em] outline-none focus:bg-white focus:text-slate-950 dark:focus:text-slate-900 placeholder:text-white/30 shadow-2xl transition-all" 
+                  />
+                  <button type="submit" aria-label="Search" className="absolute right-2 top-2 bottom-2 bg-slate-950 text-white w-16 rounded-full flex items-center justify-center hover:bg-sky-500 transition-all shadow-xl"><svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg></button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </section>

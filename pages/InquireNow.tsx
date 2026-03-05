@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Fuse from 'fuse.js';
 import { motion, AnimatePresence } from 'motion/react';
 import { supabase, mapResort } from '../lib/supabase';
@@ -13,7 +13,6 @@ import CalendarSelector from '../components/CalendarSelector';
 import GuestSelector from '../components/GuestSelector';
 
 const InquireNow: React.FC = () => {
-  const navigate = useNavigate();
   const [resorts, setResorts] = useState<Accommodation[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
@@ -36,13 +35,13 @@ const InquireNow: React.FC = () => {
     const fetchResorts = async () => {
       setLoading(true);
       try {
-        const { data, error } = await supabase
+        const { data } = await supabase
           .from('resorts')
           .select('*')
           .order('name', { ascending: true });
         
         if (data) {
-          setResorts(data.map(mapResort));
+          setResorts(data.map(item => mapResort(item)));
         }
       } catch (err) {
         console.error('Fetch error:', err);

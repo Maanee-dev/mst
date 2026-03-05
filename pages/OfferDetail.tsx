@@ -14,7 +14,7 @@ const OfferDetail: React.FC = () => {
   const navigate = useNavigate();
   const [offer, setOffer] = useState<Offer | null>(null);
   const [loading, setLoading] = useState(true);
-  const { addItem, isInBag } = useBag();
+  const { addItem, isInBag, setSelectedOffer } = useBag();
 
   useEffect(() => {
     const fetchOffer = async () => {
@@ -27,22 +27,33 @@ const OfferDetail: React.FC = () => {
           .single();
 
         if (data) {
-          setOffer(mapOffer(data));
+          const mapped = mapOffer(data);
+          setOffer(mapped);
+          setSelectedOffer(mapped);
         } else {
           const localOffer = OFFERS.find(o => o.id === id);
-          if (localOffer) setOffer(localOffer);
+          if (localOffer) {
+            setOffer(localOffer);
+            setSelectedOffer(localOffer);
+          }
         }
       } catch (err) {
         console.error("Error fetching offer:", err);
         const localOffer = OFFERS.find(o => o.id === id);
-        if (localOffer) setOffer(localOffer);
+        if (localOffer) {
+          setOffer(localOffer);
+          setSelectedOffer(localOffer);
+        }
       } finally {
         setLoading(false);
       }
     };
 
     fetchOffer();
-  }, [id]);
+
+    // Clear selected offer on unmount if desired, but maybe keep it for the inquiry form
+    // return () => setSelectedOffer(null);
+  }, [id, setSelectedOffer]);
 
   if (loading) {
     return (
@@ -216,7 +227,10 @@ const OfferDetail: React.FC = () => {
                         image: offer.image,
                         slug: offer.resortSlug,
                         price: offer.price,
-                        details: offer.resortName
+                        details: offer.resortName,
+                        resortId: offer.resortId,
+                        resortName: offer.resortName,
+                        resortSlug: offer.resortSlug
                       });
                     }
                   }}

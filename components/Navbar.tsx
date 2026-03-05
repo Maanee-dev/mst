@@ -45,6 +45,7 @@ const Navbar: React.FC = () => {
     { name: t('offers'), path: '/offers' },
     { name: t('experiences'), path: '/experiences' },
     { name: t('stories'), path: '/stories' },
+    { name: 'Discovery', path: '/discovery' },
   ];
 
   const ctaLinks = [
@@ -133,6 +134,15 @@ const Navbar: React.FC = () => {
 
           {/* Right: Plan CTA (Ghost Style - Reactive Color) */}
           <div className="flex-1 flex justify-end items-center gap-4 md:gap-8">
+            {/* Profile Icon */}
+            <button 
+              onClick={() => setIsUserPanelOpen(true)}
+              className="group relative p-2 focus:outline-none transition-transform hover:scale-110 active:scale-90"
+              aria-label="Open profile"
+            >
+              <User className={`w-5 h-5 md:w-6 md:h-6 ${elementColorClass} ${elementShadowClass}`} strokeWidth={1.5} />
+            </button>
+
             {/* Shopping Bag Icon */}
             <button 
               onClick={toggleBag}
@@ -145,15 +155,6 @@ const Navbar: React.FC = () => {
                   {totalItems}
                 </span>
               )}
-            </button>
-
-            {/* Profile Icon */}
-            <button 
-              onClick={() => setIsUserPanelOpen(true)}
-              className="group relative p-2 focus:outline-none transition-transform hover:scale-110 active:scale-90"
-              aria-label="Open profile"
-            >
-              <User className={`w-5 h-5 md:w-6 md:h-6 ${elementColorClass} ${elementShadowClass}`} strokeWidth={1.5} />
             </button>
 
             <Link 

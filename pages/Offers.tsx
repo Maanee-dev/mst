@@ -274,7 +274,10 @@ const Offers: React.FC = () => {
                                        image: offer.image,
                                        slug: offer.resortSlug,
                                        price: offer.price,
-                                       details: offer.resortName
+                                       details: offer.resortName,
+                                       resortId: offer.resortId,
+                                       resortName: offer.resortName,
+                                       resortSlug: offer.resortSlug
                                      });
                                    }
                                  }}
