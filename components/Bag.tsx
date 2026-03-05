@@ -25,8 +25,7 @@ const Bag: React.FC<BagProps> = ({ isOpen, onClose }) => {
     setStartDate, 
     setEndDate, 
     setAdults, 
-    setChildrenCount,
-    setDiscoveryMode
+    setChildrenCount
   } = useBag();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
