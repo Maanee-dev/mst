@@ -45,19 +45,19 @@ const ChatBot: React.FC = () => {
       <button
         onClick={() => setIsOpen(!isOpen)}
         aria-label={isOpen ? "Close Sara Concierge" : "Open Sara Concierge"}
-        className={`fixed bottom-8 right-8 z-[110] bg-slate-900 text-white p-5 rounded-full shadow-2xl hover:scale-110 active:scale-95 transition-all group flex items-center justify-center border border-white/10 ${isOpen ? 'hidden md:flex' : 'flex'}`}
+        className="fixed bottom-8 right-8 z-[110] bg-slate-900 text-white p-5 rounded-full shadow-2xl hover:scale-110 active:scale-95 transition-all group flex items-center justify-center border border-white/10"
       >
         <div className="relative">
             <div className="flex items-center gap-3">
                 <span className="max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-500 font-bold text-[10px] uppercase tracking-widest whitespace-nowrap">
                     Ask Sara
                 </span>
-                <MessageSquare className="w-6 h-6" strokeWidth={1.5} />
+                {isOpen ? <X className="w-6 h-6" strokeWidth={1.5} /> : <MessageSquare className="w-6 h-6" strokeWidth={1.5} />}
             </div>
         </div>
       </button>
 
-      <div className={`fixed inset-0 md:inset-auto md:bottom-28 md:right-8 z-[100] w-full h-full md:h-[600px] md:w-[400px] bg-white md:rounded-[2.5rem] shadow-2xl border border-slate-100 overflow-hidden flex flex-col transition-all duration-700 transform ${isOpen ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-10 scale-95 pointer-events-none'}`}>
+      <div className={`fixed bottom-24 right-4 md:bottom-28 md:right-8 z-[100] w-[calc(100%-2rem)] max-w-[380px] md:w-[400px] h-[500px] md:h-[600px] bg-white rounded-[2rem] md:rounded-[2.5rem] shadow-2xl border border-slate-100 overflow-hidden flex flex-col transition-all duration-700 transform ${isOpen ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-10 scale-95 pointer-events-none'}`}>
         <div className="bg-slate-950 p-6 text-white flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-sky-500 flex items-center justify-center text-white font-serif italic font-bold text-lg">S</div>
