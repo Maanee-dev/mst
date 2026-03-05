@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Instagram, LogOut, RefreshCw, ExternalLink } from 'lucide-react';
 
@@ -19,6 +19,43 @@ export default function InstagramFeed() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const fetchFeed = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await fetch('/api/instagram/feed');
+      if (!res.ok) {
+        if (res.status === 401) {
+          setIsConnected(false);
+          return;
+        }
+        throw new Error('Failed to fetch feed');
+      }
+      const data = await res.json();
+      setFeed(data.data || []);
+    } catch (err: any) {
+      console.error('Fetch feed failed', err);
+      setError(err.message || 'Failed to fetch Instagram feed');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const checkStatus = useCallback(async () => {
+    try {
+      const res = await fetch('/api/auth/instagram/status');
+      if (!res.ok) throw new Error('Status check failed');
+      const data = await res.json();
+      setIsConnected(data.connected);
+      if (data.connected) {
+        fetchFeed();
+      }
+    } catch (err) {
+      console.error('Status check failed', err);
+      setIsConnected(false);
+    }
+  }, [fetchFeed]);
+
   useEffect(() => {
     checkStatus();
 
@@ -31,40 +68,7 @@ export default function InstagramFeed() {
 
     window.addEventListener('message', handleMessage);
     return () => window.removeEventListener('message', handleMessage);
-  }, []);
-
-  const checkStatus = async () => {
-    try {
-      const res = await fetch('/api/auth/instagram/status');
-      if (!res.ok) {
-        setIsConnected(false);
-        return;
-      }
-      const data = await res.json();
-      setIsConnected(data.connected);
-      if (data.connected) {
-        fetchFeed();
-      }
-    } catch (err) {
-      console.warn('Instagram status check failed (API likely not ready)', err);
-      setIsConnected(false);
-    }
-  };
-
-  const fetchFeed = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const res = await fetch('/api/instagram/feed');
-      if (!res.ok) throw new Error('Failed to fetch feed');
-      const data = await res.json();
-      setFeed(data.data || []);
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+  }, [checkStatus, fetchFeed]);
 
   const handleConnect = async () => {
     try {
@@ -159,6 +163,7 @@ export default function InstagramFeed() {
                       src={item.media_type === 'VIDEO' ? item.thumbnail_url : item.media_url} 
                       alt={item.caption || 'Instagram post'} 
                       className="w-full h-full object-cover transition-transform duration-[5s] group-hover:scale-110"
+                      loading="lazy"
                     />
                     <div className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6 md:p-8">
                       <p className="text-white text-[10px] md:text-[12px] font-medium line-clamp-3 mb-4 leading-relaxed">
