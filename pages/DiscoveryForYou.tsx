@@ -4,12 +4,10 @@ import { motion, AnimatePresence } from 'motion/react';
 import { ChevronDown, X, Heart, ShoppingBag, Share2, MessageCircle, Check, Send } from 'lucide-react';
 import { supabase, mapResort } from '../lib/supabase';
 import { RESORTS } from '../constants';
-import { Accommodation, ResortComment } from '../types';
+import { Accommodation } from '../types';
 import SEO from '../components/SEO';
 import { Link } from 'react-router-dom';
 import { useBag } from '../context/BagContext';
-import UserPanel from '../components/UserPanel';
-import { User } from 'lucide-react';
 
 const DiscoveryForYou: React.FC = () => {
   const [shuffledResorts, setShuffledResorts] = useState<Accommodation[]>([]);
@@ -17,39 +15,21 @@ const DiscoveryForYou: React.FC = () => {
   const [likedIds, setLikedIds] = useState<Set<string>>(new Set());
   const [showComments, setShowComments] = useState(false);
   const [commentText, setCommentText] = useState('');
-  const [comments, setComments] = useState<ResortComment[]>([]);
-  const [commentCounts, setCommentCounts] = useState<Record<string, number>>({});
-  const [loadingComments, setLoadingComments] = useState(false);
-  const [replyingTo, setReplyingTo] = useState<ResortComment | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const { addItem, isInBag, setIsUserPanelOpen } = useBag();
+  const { addItem, isInBag } = useBag();
 
   useEffect(() => {
     const fetchResorts = async () => {
       try {
-        const { data } = await supabase.from('resorts').select('*');
+        const { data, error } = await supabase.from('resorts').select('*');
         let resorts: Accommodation[] = [];
         if (data && data.length > 0) {
-          resorts = data.map(item => mapResort(item));
+          resorts = data.map(mapResort);
         } else {
           resorts = [...RESORTS];
         }
         // Shuffle resorts
-        const shuffled = resorts.sort(() => Math.random() - 0.5);
-        setShuffledResorts(shuffled);
-
-        // Fetch comment counts for all resorts
-        const { data: countsData } = await supabase
-          .from('resort_comments')
-          .select('resort_id');
-        
-        if (countsData) {
-          const counts: Record<string, number> = {};
-          countsData.forEach(c => {
-            counts[c.resort_id] = (counts[c.resort_id] || 0) + 1;
-          });
-          setCommentCounts(counts);
-        }
+        setShuffledResorts(resorts.sort(() => Math.random() - 0.5));
       } catch (err) {
         console.error('Failed to fetch resorts:', err);
         setShuffledResorts([...RESORTS].sort(() => Math.random() - 0.5));
@@ -89,138 +69,6 @@ const DiscoveryForYou: React.FC = () => {
     }
   };
 
-  const fetchComments = async (resortId: string) => {
-    setLoadingComments(true);
-    try {
-      const { data, error } = await supabase
-        .from('resort_comments')
-        .select('*')
-        .eq('resort_id', resortId)
-        .order('created_at', { ascending: true });
-
-      if (error) throw error;
-
-      // Group comments by parent_id
-      const mainComments = data.filter(c => !c.parent_id);
-      const replies = data.filter(c => c.parent_id);
-
-      const threaded = mainComments.map(mc => ({
-        ...mc,
-        replies: replies.filter(r => r.parent_id === mc.id)
-      }));
-
-      setComments(threaded);
-    } catch (err) {
-      console.error('Error fetching comments:', err);
-    } finally {
-      setLoadingComments(false);
-    }
-  };
-
-  useEffect(() => {
-    if (showComments && shuffledResorts[activeIndex]) {
-      fetchComments(shuffledResorts[activeIndex].id);
-    }
-  }, [showComments, activeIndex, shuffledResorts]);
-
-  const handleSendComment = async (resortId: string) => {
-    if (!commentText.trim()) return;
-    
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      const parentId = replyingTo?.parent_id || replyingTo?.id || null;
-      const content = replyingTo?.parent_id 
-        ? `@${replyingTo.user_name} ${commentText}` 
-        : commentText;
-
-      const newComment = {
-        resort_id: resortId,
-        user_id: user?.id || 'anonymous',
-        user_name: user?.user_metadata?.full_name || 'Island Explorer',
-        content: content,
-        parent_id: parentId,
-        created_at: new Date().toISOString()
-      };
-
-      const { error } = await supabase
-        .from('resort_comments')
-        .insert([newComment]);
-
-      if (error) throw error;
-
-      setCommentText('');
-      setReplyingTo(null);
-      fetchComments(resortId);
-    } catch (err) {
-      console.error('Error adding comment:', err);
-      // Fallback for local testing if table doesn't exist
-      const localComment: ResortComment = {
-        id: Math.random().toString(36).substr(2, 9),
-        resort_id: resortId,
-        user_id: 'local',
-        user_name: 'Island Explorer',
-        content: replyingTo ? `@${replyingTo.user_name} ${commentText}` : commentText,
-        created_at: new Date().toISOString(),
-        parent_id: replyingTo?.id
-      };
-      
-      if (replyingTo) {
-        setComments(prev => prev.map(c => 
-          c.id === (replyingTo.parent_id || replyingTo.id) 
-            ? { ...c, replies: [...(c.replies || []), localComment] }
-            : c
-        ));
-      } else {
-        setComments(prev => [...prev, localComment]);
-      }
-      setCommentText('');
-      setReplyingTo(null);
-    }
-  };
-
-  const handleLikeComment = async (commentId: string) => {
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        alert('Please sign in to like comments.');
-        return;
-      }
-      const userId = user.id;
-
-      // Check if already liked
-      const { data: existingLike } = await supabase
-        .from('resort_comment_likes')
-        .select('*')
-        .eq('comment_id', commentId)
-        .eq('user_id', userId)
-        .single();
-
-      if (existingLike) {
-        await supabase
-          .from('resort_comment_likes')
-          .delete()
-          .eq('comment_id', commentId)
-          .eq('user_id', userId);
-      } else {
-        await supabase
-          .from('resort_comment_likes')
-          .insert([{ comment_id: commentId, user_id: userId }]);
-      }
-      
-      if (shuffledResorts[activeIndex]) {
-        fetchComments(shuffledResorts[activeIndex].id);
-      }
-    } catch (err) {
-      console.error('Error toggling like:', err);
-      // Fallback local toggle
-      setComments(prev => prev.map(c => {
-        if (c.id === commentId) return { ...c, is_liked: !c.is_liked, likes_count: (c.likes_count || 0) + (c.is_liked ? -1 : 1) };
-        if (c.replies) return { ...c, replies: c.replies.map(r => r.id === commentId ? { ...r, is_liked: !r.is_liked, likes_count: (r.likes_count || 0) + (r.is_liked ? -1 : 1) } : r) };
-        return c;
-      }));
-    }
-  };
-
   if (shuffledResorts.length === 0) return null;
 
   return (
@@ -232,14 +80,7 @@ const DiscoveryForYou: React.FC = () => {
 
       {/* Top Bar */}
       <div className="absolute top-0 inset-x-0 p-4 md:p-6 flex justify-between items-center z-50 bg-gradient-to-b from-black/60 to-transparent">
-        <div className="flex-1">
-          <button 
-            onClick={() => setIsUserPanelOpen(true)}
-            className="p-2 bg-white/10 backdrop-blur-md rounded-full text-white hover:bg-white/20 transition-colors shadow-lg"
-          >
-            <User size={20} />
-          </button>
-        </div>
+        <div className="flex-1" /> {/* Left spacer */}
         
         {/* Center: Brand Identity Logo */}
         <Link to="/" aria-label="Maldives Serenity Travels Home" className="flex flex-col items-center group transition-transform duration-500 hover:scale-[1.02] relative z-10">
@@ -347,25 +188,6 @@ const DiscoveryForYou: React.FC = () => {
 
               {/* Action Buttons (Right Side Vertical Stack) */}
               <div className="flex flex-col gap-4 md:gap-7 items-center pb-4 md:pb-8 z-10">
-                {/* Profile Avatar */}
-                <div className="flex flex-col items-center gap-1 group mb-2">
-                  <div className="relative">
-                    <Link to={`/stays/${resort.slug}`} className="block">
-                      <div className="w-12 h-12 md:w-14 md:h-14 rounded-full border-2 border-white overflow-hidden shadow-xl transition-transform group-hover:scale-105">
-                        <img 
-                          src={resort.images[0]} 
-                          alt={resort.name} 
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                    </Link>
-                    <button className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-rose-500 text-white rounded-full p-1 border-2 border-black hover:scale-110 transition-transform">
-                      <Check size={10} strokeWidth={4} className="hidden group-hover:block" />
-                      <span className="block group-hover:hidden text-[10px] font-bold leading-none">+</span>
-                    </button>
-                  </div>
-                </div>
-
                 {/* Like Button */}
                 <button 
                   onClick={() => toggleLike(resort.id)}
@@ -384,13 +206,8 @@ const DiscoveryForYou: React.FC = () => {
                   onClick={() => setShowComments(true)}
                   className="flex flex-col items-center gap-1 group"
                 >
-                  <div className="p-3 md:p-4 bg-white/10 backdrop-blur-md border border-white/20 text-white rounded-full hover:bg-white/20 transition-all relative">
+                  <div className="p-3 md:p-4 bg-white/10 backdrop-blur-md border border-white/20 text-white rounded-full hover:bg-white/20 transition-all">
                     <MessageCircle size={20} className="md:w-6 md:h-6" />
-                    {commentCounts[resort.id] > 0 && (
-                      <span className="absolute -top-1 -right-1 bg-sky-500 text-white text-[8px] font-black px-1.5 py-0.5 rounded-full border border-white/20">
-                        {commentCounts[resort.id]}
-                      </span>
-                    )}
                   </div>
                   <span className="text-[7px] md:text-[9px] font-black text-white uppercase tracking-widest drop-shadow-md">Comment</span>
                 </button>
@@ -446,16 +263,8 @@ const DiscoveryForYou: React.FC = () => {
               className="bg-white dark:bg-slate-900 w-full max-w-lg rounded-t-[2.5rem] md:rounded-[2.5rem] p-8 md:p-10 relative overflow-hidden"
               onClick={e => e.stopPropagation()}
             >
-              <div className="flex justify-between items-center mb-6">
-                <div>
-                  <h3 className="text-xl font-serif font-bold text-slate-900 dark:text-white">Comments</h3>
-                  {replyingTo && (
-                    <p className="text-[10px] text-sky-500 font-black uppercase tracking-widest mt-1">
-                      Replying to {replyingTo.user_name}
-                      <button onClick={() => setReplyingTo(null)} className="ml-2 text-red-500 hover:underline">Cancel</button>
-                    </p>
-                  )}
-                </div>
+              <div className="flex justify-between items-center mb-8">
+                <h3 className="text-xl font-serif font-bold text-slate-900 dark:text-white">Comments</h3>
                 <button 
                   onClick={() => setShowComments(false)}
                   className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors"
@@ -464,98 +273,10 @@ const DiscoveryForYou: React.FC = () => {
                 </button>
               </div>
 
-              <div className="h-80 overflow-y-auto mb-6 no-scrollbar">
-                {loadingComments ? (
-                  <div className="h-full flex items-center justify-center">
-                    <div className="w-8 h-8 border-2 border-sky-500 border-t-transparent rounded-full animate-spin" />
-                  </div>
-                ) : comments.length ? (
-                  <div className="space-y-8">
-                    {comments.map((comment) => (
-                      <div key={comment.id} className="space-y-4">
-                        <div className="flex gap-4">
-                          <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-900/30 flex items-center justify-center text-sky-600 dark:text-sky-400 font-bold text-xs shrink-0">
-                            {comment.user_name.charAt(0)}
-                          </div>
-                          <div className="flex-1">
-                            <div className="flex items-center gap-2 mb-1">
-                              <span className="text-[10px] font-black uppercase tracking-widest text-slate-900 dark:text-white">{comment.user_name}</span>
-                              <span className="text-[8px] text-slate-400 uppercase tracking-widest">
-                                {new Date(comment.created_at).toLocaleDateString()}
-                              </span>
-                            </div>
-                            <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed mb-3">{comment.content}</p>
-                            <div className="flex items-center gap-6">
-                              <button 
-                                onClick={() => setReplyingTo(comment)}
-                                className="text-[9px] font-black uppercase tracking-widest text-sky-500 hover:text-sky-600 transition-colors"
-                              >
-                                Reply
-                              </button>
-                              <button 
-                                onClick={() => handleLikeComment(comment.id)}
-                                className={`flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest transition-colors ${comment.is_liked ? 'text-red-500' : 'text-slate-400 hover:text-red-500'}`}
-                              >
-                                <Heart size={12} fill={comment.is_liked ? "currentColor" : "none"} />
-                                {comment.likes_count || 0}
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Threaded Replies */}
-                        {comment.replies && comment.replies.length > 0 && (
-                          <div className="ml-14 space-y-6 border-l border-slate-100 dark:border-white/5 pl-6">
-                            {comment.replies.map((reply) => (
-                              <div key={reply.id} className="flex gap-4">
-                                <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 font-bold text-[10px] shrink-0">
-                                  {reply.user_name.charAt(0)}
-                                </div>
-                                <div className="flex-1">
-                                  <div className="flex items-center gap-2 mb-1">
-                                    <span className="text-[9px] font-black uppercase tracking-widest text-slate-900 dark:text-white">{reply.user_name}</span>
-                                    <span className="text-[8px] text-slate-400 uppercase tracking-widest">
-                                      {new Date(reply.created_at).toLocaleDateString()}
-                                    </span>
-                                  </div>
-                                  <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed mb-2">
-                                    {reply.content.startsWith('@') ? (
-                                      <>
-                                        <span className="text-sky-500 font-bold">{reply.content.split(' ')[0]}</span>
-                                        {reply.content.substring(reply.content.indexOf(' '))}
-                                      </>
-                                    ) : reply.content}
-                                  </p>
-                                  <div className="flex items-center gap-4">
-                                    <button 
-                                      onClick={() => setReplyingTo(reply)}
-                                      className="text-[8px] font-black uppercase tracking-widest text-sky-500 hover:text-sky-600"
-                                    >
-                                      Reply
-                                    </button>
-                                    <button 
-                                      onClick={() => handleLikeComment(reply.id)}
-                                      className={`flex items-center gap-1 text-[8px] font-black uppercase tracking-widest transition-colors ${reply.is_liked ? 'text-red-500' : 'text-slate-400 hover:text-red-500'}`}
-                                    >
-                                      <Heart size={10} fill={reply.is_liked ? "currentColor" : "none"} />
-                                      {reply.likes_count || 0}
-                                    </button>
-                                  </div>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="h-full flex flex-col items-center justify-center text-slate-400 gap-4">
-                    <MessageCircle size={48} className="opacity-20" />
-                    <p className="text-xs font-black uppercase tracking-widest">No comments yet</p>
-                    <p className="text-[10px] text-center max-w-[200px]">Be the first to share your thoughts on this sanctuary.</p>
-                  </div>
-                )}
+              <div className="h-64 overflow-y-auto mb-6 no-scrollbar flex flex-col items-center justify-center text-slate-400 gap-4">
+                <MessageCircle size={48} className="opacity-20" />
+                <p className="text-xs font-black uppercase tracking-widest">No comments yet</p>
+                <p className="text-[10px] text-center max-w-[200px]">Be the first to share your thoughts on this sanctuary.</p>
               </div>
 
               <div className="relative">
@@ -563,14 +284,10 @@ const DiscoveryForYou: React.FC = () => {
                   type="text"
                   value={commentText}
                   onChange={(e) => setCommentText(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && handleSendComment(shuffledResorts[activeIndex].id)}
-                  placeholder={replyingTo ? `Reply to ${replyingTo.user_name}...` : "Add a comment..."}
-                  className="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-2xl py-5 px-6 pr-14 text-sm focus:ring-2 focus:ring-sky-500 outline-none transition-all"
+                  placeholder="Add a comment..."
+                  className="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-2xl py-4 pl-6 pr-14 text-sm focus:ring-2 focus:ring-sky-500 outline-none transition-all"
                 />
-                <button 
-                  onClick={() => handleSendComment(shuffledResorts[activeIndex].id)}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 p-4 text-sky-500 hover:text-sky-600 transition-colors"
-                >
+                <button className="absolute right-2 top-1/2 -translate-y-1/2 p-3 text-sky-500 hover:text-sky-600 transition-colors">
                   <Send size={20} />
                 </button>
               </div>
@@ -593,8 +310,6 @@ const DiscoveryForYou: React.FC = () => {
           </span>
         </div>
       </div>
-
-      <UserPanel />
     </div>
   );
 };

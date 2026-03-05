@@ -51,7 +51,6 @@ const Reservations: React.FC = () => {
   const [resorts, setResorts] = useState<Accommodation[]>([]);
   const [selectedResort, setSelectedResort] = useState<Accommodation | null>(null);
   const [selectedRoom, setSelectedRoom] = useState<RoomType | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
   
   const [searchQuery, setSearchQuery] = useState('');
   const [formData, setFormData] = useState({
@@ -138,13 +137,13 @@ const Reservations: React.FC = () => {
     const fetchResorts = async () => {
       setLoading(true);
       try {
-        const { data } = await supabase
+        const { data, error } = await supabase
           .from('resorts')
           .select('*')
           .order('name', { ascending: true });
         
         if (data) {
-          const mapped = data.map(item => mapResort(item));
+          const mapped = data.map(mapResort);
           setResorts(mapped);
           
           if (initialResortSlug) {

@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { BagItem, MembershipTier } from '../types';
-import { supabase } from '../lib/supabase';
+import { BagItem } from '../types';
 
 interface BagContextType {
   items: BagItem[];
@@ -10,8 +9,6 @@ interface BagContextType {
   endDate: Date | undefined;
   adults: number;
   childrenCount: number;
-  membershipTier: MembershipTier;
-  user: any | null;
   addItem: (item: BagItem) => void;
   removeItem: (id: string) => void;
   toggleLike: (item: BagItem) => void;
@@ -23,7 +20,6 @@ interface BagContextType {
   setEndDate: (date: Date | undefined) => void;
   setAdults: (count: number) => void;
   setChildrenCount: (count: number) => void;
-  setMembershipTier: (tier: MembershipTier) => void;
   totalItems: number;
   isUserPanelOpen: boolean;
   setIsUserPanelOpen: (open: boolean) => void;
@@ -39,8 +35,6 @@ export const BagProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [endDate, setEndDate] = useState<Date | undefined>(undefined);
   const [adults, setAdults] = useState(2);
   const [childrenCount, setChildrenCount] = useState(0);
-  const [membershipTier, setMembershipTier] = useState<MembershipTier>(MembershipTier.EXPLORER);
-  const [user, setUser] = useState<any | null>(null);
   const [isUserPanelOpen, setIsUserPanelOpen] = useState(false);
 
   // Load from localStorage on mount
@@ -51,7 +45,6 @@ export const BagProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const savedEndDate = localStorage.getItem('serenity_bag_end_date');
     const savedAdults = localStorage.getItem('serenity_bag_adults');
     const savedChildren = localStorage.getItem('serenity_bag_children');
-    const savedTier = localStorage.getItem('serenity_membership_tier');
     
     if (savedBag) {
       try {
@@ -71,19 +64,6 @@ export const BagProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     if (savedEndDate) setEndDate(new Date(savedEndDate));
     if (savedAdults) setAdults(parseInt(savedAdults, 10));
     if (savedChildren) setChildrenCount(parseInt(savedChildren, 10));
-    if (savedTier) setMembershipTier(savedTier as MembershipTier);
-
-    // Initial user fetch
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      setUser(user);
-    });
-
-    // Auth listener
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-    });
-
-    return () => subscription.unsubscribe();
   }, []);
 
   // Save to localStorage on change
@@ -112,10 +92,6 @@ export const BagProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   useEffect(() => {
     localStorage.setItem('serenity_bag_children', childrenCount.toString());
   }, [childrenCount]);
-
-  useEffect(() => {
-    localStorage.setItem('serenity_membership_tier', membershipTier);
-  }, [membershipTier]);
 
   const addItem = (item: BagItem) => {
     setItems(prev => {
@@ -173,8 +149,6 @@ export const BagProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       endDate, 
       adults, 
       childrenCount, 
-      membershipTier,
-      user,
       addItem, 
       removeItem, 
       toggleLike,
@@ -186,7 +160,6 @@ export const BagProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       setEndDate, 
       setAdults, 
       setChildrenCount, 
-      setMembershipTier,
       totalItems,
       isUserPanelOpen,
       setIsUserPanelOpen

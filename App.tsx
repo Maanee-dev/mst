@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-route
 import Navbar from './components/Navbar.tsx';
 import Footer from './components/Footer.tsx';
 import ScrollToTopButton from './components/ScrollToTopButton.tsx';
-import Chatbot from './components/Chatbot.tsx';
+import ChatBot from './components/ChatBot.tsx';
 import DarkModeToggle from './components/DarkModeToggle.tsx';
 import LanguageSelector from './components/LanguageSelector.tsx';
 import CookieConsent from './components/CookieConsent.tsx';
@@ -77,12 +77,11 @@ const AppContent: React.FC = () => {
         <Route path="/admin/sync" element={<AdminSync />} />
         <Route path="/admin/stories" element={<AdminStories />} />
         <Route path="/admin/faqs" element={<AdminFAQ />} />
-        <Route path="/discovery" element={<DiscoveryFeed />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       {!isDiscoveryMode && (
         <>
-          <Chatbot />
+          <ChatBot />
           <LanguageSelector />
           <DarkModeToggle />
         </>
@@ -91,6 +90,7 @@ const AppContent: React.FC = () => {
       <CookieConsent />
       <OfferNewsletterPopup />
       {!isDiscoveryMode && <Footer />}
+      <DiscoveryFeed />
     </BrowserRouter>
   );
 };

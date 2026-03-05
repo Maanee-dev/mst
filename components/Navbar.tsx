@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { ShoppingBag, User } from 'lucide-react';
 import { useBag } from '../context/BagContext';
 import Bag from './Bag';
-import UserPanel from './UserPanel';
 
 const Navbar: React.FC = () => {
   const { t } = useTranslation();
@@ -12,7 +11,7 @@ const Navbar: React.FC = () => {
   const [isBagOpen, setIsBagOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
-  const { totalItems, setIsUserPanelOpen, user } = useBag();
+  const { totalItems, setIsUserPanelOpen } = useBag();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -46,7 +45,6 @@ const Navbar: React.FC = () => {
     { name: t('offers'), path: '/offers' },
     { name: t('experiences'), path: '/experiences' },
     { name: t('stories'), path: '/stories' },
-    { name: t('discovery'), path: '/discovery' },
   ];
 
   const ctaLinks = [
@@ -135,18 +133,6 @@ const Navbar: React.FC = () => {
 
           {/* Right: Plan CTA (Ghost Style - Reactive Color) */}
           <div className="flex-1 flex justify-end items-center gap-4 md:gap-8">
-            {/* User Icon */}
-            <button 
-              onClick={() => setIsUserPanelOpen(true)}
-              className="group relative p-2 focus:outline-none transition-transform hover:scale-110 active:scale-90"
-              aria-label="User profile"
-            >
-              <User className={`w-5 h-5 md:w-6 md:h-6 ${user ? 'text-sky-500' : elementColorClass} ${elementShadowClass}`} strokeWidth={user ? 2 : 1.5} />
-              {user && (
-                <span className="absolute top-1 right-1 w-2 h-2 bg-sky-500 rounded-full border-2 border-white dark:border-slate-900" />
-              )}
-            </button>
-
             {/* Shopping Bag Icon */}
             <button 
               onClick={toggleBag}
@@ -159,6 +145,15 @@ const Navbar: React.FC = () => {
                   {totalItems}
                 </span>
               )}
+            </button>
+
+            {/* Profile Icon */}
+            <button 
+              onClick={() => setIsUserPanelOpen(true)}
+              className="group relative p-2 focus:outline-none transition-transform hover:scale-110 active:scale-90"
+              aria-label="Open profile"
+            >
+              <User className={`w-5 h-5 md:w-6 md:h-6 ${elementColorClass} ${elementShadowClass}`} strokeWidth={1.5} />
             </button>
 
             <Link 
@@ -181,9 +176,6 @@ const Navbar: React.FC = () => {
 
       {/* Bag Sidebar */}
       <Bag isOpen={isBagOpen} onClose={() => setIsBagOpen(false)} />
-
-      {/* User Panel */}
-      <UserPanel />
 
       {/* Fullscreen Overlay Menu */}
       <div className={`fixed inset-0 z-[250] bg-white dark:bg-slate-950 transition-all duration-1000 ease-[cubic-bezier(0.19,1,0.22,1)] ${isOpen ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0 pointer-events-none'}`}>
