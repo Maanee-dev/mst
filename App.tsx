@@ -36,9 +36,8 @@ import InquireNow from './pages/InquireNow.tsx';
 import RoomSelection from './pages/RoomSelection.tsx';
 import ThankYou from './pages/ThankYou.tsx';
 
-import Discovery from './pages/Discovery.tsx';
-import UserPanel from './components/UserPanel.tsx';
-import { BagProvider } from './context/BagContext.tsx';
+import { BagProvider, useBag } from './context/BagContext.tsx';
+import DiscoveryFeed from './components/DiscoveryFeed.tsx';
 
 const ScrollToTopOnRoute = () => {
   const { pathname } = useLocation();
@@ -49,17 +48,14 @@ const ScrollToTopOnRoute = () => {
 };
 
 const AppContent: React.FC = () => {
-  const location = useLocation();
-  const isDiscoveryPage = location.pathname === '/discovery';
+  const { isDiscoveryMode } = useBag();
 
   return (
-    <>
+    <BrowserRouter>
       <ScrollToTopOnRoute />
-      <UserPanel />
-      {!isDiscoveryPage && <Navbar />}
+      {!isDiscoveryMode && <Navbar />}
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/discovery" element={<Discovery />} />
         <Route path="/search" element={<SearchPage />} />
         <Route path="/stays" element={<Stays />} />
         <Route path="/stays/:slug" element={<ResortDetail />} />
@@ -81,9 +77,10 @@ const AppContent: React.FC = () => {
         <Route path="/admin/sync" element={<AdminSync />} />
         <Route path="/admin/stories" element={<AdminStories />} />
         <Route path="/admin/faqs" element={<AdminFAQ />} />
+        <Route path="/discovery" element={<DiscoveryFeed />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-      {!isDiscoveryPage && (
+      {!isDiscoveryMode && (
         <>
           <ChatBot />
           <LanguageSelector />
@@ -93,18 +90,16 @@ const AppContent: React.FC = () => {
       <ScrollToTopButton />
       <CookieConsent />
       <OfferNewsletterPopup />
-      {!isDiscoveryPage && <Footer />}
-    </>
+      {!isDiscoveryMode && <Footer />}
+    </BrowserRouter>
   );
 };
 
 const App: React.FC = () => {
   return (
-    <BrowserRouter>
-      <BagProvider>
-        <AppContent />
-      </BagProvider>
-    </BrowserRouter>
+    <BagProvider>
+      <AppContent />
+    </BagProvider>
   );
 };
 

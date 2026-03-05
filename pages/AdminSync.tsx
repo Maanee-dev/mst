@@ -63,10 +63,7 @@ const AdminSync: React.FC = () => {
           resort_name: offer.resortName,
           expiry_date: offer.expiryDate,
           image: offer.image,
-          category: offer.category,
-          inclusions: offer.inclusions || [],
-          dining: offer.dining || '',
-          terms_and_conditions: offer.terms_and_conditions || ''
+          category: offer.category
         }, { onConflict: 'id' });
 
         if (error) {

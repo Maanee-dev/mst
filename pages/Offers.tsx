@@ -274,10 +274,7 @@ const Offers: React.FC = () => {
                                        image: offer.image,
                                        slug: offer.resortSlug,
                                        price: offer.price,
-                                       details: offer.resortName,
-                                       resortId: offer.resortId,
-                                       resortName: offer.resortName,
-                                       resortSlug: offer.resortSlug
+                                       details: offer.resortName
                                      });
                                    }
                                  }}

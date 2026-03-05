@@ -40,13 +40,13 @@ const PlanMyTrip: React.FC = () => {
 
   useEffect(() => {
     const fetchResorts = async () => {
-      const { data } = await supabase
+      const { data, error } = await supabase
         .from('resorts')
         .select('*')
         .order('name', { ascending: true });
       
       if (data) {
-        setDbResorts(data.map(item => mapResort(item)));
+        setDbResorts(data.map(mapResort));
       }
     };
     fetchResorts();

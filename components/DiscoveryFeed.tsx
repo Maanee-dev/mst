@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { useNavigate } from 'react-router-dom';
 import { 
   Heart, 
   MessageCircle, 
@@ -16,31 +17,27 @@ import { useBag } from '../context/BagContext';
 import { supabase, mapResort } from '../lib/supabase';
 import { Accommodation } from '../types';
 import { RESORTS } from '../constants';
-import { useNavigate } from 'react-router-dom';
+import UserPanel from './UserPanel';
 
 const CommentSection: React.FC<{ isOpen: boolean; onClose: () => void; resortId: string }> = ({ isOpen, onClose, resortId }) => {
   const [comments, setComments] = useState<ResortComment[]>([]);
   const [loading, setLoading] = useState(false);
   const [commentText, setCommentText] = useState('');
   const [replyingTo, setReplyingTo] = useState<ResortComment | null>(null);
-  const [currentUserId, setCurrentUserId] = useState<string>('00000000-0000-0000-0000-000000000000');
+  const [currentUserId, setCurrentUserId] = useState<string>('');
 
   const fetchComments = useCallback(async () => {
     setLoading(true);
     try {
       const { data: { user } } = await supabase.auth.getUser();
-      const userId = user?.id || '00000000-0000-0000-0000-000000000000';
-      setCurrentUserId(userId);
+      const userId = user?.id;
+      setCurrentUserId(userId || '');
 
       const { data, error } = await supabase
         .from('resort_comments')
         .select(`
           *,
-          likes_count:resort_comment_likes(count),
-          profiles:user_id (
-            full_name,
-            avatar_url
-          )
+          likes_count:resort_comment_likes(count)
         `)
         .eq('resort_id', resortId)
         .order('created_at', { ascending: true });
@@ -48,31 +45,28 @@ const CommentSection: React.FC<{ isOpen: boolean; onClose: () => void; resortId:
       if (error) throw error;
 
       // Also check which ones the current user liked
-      const { data: userLikes } = await supabase
-        .from('resort_comment_likes')
-        .select('comment_id')
-        .eq('user_id', userId);
-
-      const likedCommentIds = new Set(userLikes?.map(l => l.comment_id) || []);
+      let likedCommentIds = new Set<string>();
+      if (userId) {
+        const { data: userLikes } = await supabase
+          .from('resort_comment_likes')
+          .select('comment_id')
+          .eq('user_id', userId);
+        
+        likedCommentIds = new Set(userLikes?.map(l => l.comment_id) || []);
+      }
 
       // Group comments by parent_id
       const mainComments = data.filter(c => !c.parent_id);
       const replies = data.filter(c => c.parent_id);
 
       const threaded = mainComments.map(mc => {
-        const profile = Array.isArray(mc.profiles) ? mc.profiles[0] : mc.profiles;
         return {
           ...mc,
-          user_name: profile?.full_name || mc.user_name,
-          user_avatar: profile?.avatar_url || mc.user_avatar,
           likes_count: mc.likes_count?.[0]?.count || 0,
           is_liked: likedCommentIds.has(mc.id),
           replies: replies.filter(r => r.parent_id === mc.id).map(r => {
-            const rProfile = Array.isArray(r.profiles) ? r.profiles[0] : r.profiles;
             return {
               ...r,
-              user_name: rProfile?.full_name || r.user_name,
-              user_avatar: rProfile?.avatar_url || r.user_avatar,
               likes_count: r.likes_count?.[0]?.count || 0,
               is_liked: likedCommentIds.has(r.id)
             };
@@ -97,7 +91,11 @@ const CommentSection: React.FC<{ isOpen: boolean; onClose: () => void; resortId:
   const handleLikeComment = async (commentId: string, isCurrentlyLiked: boolean) => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
-      const userId = user?.id || '00000000-0000-0000-0000-000000000000';
+      if (!user) {
+        alert('Please sign in to like comments.');
+        return;
+      }
+      const userId = user.id;
 
       if (isCurrentlyLiked) {
         await supabase
@@ -139,6 +137,10 @@ const CommentSection: React.FC<{ isOpen: boolean; onClose: () => void; resortId:
 
     try {
       const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        alert('Please sign in to add a comment.');
+        return;
+      }
       
       // If replying to a reply, we still use the top-level parent_id to keep it 2-level
       // but we can prepend the username to the content
@@ -149,8 +151,8 @@ const CommentSection: React.FC<{ isOpen: boolean; onClose: () => void; resortId:
 
       const newComment = {
         resort_id: resortId,
-        user_id: user?.id || '00000000-0000-0000-0000-000000000000',
-        user_name: user?.user_metadata?.full_name || 'Guest Explorer',
+        user_id: user.id,
+        user_name: user.user_metadata?.full_name || (user.is_anonymous ? 'Guest Explorer' : 'Explorer'),
         content: content,
         parent_id: parentId
       };
@@ -425,12 +427,9 @@ const ResortSlide: React.FC<{
             {/* Profile Icon */}
             <button 
               onClick={() => setIsUserPanelOpen(true)}
-              className="w-10 h-10 md:w-14 md:h-14 rounded-full bg-white/10 backdrop-blur-xl border border-white/10 flex items-center justify-center text-white pointer-events-auto hover:bg-white/20 transition-all group relative"
+              className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 backdrop-blur-xl border border-white/10 flex items-center justify-center text-white pointer-events-auto hover:bg-white/20 transition-all"
             >
-              <User size={20} strokeWidth={1.5} className="group-hover:scale-110 transition-transform" />
-              <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-sky-500 rounded-full border-2 border-black flex items-center justify-center">
-                <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
-              </div>
+              <User size={20} strokeWidth={1.5} />
             </button>
 
             {/* Logo */}
@@ -593,6 +592,7 @@ const ResortSlide: React.FC<{
 const DiscoveryFeed: React.FC = () => {
   const navigate = useNavigate();
   const { 
+    setDiscoveryMode, 
     addItem, 
     isInBag, 
     toggleLike, 
@@ -602,6 +602,11 @@ const DiscoveryFeed: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [activeCommentResortId, setActiveCommentResortId] = useState<string | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setDiscoveryMode(true);
+    return () => setDiscoveryMode(false);
+  }, [setDiscoveryMode]);
 
   useEffect(() => {
     const fetchResorts = async () => {
@@ -652,7 +657,7 @@ const DiscoveryFeed: React.FC = () => {
         {/* Close Button */}
         <div className="absolute top-6 right-6 md:right-10 z-[505]">
           <button 
-            onClick={() => navigate('/')}
+            onClick={() => navigate(-1)}
             className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center bg-black/20 hover:bg-black/40 backdrop-blur-xl rounded-full text-white transition-all group border border-white/10"
             aria-label="Close discovery"
           >
@@ -691,6 +696,9 @@ const DiscoveryFeed: React.FC = () => {
           resortId={activeCommentResortId || ''}
           onClose={() => setActiveCommentResortId(null)} 
         />
+
+        {/* User Panel */}
+        <UserPanel />
       </motion.div>
     </AnimatePresence>
   );

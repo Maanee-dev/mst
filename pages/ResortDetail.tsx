@@ -108,7 +108,7 @@ const ResortDetail: React.FC = () => {
       cleaned = typeof cleaned === 'string' ? cleaned.replace(/""/g, '"') : cleaned;
       const parsed = JSON.parse(cleaned);
       return Array.isArray(parsed) ? parsed : [];
-    } catch {
+    } catch (e) {
       if (typeof item === 'string') {
         return item.split(',').map(s => s.trim().replace(/^["[]+|["\]]+$/g, '')).filter(Boolean);
       }
@@ -567,7 +567,7 @@ const ResortDetail: React.FC = () => {
               src={selectedImage} 
               alt="Fullscreen view" 
               className="max-w-full max-h-full object-contain rounded-[1rem] md:rounded-[2rem] shadow-2xl animate-in zoom-in-95 duration-500"
-              onClick={(ev) => ev.stopPropagation()}
+              onClick={(e) => e.stopPropagation()}
             />
           </div>
         </div>

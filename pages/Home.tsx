@@ -7,10 +7,12 @@ import { BLOG_POSTS, RESORTS } from '../constants';
 import ResortCard from '../components/ResortCard';
 import SEO from '../components/SEO';
 import InstagramFeed from '../components/InstagramFeed';
+import { useBag } from '../context/BagContext';
 
 const Home: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { setDiscoveryMode } = useBag();
   const [heroIndex, setHeroIndex] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
   const [typedPlaceholder, setTypedPlaceholder] = useState("");
@@ -32,7 +34,7 @@ const Home: React.FC = () => {
         
         if (resortError) throw resortError;
         if (resortsData && resortsData.length > 0) {
-          setFeaturedResorts(resortsData.map(item => mapResort(item)));
+          setFeaturedResorts(resortsData.map(mapResort));
         } else {
           setFeaturedResorts(RESORTS.slice(0, 6));
         }

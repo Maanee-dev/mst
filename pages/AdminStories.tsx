@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
-import { BlogPost } from '../types';
+import { BlogPost, StoryCategory } from '../types';
 import { BLOG_POSTS } from '../constants';
 
 const AdminStories: React.FC = () => {

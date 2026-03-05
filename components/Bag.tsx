@@ -25,8 +25,7 @@ const Bag: React.FC<BagProps> = ({ isOpen, onClose }) => {
     setStartDate, 
     setEndDate, 
     setAdults, 
-    setChildrenCount,
-    isMember
+    setChildrenCount
   } = useBag();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -41,7 +40,7 @@ const Bag: React.FC<BagProps> = ({ isOpen, onClose }) => {
 
   const handleStartExploring = () => {
     onClose();
-    navigate('/discovery');
+    navigate('/');
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -161,16 +160,9 @@ const Bag: React.FC<BagProps> = ({ isOpen, onClose }) => {
                             </button>
                           </div>
                           {item.price && (
-                            <div className="flex items-center gap-2 mt-2">
-                              <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">
-                                {typeof item.price === 'number' ? `From US$ ${item.price.toLocaleString()}` : item.price}
-                              </p>
-                              {isMember && (
-                                <span className="text-[7px] font-black text-emerald-500 bg-emerald-500/10 px-1.5 py-0.5 rounded uppercase tracking-widest">
-                                  -15% Member Rate
-                                </span>
-                              )}
-                            </div>
+                            <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-2">
+                              {typeof item.price === 'number' ? `From US$ ${item.price.toLocaleString()}` : item.price}
+                            </p>
                           )}
                         </div>
                       </div>
