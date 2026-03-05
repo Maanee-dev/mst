@@ -88,7 +88,13 @@ async function startServer() {
     }
   });
 
+  app.get('/api/auth/instagram/status', (req, res) => {
+    console.log('GET /api/auth/instagram/status - Session:', !!req.session?.instagramToken);
+    res.json({ connected: !!req.session?.instagramToken });
+  });
+
   app.get('/api/instagram/feed', async (req, res) => {
+    console.log('GET /api/instagram/feed');
     const token = req.session?.instagramToken;
     if (!token) return res.status(401).json({ error: 'Not connected to Instagram' });
 
@@ -106,10 +112,6 @@ async function startServer() {
       req.session.instagramToken = null;
     }
     res.json({ success: true });
-  });
-
-  app.get('/api/auth/instagram/status', (req, res) => {
-    res.json({ connected: !!req.session?.instagramToken });
   });
 
   app.get('/robots.txt', (req, res) => {
@@ -134,7 +136,7 @@ async function startServer() {
     app.use(vite.middlewares);
   } else {
     app.use(express.static(path.join(__dirname, 'dist')));
-    app.get('*', (req, res) => {
+    app.get(/.*/, (req, res) => {
       res.sendFile(path.join(__dirname, 'dist', 'index.html'));
     });
   }
