@@ -15,7 +15,7 @@ import {
 } from 'lucide-react';
 import { useBag } from '../context/BagContext';
 import { supabase, mapResort } from '../lib/supabase';
-import { Accommodation } from '../types';
+import { Accommodation, ResortComment } from '../types';
 import { RESORTS } from '../constants';
 import UserPanel from './UserPanel';
 
@@ -152,7 +152,7 @@ const CommentSection: React.FC<{ isOpen: boolean; onClose: () => void; resortId:
       const newComment = {
         resort_id: resortId,
         user_id: user.id,
-        user_name: user.user_metadata?.full_name || (user.is_anonymous ? 'Guest Explorer' : 'Explorer'),
+        user_name: user.user_metadata?.full_name || ((user as any).is_anonymous ? 'Guest Explorer' : 'Explorer'),
         content: content,
         parent_id: parentId
       };
@@ -522,7 +522,7 @@ const ResortSlide: React.FC<{
             name: resort.name, 
             type: resort.type.toLowerCase() as any, 
             image: resort.images[0], 
-            price: resort.price, 
+            price: (resort as any).price || resort.priceRange, 
             atoll: resort.atoll 
           })}
           className="group flex flex-col items-center gap-1.5"
@@ -554,7 +554,7 @@ const ResortSlide: React.FC<{
             name: resort.name, 
             type: resort.type.toLowerCase() as any, 
             image: resort.images[0], 
-            price: resort.price, 
+            price: (resort as any).price || resort.priceRange, 
             atoll: resort.atoll 
           })}
           className="group flex flex-col items-center gap-1.5"
@@ -615,7 +615,7 @@ const DiscoveryFeed: React.FC = () => {
         const { data, error } = await supabase.from('resorts').select('*').limit(20);
         if (error) throw error;
         if (data && data.length > 0) {
-          setResorts(data.map(mapResort));
+          setResorts(data.map(item => mapResort(item)));
         } else {
           setResorts(RESORTS.slice(0, 10));
         }

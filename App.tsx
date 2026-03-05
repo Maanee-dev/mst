@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-route
 import Navbar from './components/Navbar.tsx';
 import Footer from './components/Footer.tsx';
 import ScrollToTopButton from './components/ScrollToTopButton.tsx';
-import ChatBot from './components/ChatBot.tsx';
+import Chatbot from './components/Chatbot.tsx';
 import DarkModeToggle from './components/DarkModeToggle.tsx';
 import LanguageSelector from './components/LanguageSelector.tsx';
 import CookieConsent from './components/CookieConsent.tsx';
@@ -82,7 +82,7 @@ const AppContent: React.FC = () => {
       </Routes>
       {!isDiscoveryMode && (
         <>
-          <ChatBot />
+          <Chatbot />
           <LanguageSelector />
           <DarkModeToggle />
         </>

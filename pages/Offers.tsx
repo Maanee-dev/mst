@@ -248,8 +248,7 @@ const Offers: React.FC = () => {
                           
                           <div className="mt-auto pt-6 flex flex-col gap-1">
                              <div className="flex items-baseline gap-2">
-                                <span className="text-2xl font-black text-slate-950 dark:text-white">US$ {offer.price.toLocaleString()}</span>
-                                <span className="text-slate-400 dark:text-slate-500 text-[10px] font-bold">/ {offer.priceSubtext}</span>
+                                <span className="text-slate-400 dark:text-slate-500 text-[10px] font-bold">{offer.priceSubtext}</span>
                              </div>
                              
                              <div className="flex items-center gap-6 mt-6">

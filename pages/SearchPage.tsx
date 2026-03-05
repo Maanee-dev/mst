@@ -27,7 +27,7 @@ const SearchPage: React.FC = () => {
       try {
         // Fetch Stays
         const { data: resortsData } = await supabase.from('resorts').select('*');
-        const stays = resortsData ? resortsData.map(mapResort) : RESORTS;
+        const stays = resortsData ? resortsData.map(item => mapResort(item)) : RESORTS;
         
         // Fetch Offers
         const { data: offersData } = await supabase.from('offers').select('*, resorts(slug)');

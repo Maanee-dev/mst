@@ -27,10 +27,10 @@ const DiscoveryForYou: React.FC = () => {
   useEffect(() => {
     const fetchResorts = async () => {
       try {
-        const { data, error } = await supabase.from('resorts').select('*');
+        const { data } = await supabase.from('resorts').select('*');
         let resorts: Accommodation[] = [];
         if (data && data.length > 0) {
-          resorts = data.map(mapResort);
+          resorts = data.map(item => mapResort(item));
         } else {
           resorts = [...RESORTS];
         }

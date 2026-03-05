@@ -72,6 +72,9 @@ export interface Offer {
   expiryDate: string;
   image: string;
   category: 'Early Bird' | 'Last Minute' | 'Honeymoon';
+  inclusions?: string[];
+  dining?: string;
+  terms_and_conditions?: string;
   // Enhanced UI fields
   nights: number;
   roomCategory: string;
@@ -98,7 +101,14 @@ export interface Experience {
   }[];
 }
 
-export type BagItemType = 'resort' | 'experience' | 'offer' | 'guest_house' | 'liveaboard';
+export type BagItemType = 'resort' | 'experience' | 'offer' | 'guest_house' | 'liveaboard' | 'membership';
+
+export enum MembershipTier {
+  EXPLORER = 'EXPLORER',
+  SILVER = 'SILVER',
+  GOLD = 'GOLD',
+  PLATINUM = 'PLATINUM'
+}
 
 export interface BagItem {
   id: string;

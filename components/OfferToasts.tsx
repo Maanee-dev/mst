@@ -78,9 +78,6 @@ const OfferToasts: React.FC = () => {
 
            <div className="flex items-center gap-2 md:gap-4 flex-shrink-0">
               <div className="flex flex-col items-end flex-shrink-0">
-                <span className="text-[9px] md:text-[11px] font-black text-slate-950 dark:text-sky-300 uppercase tracking-tighter leading-none">
-                  ${currentOffer.price?.toLocaleString()}
-                </span>
                 <span className="hidden md:block text-[7px] font-bold text-slate-400 uppercase tracking-widest leading-none mt-1">
                   {currentOffer.discount}
                 </span>

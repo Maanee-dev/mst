@@ -140,7 +140,7 @@ const OfferDetail: React.FC = () => {
                   </div>
                   <h4 className="text-[11px] font-black text-slate-900 dark:text-white uppercase tracking-widest mb-4">Inclusions</h4>
                   <ul className="space-y-3">
-                    {['Daily Gourmet Breakfast', 'Return Luxury Transfers', 'Welcome Amenities', 'Personal Island Host'].map((item, i) => (
+                    {(offer.inclusions && offer.inclusions.length > 0 ? offer.inclusions : ['Daily Gourmet Breakfast', 'Return Luxury Transfers', 'Welcome Amenities', 'Personal Island Host']).map((item, i) => (
                       <li key={i} className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest flex items-center gap-3">
                         <span className="w-1.5 h-1.5 rounded-full bg-sky-500"></span>
                         {item}
@@ -154,7 +154,7 @@ const OfferDetail: React.FC = () => {
                   </div>
                   <h4 className="text-[11px] font-black text-slate-900 dark:text-white uppercase tracking-widest mb-4">Dining</h4>
                   <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest leading-relaxed">
-                    Enjoy curated culinary experiences across the resort's signature venues. Bespoke dining arrangements can be tailored to your vision.
+                    {offer.dining || "Enjoy curated culinary experiences across the resort's signature venues. Bespoke dining arrangements can be tailored to your vision."}
                   </p>
                 </div>
               </div>
@@ -165,9 +165,7 @@ const OfferDetail: React.FC = () => {
                   <h3 className="text-[11px] font-black text-slate-900 dark:text-white uppercase tracking-[0.3em]">Terms & Conditions</h3>
                 </div>
                 <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-[2]">
-                  Valid for stays until {new Date(offer.expiryDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}. 
-                  Subject to availability at the time of booking. Blackout dates may apply. 
-                  Cannot be combined with other promotions.
+                  {offer.terms_and_conditions || `Valid for stays until ${new Date(offer.expiryDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}. Subject to availability at the time of booking. Blackout dates may apply. Cannot be combined with other promotions.`}
                 </p>
               </div>
             </div>
@@ -207,8 +205,9 @@ const OfferDetail: React.FC = () => {
                 </Link>
 
                 <button 
-                  onClick={() => {
+                  onClick={async () => {
                     if (offer && !isInBag(offer.id)) {
+                      // Add the offer
                       addItem({
                         id: offer.id,
                         type: 'offer',
@@ -218,6 +217,29 @@ const OfferDetail: React.FC = () => {
                         price: offer.price,
                         details: offer.resortName
                       });
+
+                      // Also add the resort if not already in bag
+                      try {
+                        const { data: resortData } = await supabase
+                          .from('resorts')
+                          .select('*')
+                          .eq('id', offer.resortId)
+                          .single();
+                        
+                        if (resortData && !isInBag(resortData.id)) {
+                          addItem({
+                            id: resortData.id,
+                            type: 'resort',
+                            name: resortData.name,
+                            image: resortData.images?.[0] || '',
+                            atoll: resortData.atoll,
+                            slug: resortData.slug,
+                            price: resortData.price_range
+                          });
+                        }
+                      } catch (err) {
+                        console.error("Error adding associated resort:", err);
+                      }
                     }
                   }}
                   disabled={offer ? isInBag(offer.id) : true}

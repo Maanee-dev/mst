@@ -3,7 +3,7 @@ import { Accommodation, AccommodationType, TransferType, MealPlan, Offer, Experi
 
 export const OFFERS: Offer[] = [
   {
-    id: 'off-1',
+    id: '739a8c14-2391-4d32-8456-789012345678',
     resortId: '739a8c14-2391-4d32-8456-789012345678',
     resortSlug: 'adaaran-prestige-vadoo',
     resortName: 'Villa Park Maldives Resort',
@@ -17,11 +17,20 @@ export const OFFERS: Offer[] = [
     rating: 5,
     expiryDate: '2026-12-31',
     image: 'https://images.unsplash.com/photo-1544550581-5f7ceaf7f992?auto=format&fit=crop&q=80&w=1200',
-    category: 'Honeymoon'
+    category: 'Honeymoon',
+    inclusions: [
+      'Daily breakfast and dinner at the main restaurant',
+      'Complimentary 60-minute couples massage',
+      'Romantic sunset cruise for two',
+      'Welcome bottle of champagne and fruit basket',
+      'Personal butler service'
+    ],
+    dining: 'Indulge in a variety of culinary delights across our 4 signature restaurants, ranging from fresh seafood to international gourmet cuisine.',
+    terms_and_conditions: 'Offer valid for stays of 7 nights or more. Subject to availability at the time of booking. Cancellation policies apply.'
   },
   {
-    id: 'off-2',
-    resortId: 'res-nautica',
+    id: '849a8c14-2391-4d32-8456-789012345679',
+    resortId: '739a8c14-2391-4d32-8456-789012345679',
     resortSlug: 'villa-nautica',
     resortName: 'Villa Nautica',
     roomCategory: 'Deluxe Beach Pool Villa',
@@ -37,8 +46,8 @@ export const OFFERS: Offer[] = [
     category: 'Early Bird'
   },
   {
-    id: 'off-3',
-    resortId: 'res-intercon',
+    id: '959a8c14-2391-4d32-8456-789012345680',
+    resortId: '959a8c14-2391-4d32-8456-789012345680',
     resortSlug: 'intercontinental-maldives',
     resortName: 'InterContinental Maldives Maamunagau Resort',
     roomCategory: 'One Bedroom Lagoon Pool Villa',
@@ -54,8 +63,8 @@ export const OFFERS: Offer[] = [
     category: 'Last Minute'
   },
   {
-    id: 'off-4',
-    resortId: 'res-finolhu',
+    id: 'a69a8c14-2391-4d32-8456-789012345681',
+    resortId: 'a69a8c14-2391-4d32-8456-789012345681',
     resortSlug: 'seaside-finolhu',
     resortName: 'Seaside Finolhu Baa Atoll Maldives',
     roomCategory: 'Lagoon Villa',
@@ -210,7 +219,7 @@ export const EXPERIENCES: Experience[] = [];
 
 export const BLOG_POSTS: BlogPost[] = [
   {
-    id: 'post-1',
+    id: 'd290f1ee-6c54-4b01-90e6-d701748f0851',
     title: 'The Art of the Seaplane',
     slug: 'art-of-the-seaplane',
     excerpt: 'Discover why the journey to your island is as magical as the stay itself.',
