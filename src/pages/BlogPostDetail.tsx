@@ -14,7 +14,7 @@ const BlogPostDetail: React.FC = () => {
     const fetchPost = async () => {
       setLoading(true);
       try {
-        const { data, error } = await supabase
+        const { data } = await supabase
           .from('stories')
           .select('*')
           .eq('slug', slug)

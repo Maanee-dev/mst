@@ -41,11 +41,11 @@ const Navbar: React.FC = () => {
   const toggleBag = () => setIsBagOpen(!isBagOpen);
 
   const navLinks = [
+    { name: 'Discovery', path: '/discovery' },
     { name: t('stays'), path: '/stays' },
     { name: t('offers'), path: '/offers' },
     { name: t('experiences'), path: '/experiences' },
     { name: t('stories'), path: '/stories' },
-    { name: t('discovery'), path: '/discovery' },
   ];
 
   const ctaLinks = [
@@ -58,16 +58,16 @@ const Navbar: React.FC = () => {
   const isNavSolid = (scrolled || isOpen || !isHomePage);
   
   // Reactive Color Logic for Ghost Elements
-  // If nav is solid and it's NOT dark mode, use slate-900. Otherwise (on hero or dark mode), use white.
-  const elementColorClass = isNavSolid ? 'text-slate-900 dark:text-white' : 'text-white';
-  const elementBgClass = isNavSolid ? 'bg-slate-900 dark:bg-white' : 'bg-white';
-  const logoFillClass = isNavSolid ? 'fill-slate-900 dark:fill-white' : 'fill-white';
+  // If nav is solid and it's NOT dark mode, use claude-text. Otherwise (on hero or dark mode), use white.
+  const elementColorClass = isNavSolid ? 'text-claude-text dark:text-claude-text-dark' : 'text-white';
+  const elementBgClass = isNavSolid ? 'bg-claude-text dark:bg-claude-text-dark' : 'bg-white';
+  const logoFillClass = isNavSolid ? 'fill-claude-text dark:fill-claude-text-dark' : 'fill-white';
   const elementShadowClass = isNavSolid ? '' : 'drop-shadow-[0_2px_6px_rgba(0,0,0,0.3)]';
 
   return (
     <>
       {/* Header */}
-      <nav className={`fixed w-full z-[300] transition-all duration-1000 ${isNavSolid ? 'glass-nav py-4 border-b border-slate-100/50 dark:border-white/5 shadow-sm' : 'bg-transparent py-8 md:py-10'}`}>
+      <nav className={`fixed w-full z-[300] transition-all duration-1000 ${isNavSolid ? 'glass-nav py-4 border-b border-claude-border dark:border-claude-border-dark shadow-sm' : 'bg-transparent py-8 md:py-10'}`}>
         <div className="max-w-[1440px] mx-auto px-6 md:px-12 flex justify-between items-center relative">
           
           {/* Left: Discover Toggle (Ghost Style - Reactive Color) */}
@@ -134,15 +134,6 @@ const Navbar: React.FC = () => {
 
           {/* Right: Plan CTA (Ghost Style - Reactive Color) */}
           <div className="flex-1 flex justify-end items-center gap-4 md:gap-8">
-            {/* User Icon */}
-            <button 
-              onClick={() => setIsUserPanelOpen(true)}
-              className="group relative p-2 focus:outline-none transition-transform hover:scale-110 active:scale-90"
-              aria-label="User account"
-            >
-              <User className={`w-5 h-5 md:w-6 md:h-6 ${elementColorClass} ${elementShadowClass}`} strokeWidth={1.5} />
-            </button>
-
             {/* Shopping Bag Icon */}
             <button 
               onClick={toggleBag}
@@ -151,16 +142,25 @@ const Navbar: React.FC = () => {
             >
               <ShoppingBag className={`w-5 h-5 md:w-6 md:h-6 ${elementColorClass} ${elementShadowClass}`} strokeWidth={1.5} />
               {totalItems > 0 && (
-                <span className="absolute -top-1 -right-1 w-4 h-4 md:w-5 md:h-5 bg-sky-500 text-white text-[8px] md:text-[10px] font-black rounded-full flex items-center justify-center shadow-lg animate-in zoom-in duration-300">
+                <span className="absolute -top-1 -right-1 w-4 h-4 md:w-5 md:h-5 bg-claude-accent text-white text-[8px] md:text-[10px] font-black rounded-full flex items-center justify-center shadow-lg animate-in zoom-in duration-300">
                   {totalItems}
                 </span>
               )}
             </button>
 
+            {/* Profile Icon */}
+            <button 
+              onClick={() => setIsUserPanelOpen(true)}
+              className="group relative p-2 focus:outline-none transition-transform hover:scale-110 active:scale-90"
+              aria-label="Open profile"
+            >
+              <User className={`w-5 h-5 md:w-6 md:h-6 ${elementColorClass} ${elementShadowClass}`} strokeWidth={1.5} />
+            </button>
+
             <Link 
               to="/plan" 
               aria-label="Plan your trip"
-              className={`hidden lg:flex group relative items-center justify-center px-6 py-3 rounded-full border transition-all duration-500 hover:scale-105 ${isNavSolid ? 'bg-slate-950 dark:bg-white text-white dark:text-slate-950 border-transparent hover:bg-sky-500 hover:text-white dark:hover:bg-sky-400 dark:hover:text-white' : 'bg-white/10 backdrop-blur-md text-white border-white/20 hover:bg-white/20'}`}
+              className={`hidden lg:flex group relative items-center justify-center px-6 py-3 rounded-full border transition-all duration-500 hover:scale-105 ${isNavSolid ? 'bg-claude-text dark:bg-claude-text-dark text-white dark:text-claude-text border-transparent hover:bg-claude-accent hover:text-white dark:hover:bg-claude-accent dark:hover:text-white' : 'bg-white/10 backdrop-blur-md text-white border-white/20 hover:bg-white/20'}`}
             >
               <div className="flex items-center gap-3">
                 <span className="text-[9px] font-black uppercase tracking-[0.4em]">
@@ -179,8 +179,8 @@ const Navbar: React.FC = () => {
       <Bag isOpen={isBagOpen} onClose={() => setIsBagOpen(false)} />
 
       {/* Fullscreen Overlay Menu */}
-      <div className={`fixed inset-0 z-[250] bg-white dark:bg-slate-950 transition-all duration-1000 ease-[cubic-bezier(0.19,1,0.22,1)] ${isOpen ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0 pointer-events-none'}`}>
-        <div className="h-full w-full overflow-y-auto no-scrollbar scroll-smooth flex flex-col bg-parchment dark:bg-slate-950">
+      <div className={`fixed inset-0 z-[250] bg-claude-bg dark:bg-claude-bg-dark transition-all duration-1000 ease-[cubic-bezier(0.19,1,0.22,1)] ${isOpen ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0 pointer-events-none'}`}>
+        <div className="h-full w-full overflow-y-auto no-scrollbar scroll-smooth flex flex-col bg-claude-bg dark:bg-claude-bg-dark">
           <div className="m-auto flex flex-col items-center justify-center px-6 md:px-12 lg:px-24 pt-32 pb-24 text-center w-full min-h-max">
             <div className="flex flex-col items-center justify-center space-y-2 md:space-y-4 lg:space-y-2 w-full">
               {navLinks.map((link, i) => (
@@ -188,7 +188,7 @@ const Navbar: React.FC = () => {
                   <Link 
                     to={link.path}
                     style={{ transitionDelay: `${150 + i * 80}ms` }}
-                    className={`block text-3xl sm:text-4xl md:text-5xl lg:text-[5rem] font-serif font-medium text-slate-900 dark:text-white hover:text-sky-500 dark:hover:text-sky-400 transition-all duration-700 transform leading-tight ${isOpen ? 'translate-y-0' : 'translate-y-full'}`}
+                    className={`block text-3xl sm:text-4xl md:text-5xl lg:text-[5rem] font-serif font-medium text-claude-text dark:text-claude-text-dark hover:text-claude-accent dark:hover:text-claude-accent transition-all duration-700 transform leading-tight ${isOpen ? 'translate-y-0' : 'translate-y-full'}`}
                   >
                     {link.name}.
                   </Link>
@@ -202,7 +202,7 @@ const Navbar: React.FC = () => {
                 <Link
                   key={cta.name}
                   to={cta.path}
-                  className={`w-full sm:w-auto px-8 sm:px-12 py-4 sm:py-5 rounded-full text-[9px] sm:text-[10px] font-black uppercase tracking-[0.4em] transition-all duration-500 shadow-xl text-center ${i === 0 ? 'bg-slate-950 dark:bg-white text-white dark:text-slate-950 hover:bg-sky-500 hover:text-white dark:hover:bg-sky-400 dark:hover:text-white' : 'bg-white dark:bg-slate-900 text-slate-950 dark:text-white border border-slate-100 dark:border-white/5 hover:border-sky-500'}`}
+                  className={`w-full sm:w-auto px-8 sm:px-12 py-4 sm:py-5 rounded-full text-[9px] sm:text-[10px] font-black uppercase tracking-[0.4em] transition-all duration-500 shadow-xl text-center ${i === 0 ? 'bg-claude-text dark:bg-claude-text-dark text-white dark:text-claude-text hover:bg-claude-accent hover:text-white dark:hover:bg-claude-accent dark:hover:text-white' : 'bg-claude-bg dark:bg-claude-bg-dark text-claude-text dark:text-claude-text-dark border border-claude-border dark:border-claude-border-dark hover:border-claude-accent'}`}
                 >
                   {cta.name}
                 </Link>
@@ -211,8 +211,8 @@ const Navbar: React.FC = () => {
           </div>
           
           <div className={`mt-auto mb-12 flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-16 transition-all duration-1000 delay-500 pb-10 ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            <a href="#" className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.5em] text-slate-300 dark:text-slate-600 hover:text-slate-900 dark:hover:text-white transition-colors">Instagram</a>
-            <Link to="/contact" className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.5em] text-slate-300 dark:text-slate-600 hover:text-slate-900 dark:hover:text-white transition-colors">Inquiries</Link>
+            <a href="#" className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.5em] text-claude-secondary dark:text-claude-secondary-dark hover:text-claude-text dark:hover:text-claude-text-dark transition-colors">Instagram</a>
+            <Link to="/contact" className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.5em] text-claude-secondary dark:text-claude-secondary-dark hover:text-claude-text dark:hover:text-claude-text-dark transition-colors">Inquiries</Link>
           </div>
         </div>
       </div>

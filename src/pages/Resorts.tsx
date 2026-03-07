@@ -3,7 +3,7 @@ import React, { useState, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import Fuse from 'fuse.js';
 import { RESORTS } from '../constants';
-import { AccommodationType, TransferType, MealPlan } from '../types';
+import { AccommodationType, TransferType } from '../types';
 import ResortCard from '../components/ResortCard';
 
 const Resorts: React.FC = () => {
@@ -110,9 +110,14 @@ const Resorts: React.FC = () => {
             <div className="bg-sky-50 p-6 rounded-2xl border border-sky-100">
               <h4 className="font-bold text-sky-900 text-sm mb-2">Need advice?</h4>
               <p className="text-xs text-sky-700 leading-relaxed mb-4">Our local experts can help you choose the best island based on your budget and preferences.</p>
-              <button className="w-full bg-sky-600 text-white py-2 rounded-lg text-xs font-bold uppercase tracking-wider hover:bg-sky-700 transition-colors">
+              <a 
+                href="https://wa.me/9607259060?text=Hello Maldives Serenity Travels, I need some advice on choosing a resort..."
+                target="_blank"
+                rel="noreferrer"
+                className="w-full bg-sky-600 text-white py-2 rounded-lg text-xs font-bold uppercase tracking-wider hover:bg-sky-700 transition-colors flex items-center justify-center"
+              >
                 Chat With Us
-              </button>
+              </a>
             </div>
           </aside>
 

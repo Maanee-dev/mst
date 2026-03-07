@@ -108,7 +108,7 @@ const ResortDetail: React.FC = () => {
       cleaned = typeof cleaned === 'string' ? cleaned.replace(/""/g, '"') : cleaned;
       const parsed = JSON.parse(cleaned);
       return Array.isArray(parsed) ? parsed : [];
-    } catch (e) {
+    } catch {
       if (typeof item === 'string') {
         return item.split(',').map(s => s.trim().replace(/^["[]+|["\]]+$/g, '')).filter(Boolean);
       }
@@ -332,16 +332,16 @@ const ResortDetail: React.FC = () => {
   };
 
   if (loading) return (
-    <div className="min-h-screen bg-parchment dark:bg-slate-950 flex flex-col items-center justify-center">
-       <div className="w-8 h-8 border-[1px] border-slate-200 dark:border-white/10 border-t-sky-500 rounded-full animate-spin mb-8"></div>
-       <p className="text-[10px] font-black text-slate-400 dark:text-slate-600 uppercase tracking-[0.4em]">Consulting the Atolls...</p>
+    <div className="min-h-screen bg-claude-bg dark:bg-claude-bg-dark flex flex-col items-center justify-center">
+       <div className="w-8 h-8 border-[1px] border-claude-border dark:border-claude-border-dark border-t-claude-accent rounded-full animate-spin mb-8"></div>
+       <p className="text-[10px] font-black text-claude-secondary dark:text-claude-secondary-dark uppercase tracking-[0.4em]">Consulting the Atolls...</p>
     </div>
   );
 
   if (!resort) return <Navigate to="/" replace />;
 
   return (
-    <div className="bg-parchment dark:bg-slate-950 min-h-screen selection:bg-sky-100 selection:text-sky-900 pb-20 overflow-x-hidden transition-colors duration-700">
+    <div className="bg-claude-bg dark:bg-claude-bg-dark min-h-screen selection:bg-claude-accent/20 selection:text-claude-accent pb-20 overflow-x-hidden transition-colors duration-700">
       <SEO 
         title={`${resort.name} | Luxury Resort ${resort.atoll} Maldives`} 
         description={`${resort.name} in ${resort.atoll} Atoll offers ${resort.shortDescription}. Experience the best overwater villas and private island luxury in the Maldives.`} 
@@ -390,16 +390,16 @@ const ResortDetail: React.FC = () => {
       
       {/* Cinematic Hero */}
       <section className="relative w-full pt-20 md:pt-28 lg:pt-32 px-4 md:px-6 lg:px-12 reveal active">
-        <div className="relative aspect-[4/5] md:aspect-[16/9] lg:aspect-[21/9] w-full rounded-[2.5rem] md:rounded-[3.5rem] lg:rounded-[4.5rem] overflow-hidden shadow-2xl bg-slate-200 dark:bg-slate-900">
+        <div className="relative aspect-[4/5] md:aspect-[16/9] lg:aspect-[21/9] w-full rounded-[2.5rem] md:rounded-[3.5rem] lg:rounded-[4.5rem] overflow-hidden shadow-2xl bg-claude-bg dark:bg-claude-bg-dark">
           <img src={resort.images[0]} alt={resort.name} className="w-full h-full object-cover transition-transform duration-[15s] ease-out hover:scale-110" />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/20 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-claude-bg-dark/90 via-claude-bg-dark/20 to-transparent"></div>
           <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6 md:p-12">
-             <span className="text-[11px] font-black text-sky-400 uppercase tracking-[0.8em] mb-4 md:mb-8 block reveal">{resort.atoll}</span>
+             <span className="text-[11px] font-black text-claude-accent uppercase tracking-[0.8em] mb-4 md:mb-8 block reveal">{resort.atoll}</span>
              <h1 className="text-3xl md:text-4xl lg:text-7xl xl:text-[8rem] font-serif font-bold text-white tracking-tighter leading-[1.1] drop-shadow-2xl reveal active delay-300">{resort.name}</h1>
              <div className="flex flex-col md:flex-row items-center gap-6 mt-12 reveal delay-500">
                <button 
                  onClick={() => document.getElementById('inquiry-form')?.scrollIntoView({ behavior: 'smooth' })}
-                 className="bg-white text-slate-950 px-10 py-5 rounded-full text-[10px] font-black uppercase tracking-[0.4em] hover:bg-sky-500 hover:text-white transition-all duration-700 shadow-2xl"
+                 className="bg-white text-claude-text px-10 py-5 rounded-full text-[10px] font-black uppercase tracking-[0.4em] hover:bg-claude-accent hover:text-white transition-all duration-700 shadow-2xl"
                >
                  Inquire Now
                </button>
@@ -417,7 +417,7 @@ const ResortDetail: React.FC = () => {
                      });
                    }
                  }}
-                 className={`px-10 py-5 rounded-full text-[10px] font-black uppercase tracking-[0.4em] transition-all duration-700 shadow-2xl flex items-center gap-3 ${isInBag(resort.id) ? 'bg-sky-500 text-white' : 'bg-white/10 backdrop-blur-md text-white border border-white/20 hover:bg-white/20'}`}
+                 className={`px-10 py-5 rounded-full text-[10px] font-black uppercase tracking-[0.4em] transition-all duration-700 shadow-2xl flex items-center gap-3 ${isInBag(resort.id) ? 'bg-claude-accent text-white' : 'bg-white/10 backdrop-blur-md text-white border border-white/20 hover:bg-white/20'}`}
                >
                  {isInBag(resort.id) ? (
                    <>
@@ -439,37 +439,37 @@ const ResortDetail: React.FC = () => {
         <div className="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 md:gap-16 lg:gap-32 items-start">
           <div className="lg:col-span-7 reveal">
             <div className="flex items-center gap-6 mb-6 md:mb-8">
-              <div className="w-10 h-[1px] bg-sky-500"></div>
-              <span className="text-[11px] font-black text-sky-600 uppercase tracking-[0.8em] block">The Manifesto</span>
+              <div className="w-10 h-[1px] bg-claude-accent"></div>
+              <span className="text-[11px] font-black text-claude-accent uppercase tracking-[0.8em] block">The Manifesto</span>
             </div>
-            <p className="text-2xl md:text-2xl lg:text-4xl xl:text-6xl font-serif font-bold text-slate-900 dark:text-white leading-[1.2] tracking-tight mb-8 md:mb-12 transition-colors">
+            <p className="text-2xl md:text-2xl lg:text-4xl xl:text-6xl font-serif font-bold text-claude-text dark:text-claude-text-dark leading-[1.2] tracking-tight mb-8 md:mb-12 transition-colors">
               "{resort.uvp}"
             </p>
-            <div className="text-slate-800 dark:text-slate-200 text-base md:text-base lg:text-lg xl:text-xl leading-[1.6] md:leading-[1.8] font-semibold space-y-4 md:space-y-6 max-w-3xl transition-colors">
+            <div className="text-claude-text dark:text-claude-text-dark text-base md:text-base lg:text-lg xl:text-xl leading-[1.6] md:leading-[1.8] font-semibold space-y-4 md:space-y-6 max-w-3xl transition-colors">
               <p>{resort.description}</p>
             </div>
           </div>
           <div className="lg:col-span-5 reveal active delay-500">
-            <div className="bg-white dark:bg-slate-900 rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-8 lg:p-12 shadow-sm border-[1px] border-slate-100 dark:border-white/5 transition-colors">
-              <h3 className="text-[11px] font-black uppercase tracking-[0.4em] text-slate-950 dark:text-white mb-6 md:mb-8 border-b-[1px] border-slate-50 dark:border-white/5 pb-4 md:pb-6">Essential Amenities</h3>
+            <div className="bg-claude-bg dark:bg-claude-bg-dark rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-8 lg:p-12 shadow-sm border-[1px] border-claude-border dark:border-claude-border-dark transition-colors">
+              <h3 className="text-[11px] font-black uppercase tracking-[0.4em] text-claude-text dark:text-claude-text-dark mb-6 md:mb-8 border-b-[1px] border-claude-border dark:border-claude-border-dark pb-4 md:pb-6">Essential Amenities</h3>
               <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3 md:gap-4">
                 {resort.features.map((feature, idx) => (
                   <li key={idx} className="flex items-center gap-4 group">
-                    <div className="w-1.5 h-1.5 rounded-full bg-amber-500 group-hover:scale-[1.5] transition-transform flex-shrink-0"></div>
-                    <span className="text-[10px] md:text-[11px] font-black text-slate-900 dark:text-slate-200 uppercase tracking-[0.2em] transition-colors">{feature}</span>
+                    <div className="w-1.5 h-1.5 rounded-full bg-claude-accent group-hover:scale-[1.5] transition-transform flex-shrink-0"></div>
+                    <span className="text-[10px] md:text-[11px] font-black text-claude-text dark:text-claude-text-dark uppercase tracking-[0.2em] transition-colors">{feature}</span>
                   </li>
                 ))}
               </ul>
-              <div className="mt-8 md:mt-10 pt-8 border-t-[1px] border-slate-50 dark:border-white/5 grid grid-cols-2 gap-6 md:gap-8">
+              <div className="mt-8 md:mt-10 pt-8 border-t-[1px] border-claude-border dark:border-claude-border-dark grid grid-cols-2 gap-6 md:gap-8">
                 <div>
-                  <span className="text-[10px] font-black text-slate-400 dark:text-slate-600 uppercase tracking-widest mb-2 block">Arrival</span>
-                  <p className="text-[11px] font-black text-slate-900 dark:text-white uppercase tracking-widest leading-relaxed transition-colors">
+                  <span className="text-[10px] font-black text-claude-secondary dark:text-claude-secondary-dark uppercase tracking-widest mb-2 block">Arrival</span>
+                  <p className="text-[11px] font-black text-claude-text dark:text-claude-text-dark uppercase tracking-widest leading-relaxed transition-colors">
                     {resort.transfers.map(t => t.replace(/_/g, ' ')).join(' • ')}
                   </p>
                 </div>
                 <div>
-                  <span className="text-[10px] font-black text-slate-400 dark:text-slate-600 uppercase tracking-widest mb-2 block">Meal Plan</span>
-                  <p className="text-[11px] font-black text-slate-900 dark:text-white uppercase tracking-widest leading-relaxed transition-colors">
+                  <span className="text-[10px] font-black text-claude-secondary dark:text-claude-secondary-dark uppercase tracking-widest mb-2 block">Meal Plan</span>
+                  <p className="text-[11px] font-black text-claude-text dark:text-claude-text-dark uppercase tracking-widest leading-relaxed transition-colors">
                     {resort.mealPlans.map(m => m.replace(/_/g, ' ')).join(' • ')}
                   </p>
                 </div>
@@ -481,21 +481,21 @@ const ResortDetail: React.FC = () => {
 
       {/* Visual Journey Section */}
       {resort.images && resort.images.length > 0 && (
-        <section id="gallery" className="py-24 md:py-32 bg-white dark:bg-slate-950 transition-colors overflow-hidden">
+        <section id="gallery" className="py-24 md:py-32 bg-claude-bg dark:bg-claude-bg-dark transition-colors overflow-hidden">
           <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-10 mb-16 md:mb-24 reveal">
               <div className="max-w-2xl">
-                <span className="text-[11px] font-black text-sky-500 uppercase tracking-[1em] mb-4 md:mb-8 block">Visual Journey</span>
-                <h3 className="text-4xl md:text-5xl lg:text-8xl font-serif font-bold text-slate-900 dark:text-white tracking-tighter leading-none transition-colors">The Gallery.</h3>
+                <span className="text-[11px] font-black text-claude-accent uppercase tracking-[1em] mb-4 md:mb-8 block">Visual Journey</span>
+                <h3 className="text-4xl md:text-5xl lg:text-8xl font-serif font-bold text-claude-text dark:text-claude-text-dark tracking-tighter leading-none transition-colors">The Gallery.</h3>
               </div>
               <div className="flex flex-col items-start md:items-end gap-4">
-                <p className="text-slate-400 dark:text-slate-600 text-[10px] font-black uppercase tracking-[0.4em] max-w-xs leading-loose text-left md:text-right">
+                <p className="text-claude-secondary dark:text-claude-secondary-dark text-[10px] font-black uppercase tracking-[0.4em] max-w-xs leading-loose text-left md:text-right">
                   A curated collection of moments captured across the sanctuary, from dawn to the deep blue.
                 </p>
-                <div className="flex items-center gap-4 text-[9px] font-black text-sky-500 uppercase tracking-widest">
+                <div className="flex items-center gap-4 text-[9px] font-black text-claude-accent uppercase tracking-widest">
                    <span>Scroll to explore</span>
-                   <div className="w-12 h-px bg-sky-500/30 relative overflow-hidden">
-                      <div className="absolute inset-0 bg-sky-500 animate-scroll-line"></div>
+                   <div className="w-12 h-px bg-claude-accent/30 relative overflow-hidden">
+                      <div className="absolute inset-0 bg-claude-accent animate-scroll-line"></div>
                    </div>
                 </div>
               </div>
@@ -524,7 +524,7 @@ const ResortDetail: React.FC = () => {
                   <div 
                     key={idx} 
                     onClick={() => setSelectedImage(image)}
-                    className={`reveal flex-shrink-0 group relative overflow-hidden rounded-[2rem] md:rounded-[3.5rem] ${widthClass} ${aspectClass} bg-slate-100 dark:bg-slate-900 cursor-pointer shadow-sm hover:shadow-2xl transition-all duration-1000 snap-center md:snap-start`}
+                    className={`reveal flex-shrink-0 group relative overflow-hidden rounded-[2rem] md:rounded-[3.5rem] ${widthClass} ${aspectClass} bg-claude-bg dark:bg-claude-bg-dark cursor-pointer shadow-sm hover:shadow-2xl transition-all duration-1000 snap-center md:snap-start`}
                     style={{ transitionDelay: `${idx * 100}ms` }}
                   >
                     <img 
@@ -532,7 +532,7 @@ const ResortDetail: React.FC = () => {
                       alt={`${resort.name} gallery ${idx + 1}`} 
                       className="w-full h-full object-cover transition-transform duration-[10s] ease-out group-hover:scale-110" 
                     />
-                    <div className="absolute inset-0 bg-slate-950/20 group-hover:bg-transparent transition-colors duration-700"></div>
+                    <div className="absolute inset-0 bg-claude-bg-dark/20 group-hover:bg-transparent transition-colors duration-700"></div>
                     <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-700">
                       <div className="w-16 h-16 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center">
                         <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -567,7 +567,7 @@ const ResortDetail: React.FC = () => {
               src={selectedImage} 
               alt="Fullscreen view" 
               className="max-w-full max-h-full object-contain rounded-[1rem] md:rounded-[2rem] shadow-2xl animate-in zoom-in-95 duration-500"
-              onClick={(e) => e.stopPropagation()}
+              onClick={(ev) => ev.stopPropagation()}
             />
           </div>
         </div>

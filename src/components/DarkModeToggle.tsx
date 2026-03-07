@@ -27,7 +27,7 @@ const DarkModeToggle: React.FC = () => {
   return (
     <button
       onClick={toggleTheme}
-      className="fixed bottom-8 left-8 z-[100] w-14 h-14 bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-full shadow-2xl flex items-center justify-center transition-all duration-700 hover:scale-110 active:scale-95 group"
+      className="fixed bottom-8 left-8 z-[100] w-14 h-14 bg-claude-bg dark:bg-claude-bg-dark border border-claude-border dark:border-claude-border-dark rounded-full shadow-2xl flex items-center justify-center transition-all duration-700 hover:scale-110 active:scale-95 group"
       aria-label="Toggle Dark Mode"
     >
       <div className="relative w-6 h-6 overflow-hidden">
@@ -40,13 +40,13 @@ const DarkModeToggle: React.FC = () => {
         </svg>
         {/* Moon Icon */}
         <svg 
-          className={`absolute inset-0 w-6 h-6 text-sky-400 transition-all duration-700 transform ${isDark ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`} 
+          className={`absolute inset-0 w-6 h-6 text-claude-accent transition-all duration-700 transform ${isDark ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`} 
           fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
         >
           <path strokeLinecap="round" strokeLinejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
         </svg>
       </div>
-      <div className="absolute left-full ml-4 px-4 py-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-[8px] font-black uppercase tracking-[0.3em] rounded-full opacity-0 group-hover:opacity-100 -translate-x-4 group-hover:translate-x-0 transition-all duration-500 pointer-events-none whitespace-nowrap shadow-xl">
+      <div className="absolute left-full ml-4 px-4 py-2 bg-claude-text dark:bg-claude-text-dark text-white dark:text-claude-text-dark text-[8px] font-black uppercase tracking-[0.3em] rounded-full opacity-0 group-hover:opacity-100 -translate-x-4 group-hover:translate-x-0 transition-all duration-500 pointer-events-none whitespace-nowrap shadow-xl">
         {isDark ? 'Light Aesthetic' : 'Dark Perspective'}
       </div>
     </button>

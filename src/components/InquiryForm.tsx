@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Accommodation, Offer } from '../types';
 import { supabase, mapOffer } from '../lib/supabase';
 import { Tag, CheckCircle2 } from 'lucide-react';
+import { useBag } from '../context/BagContext';
 
 interface InquiryFormProps {
   resort: Accommodation;
@@ -18,6 +19,7 @@ interface InquiryFormProps {
 
 const InquiryForm: React.FC<InquiryFormProps> = ({ resort, onClose, prefillData }) => {
   const navigate = useNavigate();
+  const { selectedOffer } = useBag();
   const [offers, setOffers] = useState<Offer[]>([]);
   const [appliedOffer, setAppliedOffer] = useState<Offer | null>(null);
   const [formData, setFormData] = useState({
@@ -41,15 +43,17 @@ const InquiryForm: React.FC<InquiryFormProps> = ({ resort, onClose, prefillData 
         const mapped = data.map(o => mapOffer(o));
         setOffers(mapped);
         
-        // If prefilled with offerId, set it
+        // Priority: 1. Prefilled offerId, 2. Global selectedOffer (if it belongs to this resort)
         if (prefillData?.offerId) {
           const prefilled = mapped.find(o => o.id === prefillData.offerId);
           if (prefilled) setAppliedOffer(prefilled);
+        } else if (selectedOffer && selectedOffer.resortId === resort.id) {
+          setAppliedOffer(selectedOffer);
         }
       }
     };
     fetchOffers();
-  }, [resort.id, prefillData?.offerId]);
+  }, [resort.id, prefillData?.offerId, selectedOffer]);
 
   // Logic to check if dates match an offer
   useEffect(() => {

@@ -16,7 +16,13 @@ async function startServer() {
     const app = express();
     const PORT = 3000;
 
-  app.use(cors());
+    // Request logger
+    app.use((req, res, next) => {
+      console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
+      next();
+    });
+
+    app.use(cors());
   app.use(express.json());
   
   app.get('/health', (req, res) => {
@@ -134,10 +140,6 @@ async function startServer() {
     res.sendFile(filePath);
   });
 
-  app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Server running on port ${PORT}`);
-  });
-
   if (process.env.NODE_ENV !== 'production') {
     const vite = await createViteServer({
       server: { middlewareMode: true },
@@ -178,6 +180,10 @@ async function startServer() {
       res.sendFile(path.join(__dirname, 'dist', 'index.html'));
     });
   }
+
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server running on port ${PORT}`);
+  });
 } catch (error) {
     console.error('Failed to start server:', error);
   }

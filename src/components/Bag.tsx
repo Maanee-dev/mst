@@ -104,16 +104,16 @@ const Bag: React.FC<BagProps> = ({ isOpen, onClose }) => {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed top-0 right-0 h-full w-full max-w-md bg-white dark:bg-slate-900 z-[401] shadow-2xl flex flex-col"
+            className="fixed top-0 right-0 h-full w-full max-w-md bg-claude-bg dark:bg-claude-bg-dark z-[401] shadow-2xl flex flex-col"
           >
             {/* Header */}
-            <div className="p-6 border-b border-slate-100 dark:border-white/5 flex items-center justify-between">
+            <div className="p-6 border-b border-claude-border dark:border-claude-border-dark flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <ShoppingBag size={20} className="text-sky-500" />
-                <h2 className="text-[11px] font-black uppercase tracking-[0.4em] text-slate-900 dark:text-white">Your Selection ({totalItems})</h2>
+                <ShoppingBag size={20} className="text-claude-accent" />
+                <h2 className="text-[11px] font-black uppercase tracking-[0.4em] text-claude-text dark:text-claude-text-dark">Your Selection ({totalItems})</h2>
               </div>
-              <button onClick={onClose} className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors">
-                <X size={20} className="text-slate-400" />
+              <button onClick={onClose} className="p-2 hover:bg-claude-bg dark:hover:bg-claude-bg-dark rounded-full transition-colors">
+                <X size={20} className="text-claude-secondary" />
               </button>
             </div>
 
@@ -121,18 +121,18 @@ const Bag: React.FC<BagProps> = ({ isOpen, onClose }) => {
             <div className="flex-1 overflow-y-auto p-6 no-scrollbar">
               {items.length === 0 ? (
                 <div className="h-full flex flex-col items-center justify-center text-center space-y-6">
-                  <div className="w-20 h-20 bg-slate-50 dark:bg-slate-800 rounded-full flex items-center justify-center text-slate-200">
+                  <div className="w-20 h-20 bg-claude-bg dark:bg-claude-bg-dark rounded-full flex items-center justify-center text-claude-secondary/20">
                     <ShoppingBag size={32} />
                   </div>
                   <div>
-                    <h3 className="text-lg font-serif font-bold text-slate-400 mb-2">Your bag is empty.</h3>
-                    <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest leading-loose">
+                    <h3 className="text-lg font-serif font-bold text-claude-secondary mb-2">Your bag is empty.</h3>
+                    <p className="text-[9px] font-bold text-claude-secondary uppercase tracking-widest leading-loose">
                       Explore our stays and experiences to curate your perfect Maldivian escape.
                     </p>
                   </div>
                   <button 
                     onClick={handleStartExploring}
-                    className="text-[10px] font-black text-sky-500 uppercase tracking-widest border-b border-sky-500 pb-1"
+                    className="text-[10px] font-black text-claude-accent uppercase tracking-widest border-b border-claude-accent pb-1"
                   >
                     Start Exploring
                   </button>
@@ -143,24 +143,24 @@ const Bag: React.FC<BagProps> = ({ isOpen, onClose }) => {
                   <div className="space-y-4">
                     {items.map(item => (
                       <div key={item.id} className="flex gap-4 group">
-                        <div className="w-20 h-20 rounded-2xl overflow-hidden flex-shrink-0 bg-slate-100 dark:bg-slate-800">
+                        <div className="w-20 h-20 rounded-2xl overflow-hidden flex-shrink-0 bg-claude-bg dark:bg-claude-bg-dark">
                           <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex justify-between items-start">
                             <div className="pr-2">
-                              <span className="text-[8px] font-black text-sky-500 uppercase tracking-widest block mb-1">{item.type}</span>
-                              <h4 className="text-sm font-serif font-bold text-slate-900 dark:text-white leading-tight break-words">{item.name}</h4>
+                              <span className="text-[8px] font-black text-claude-accent uppercase tracking-widest block mb-1">{item.type}</span>
+                              <h4 className="text-sm font-serif font-bold text-claude-text dark:text-claude-text-dark leading-tight break-words">{item.name}</h4>
                             </div>
                             <button 
                               onClick={() => removeItem(item.id)}
-                              className="p-1 text-slate-300 hover:text-red-500 transition-colors"
+                              className="p-1 text-claude-secondary/30 hover:text-red-500 transition-colors"
                             >
                               <Trash2 size={14} />
                             </button>
                           </div>
                           {item.price && (
-                            <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-2">
+                            <p className="text-[9px] font-bold text-claude-secondary uppercase tracking-widest mt-2">
                               {typeof item.price === 'number' ? `From US$ ${item.price.toLocaleString()}` : item.price}
                             </p>
                           )}
@@ -171,8 +171,8 @@ const Bag: React.FC<BagProps> = ({ isOpen, onClose }) => {
 
                   {/* Inquiry Form */}
                   {!isSubmitted ? (
-                    <div className="pt-8 border-t border-slate-100 dark:border-white/5">
-                      <h3 className="text-[10px] font-black text-slate-900 dark:text-white uppercase tracking-[0.4em] mb-6">Request Bulk Quote</h3>
+                    <div className="pt-8 border-t border-claude-border dark:border-claude-border-dark">
+                      <h3 className="text-[10px] font-black text-claude-text dark:text-claude-text-dark uppercase tracking-[0.4em] mb-6">Request Bulk Quote</h3>
                       <form onSubmit={handleSubmit} className="space-y-4">
                         <div className="space-y-4">
                           <CalendarSelector 
@@ -195,7 +195,7 @@ const Bag: React.FC<BagProps> = ({ isOpen, onClose }) => {
                           required
                           type="text" 
                           placeholder="FULL NAME" 
-                          className="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-2xl px-6 py-4 text-[10px] font-bold uppercase tracking-widest focus:ring-2 focus:ring-sky-500 transition-all"
+                          className="w-full bg-claude-bg dark:bg-claude-bg-dark border-none rounded-2xl px-6 py-4 text-[10px] font-bold uppercase tracking-widest focus:ring-2 focus:ring-claude-accent transition-all"
                           value={formData.name}
                           onChange={e => setFormData({...formData, name: e.target.value})}
                         />
@@ -203,28 +203,28 @@ const Bag: React.FC<BagProps> = ({ isOpen, onClose }) => {
                           required
                           type="email" 
                           placeholder="EMAIL ADDRESS" 
-                          className="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-2xl px-6 py-4 text-[10px] font-bold uppercase tracking-widest focus:ring-2 focus:ring-sky-500 transition-all"
+                          className="w-full bg-claude-bg dark:bg-claude-bg-dark border-none rounded-2xl px-6 py-4 text-[10px] font-bold uppercase tracking-widest focus:ring-2 focus:ring-claude-accent transition-all"
                           value={formData.email}
                           onChange={e => setFormData({...formData, email: e.target.value})}
                         />
                         <input 
                           type="tel" 
                           placeholder="PHONE NUMBER" 
-                          className="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-2xl px-6 py-4 text-[10px] font-bold uppercase tracking-widest focus:ring-2 focus:ring-sky-500 transition-all"
+                          className="w-full bg-claude-bg dark:bg-claude-bg-dark border-none rounded-2xl px-6 py-4 text-[10px] font-bold uppercase tracking-widest focus:ring-2 focus:ring-claude-accent transition-all"
                           value={formData.phone}
                           onChange={e => setFormData({...formData, phone: e.target.value})}
                         />
                         <textarea 
                           placeholder="SPECIAL REQUESTS OR NOTES..." 
                           rows={3}
-                          className="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-2xl px-6 py-4 text-[10px] font-bold uppercase tracking-widest focus:ring-2 focus:ring-sky-500 transition-all resize-none"
+                          className="w-full bg-claude-bg dark:bg-claude-bg-dark border-none rounded-2xl px-6 py-4 text-[10px] font-bold uppercase tracking-widest focus:ring-2 focus:ring-claude-accent transition-all resize-none"
                           value={formData.notes}
                           onChange={e => setFormData({...formData, notes: e.target.value})}
                         />
                         <button 
                           type="submit"
                           disabled={isSubmitting}
-                          className="w-full bg-slate-950 dark:bg-white text-white dark:text-slate-950 py-5 rounded-full text-[10px] font-black uppercase tracking-[0.4em] hover:bg-sky-500 hover:text-white transition-all shadow-xl flex items-center justify-center gap-3"
+                          className="w-full bg-claude-text dark:bg-claude-text-dark text-white dark:text-claude-text py-5 rounded-full text-[10px] font-black uppercase tracking-[0.4em] hover:bg-claude-accent hover:text-white transition-all shadow-xl flex items-center justify-center gap-3"
                         >
                           {isSubmitting ? 'Dispatching...' : (
                             <>
@@ -235,12 +235,12 @@ const Bag: React.FC<BagProps> = ({ isOpen, onClose }) => {
                       </form>
                     </div>
                   ) : (
-                    <div className="pt-8 border-t border-slate-100 dark:border-white/5 text-center">
-                      <div className="w-16 h-16 bg-sky-100 dark:bg-sky-900/30 text-sky-600 dark:text-sky-400 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <div className="pt-8 border-t border-claude-border dark:border-claude-border-dark text-center">
+                      <div className="w-16 h-16 bg-claude-accent/10 text-claude-accent rounded-full flex items-center justify-center mx-auto mb-6">
                         <CheckCircle2 size={32} />
                       </div>
-                      <h4 className="text-xl font-serif font-bold text-slate-900 dark:text-white mb-2">Inquiry Dispatched.</h4>
-                      <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest leading-loose">
+                      <h4 className="text-xl font-serif font-bold text-claude-text dark:text-claude-text-dark mb-2">Inquiry Dispatched.</h4>
+                      <p className="text-[9px] font-bold text-claude-secondary uppercase tracking-widest leading-loose">
                         Our travel curators will contact you shortly with a bespoke proposal.
                       </p>
                     </div>

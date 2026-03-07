@@ -50,7 +50,7 @@ export default function InstagramFeed() {
       if (data.connected) {
         fetchFeed();
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error('Status check failed', err);
       setIsConnected(false);
     }
@@ -85,7 +85,7 @@ export default function InstagramFeed() {
       await fetch('/api/auth/instagram/logout', { method: 'POST' });
       setIsConnected(false);
       setFeed([]);
-    } catch (err) {
+    } catch (err: any) {
       console.error('Logout failed', err);
     }
   };

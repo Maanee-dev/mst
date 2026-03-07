@@ -1,10 +1,9 @@
-
 import React from 'react';
 import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar.tsx';
 import Footer from './components/Footer.tsx';
 import ScrollToTopButton from './components/ScrollToTopButton.tsx';
-import ChatBot from './components/ChatBot.tsx';
+import Chatbot from './components/Chatbot.tsx';
 import DarkModeToggle from './components/DarkModeToggle.tsx';
 import LanguageSelector from './components/LanguageSelector.tsx';
 import CookieConsent from './components/CookieConsent.tsx';
@@ -33,13 +32,11 @@ import AdminSync from './pages/AdminSync.tsx';
 import AdminStories from './pages/AdminStories.tsx';
 import AdminFAQ from './pages/AdminFAQ.tsx';
 import InquireNow from './pages/InquireNow.tsx';
-import Auth from './pages/Auth.tsx';
 import RoomSelection from './pages/RoomSelection.tsx';
 import ThankYou from './pages/ThankYou.tsx';
 
 import { BagProvider, useBag } from './context/BagContext.tsx';
 import DiscoveryFeed from './components/DiscoveryFeed.tsx';
-import UserPanel from './components/UserPanel.tsx';
 
 const ScrollToTopOnRoute = () => {
   const { pathname } = useLocation();
@@ -73,7 +70,6 @@ const AppContent: React.FC = () => {
         <Route path="/faq" element={<FAQ />} />
         <Route path="/inquire" element={<InquireNow />} />
         <Route path="/inquire/:slug" element={<RoomSelection />} />
-        <Route path="/auth" element={<Auth />} />
         <Route path="/thank-you" element={<ThankYou />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/privacy" element={<Privacy />} />
@@ -85,7 +81,7 @@ const AppContent: React.FC = () => {
       </Routes>
       {!isDiscoveryMode && (
         <>
-          <ChatBot />
+          <Chatbot />
           <LanguageSelector />
           <DarkModeToggle />
         </>
@@ -93,7 +89,6 @@ const AppContent: React.FC = () => {
       <ScrollToTopButton />
       <CookieConsent />
       <OfferNewsletterPopup />
-      <UserPanel />
       {!isDiscoveryMode && <Footer />}
     </BrowserRouter>
   );
